@@ -1,91 +1,615 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ទម្រង់ដាក់ពាក្យធ្វើការ</title>
-    <style>
-        body {
-            font-family: 'Kantumruy Pro', 'Khmer OS Battambang', sans-serif;
-            background-color: #f4f7f6;
-            display: flex;
-            justify-content: center;
-            padding: 20px;
-        }
-        .apply-card {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
-        }
-        h2 { text-align: center; color: #333; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input, select, textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        button:hover { background-color: #0056b3; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ប្រព័ន្ធដាក់ពាក្យធ្វើការ آنلاین - HR Portal</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { 
+      box-sizing: border-box; 
+      font-family: 'Kantumruy Pro', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
+      margin:0; padding:0;
+    }
+    body { background:#f0f4f8; }
+    
+    header { background:linear-gradient(135deg, #0078D7 0%, #005fa3 100%); color:white; padding:20px; text-align:center; box-shadow:0 4px 15px rgba(0,120,215,0.3); }
+    header h1 { font-size:32px; font-weight:bold; margin:10px 0; text-shadow:2px 2px 4px rgba(0,0,0,0.3); letter-spacing:1px; }
+    header p { font-size:16px; opacity:0.9; }
+    
+    .nav-bar { background:white; padding:12px 20px; display:flex; justify-content:center; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.1); position:sticky; top:0; z-index:100; }
+    .nav-bar .nav-links { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:center; }
+    .nav-bar .nav-links a, .nav-bar .nav-links button { color:#333; text-decoration:none; font-weight:bold; padding:8px 16px; border-radius:8px; transition:all 0.3s; font-size:14px; cursor:pointer; border:none; background:none; }
+    .nav-bar .nav-links a:hover, .nav-bar .nav-links button:hover { background:#0078D7; color:white; }
+    .nav-bar .nav-links a.active { background:#0078D7; color:white; box-shadow: 0 4px 8px rgba(0,120,215,0.2); }
+    .btn-nav-share { background: linear-gradient(135deg, #ff9800, #e65100) !important; color: white !important; }
+    .btn-nav-share:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-nav-announce { background: linear-gradient(135deg, #28a745, #1e7e34) !important; color: white !important; }
+    .btn-nav-announce:hover { opacity: 0.9; transform: translateY(-1px); }
+    
+    section { padding:15px; max-width:1100px; margin:0 auto; }
+
+    @keyframes floatAnimation {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(6px, -6px) rotate(5deg); }
+      50% { transform: translate(0, -10px) rotate(-5deg); }
+      75% { transform: translate(-6px, -4px) rotate(3deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    .sticker-float { display: inline-block; font-size: 28px; animation: floatAnimation 4s ease-in-out infinite; user-select: none; }
+    .sticker-delay { animation-delay: 2s; }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .digital-clock-container {
+      background: #ffffff; border-radius: 16px; padding: 18px 25px; margin-bottom: 20px;
+      display: flex; justify-content: space-between; align-items: center; border: 2px solid #0078D7;
+      box-shadow: 0 4px 20px rgba(0, 120, 215, 0.15); position: relative; overflow: hidden;
+    }
+    
+    .stars-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+    .star { position: absolute; background: #0078D7; border-radius: 50%; animation: twinkle 3s infinite ease-in-out; box-shadow: 0 0 4px #0078D7; }
+    .star-1 { width: 3px; height: 3px; top: 20%; left: 15%; animation-delay: 0.2s; }
+    .star-2 { width: 4px; height: 4px; top: 65%; left: 25%; animation-delay: 0.8s; }
+
+    .clock-title { color: #4a5568; font-size: 15px; font-weight: bold; z-index: 1; position: relative; }
+    .clock-time { color: #0078D7; font-size: 32px; font-weight: bold; font-family: 'Courier New', monospace; text-shadow: 0 0 5px rgba(0, 120, 215, 0.2); z-index: 1; position: relative; }
+    .clock-date { color: #2d3748; font-size: 14px; font-weight: bold; text-align: right; z-index: 1; position: relative; }
+    
+    .job-box { background:white; padding:18px; margin:15px 0; border-radius:12px; box-shadow:0 2px 10px rgba(0,0,0,0.08); border:1px solid #e9ecef; }
+    .time-box { font-weight:bold; color:#0078D7; font-size:17px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .time-box .badge { background:#0078D7; color:white; font-size:11px; padding:2px 12px; border-radius:12px; }
+    
+    .job-positions-container { display:flex; gap:12px; margin-top:10px; flex-wrap:wrap; }
+    .job-positions-container div { background:#f8f9fa; padding:14px 8px; border-radius:8px; text-align:center; flex:1; min-width:140px; transition:all 0.5s ease; font-weight:bold; font-size:14px; border:2px solid #e9ecef; }
+    .job-positions-container div .letter { color:#0078D7; font-weight:bold; }
+    .job-positions-container div .title { color:#333; font-weight:bold; font-size:15px; margin-top:4px; }
+    
+    .form-box-container { background: white; border-radius: 16px; padding: 24px; margin: 20px 0; box-shadow: 0 4px 20px rgba(0,0,0,0.08); border: 2px solid #0078D7; }
+    .form-box-header { border-bottom: 2px solid #f0f4f8; padding-bottom: 12px; margin-bottom: 20px; }
+    .form-box-header h2 { margin: 0; color: #0078D7; font-size: 22px; font-weight: bold; }
+    
+    .reward-info-table { width:100%; border-collapse:collapse; margin-bottom:15px; border:1px solid #dee2e6; border-radius:8px; overflow:hidden; }
+    .reward-info-table th { background:#e8f4fd; color:#0078D7; padding:10px; font-size:13px; }
+    .reward-info-table td { padding:10px; font-size:13px; text-align:center; font-weight:bold; border:1px solid #dee2e6; }
+    .text-respond { color:#28a745; font-weight:bold; }
+
+    .type-selector, .draw-time-selector { display: flex; gap: 10px; margin-bottom: 15px; }
+    .type-btn, .time-btn { flex: 1; padding: 12px; border: 2px solid #dee2e6; background: #fff; font-weight: bold; border-radius: 8px; cursor: pointer; text-align: center; transition: all 0.3s; font-size: 15px; }
+    .type-btn.active, .time-btn.active { border-color: #0078D7; background: #e8f4fd; color: #0078D7; box-shadow: 0 4px 8px rgba(0,120,215,0.15); }
+
+    .letter-selector { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+    .letter-circle { width: 55px; height: 55px; border-radius: 50%; border: 3px solid #dee2e6; background: #f8f9fa; color: #333; font-size: 20px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; }
+    .letter-circle:hover { border-color: #0078D7; background: #e8f4fd; transform: scale(1.1); }
+    .letter-circle.active { background: linear-gradient(135deg, #0078D7, #005fa3); color: white; border-color: #0078D7; box-shadow: 0 4px 10px rgba(0,120,215,0.3); transform: scale(1.1); }
+    
+    .input-row { display: flex; gap: 12px; align-items: center; margin-bottom: 15px; background: #f8f9fa; padding: 15px; border-radius: 12px; border: 1px dashed #0078D7; flex-wrap: wrap; }
+    .input-row input { flex: 1 1 200px; padding: 10px 14px; border: 2px solid #dee2e6; border-radius: 8px; font-size: 15px; font-weight: bold; }
+    .input-row input:focus { border-color: #0078D7; outline: none; }
+    
+    .selected-numbers-display { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; min-height:44px; padding:12px; background:#f8f9fa; border-radius:8px; border:2px dashed #dee2e6; align-items:center; }
+    .selected-number-tag { background:linear-gradient(135deg, #0078D7, #005fa3); color:white; padding:6px 16px; border-radius:20px; font-size:14px; display:inline-flex; align-items:center; gap:10px; font-weight:bold; }
+    .selected-number-tag .remove { cursor:pointer; font-weight:bold; color:#ff6b6b; margin-left:5px; font-size:18px; background:rgba(255,255,255,0.2); border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center; }
+
+    .btn { color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-size:15px; margin:4px; font-weight:bold; transition:all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 4px 15px rgba(0,0,0,0.2); }
+    .btn:disabled { background: #ced4da !important; color: #6c757d !important; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+    .btn-success { background:linear-gradient(135deg, #28a745, #1e7e34); }
+    .btn-primary { background:linear-gradient(135deg, #0078D7, #005fa3); }
+    .btn-danger { background:linear-gradient(135deg, #dc3545, #b02a37); }
+    .btn-amount { background:#17a2b8; padding:6px 14px; font-size:13px; border-radius:6px; }
+    .btn-telegram { background: linear-gradient(135deg, #0088cc, #006699); color: white; }
+    
+    .status-badge { padding: 4px 8px; border-radius: 6px; font-weight: bold; font-size: 12px; display: inline-block; }
+    .status-pending { background: #ffeeba; color: #856404; }
+    .status-win { background: #d4edda; color: #155724; }
+    .status-loss { background: #f8d7da; color: #721c24; }
+
+    .modal { display:none; position:fixed; z-index:1000; left:0; top:0; width:100%; height:100%; overflow:auto; background:rgba(0,0,0,0.5); backdrop-filter:blur(5px); }
+    .modal-content { background:white; margin: 3% auto; padding:25px; border-radius:16px; max-width:520px; width:92%; max-height:88vh; overflow-y:auto; box-shadow:0 10px 40px rgba(0,0,0,0.2); }
+    .modal-content label { display:block; margin:12px 0 4px; font-weight:bold; font-size:14px; color:#333; }
+    .modal-content input, .modal-content select, .modal-content textarea { width:100%; padding:10px 12px; border:2px solid #dee2e6; border-radius:8px; box-sizing:border-box; font-size:14px; margin-bottom: 5px; }
+    .close { float:right; font-size:28px; font-weight:bold; cursor:pointer; color:#adb5bd; }
+
+    .alert-modal-content { text-align: center; padding: 30px 20px; max-width: 400px; border-radius: 20px; }
+    .alert-icon { font-size: 50px; margin-bottom: 15px; display: block; }
+    .alert-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; }
+    .alert-message { font-size: 15px; color: #4a5568; margin-bottom: 20px; line-height: 1.5; }
+    
+    .history-table { width:100%; border-collapse:collapse; margin-top:8px; border-radius:8px; overflow:hidden; }
+    .history-table th { background:linear-gradient(135deg, #0078D7, #005fa3); color:white; padding:10px 8px; font-size:14px; text-align:center; }
+    .history-table td { padding:10px 8px; font-size:13px; text-align:center; border-bottom:1px solid #dee2e6; }
+    
+    .rules-section { background:white; padding:25px; border-radius:12px; margin-top:15px; border:1px solid #dee2e6; box-shadow:0 2px 10px rgba(0,0,0,0.05); }
+    .rules-section h3 { color:#0078D7; font-size:22px; font-weight:bold; border-bottom:2px solid #f0f4f8; padding-bottom:8px; }
+    .rules-section h4 { color:#005fa3; margin-top:20px; margin-bottom:8px; font-size:17px; font-weight:bold; border-left:5px solid #0078D7; padding-left:12px; }
+    .rules-section li { margin-bottom:8px; font-size:14px; color:#2d3748; line-height:1.7; list-style-position: inside; }
+
+    .custom-amount-wrapper { display: flex; gap: 10px; margin-top: 12px; background: #ffffff; padding: 12px; border-radius: 12px; border: 2px solid #0078D7; }
+    .custom-amount-wrapper input { flex: 2; padding: 12px 15px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 16px; font-weight: bold; outline: none; }
+    .custom-amount-wrapper select { flex: 1; padding: 12px; border: 2px solid #e9ecef; border-radius: 8px; font-size: 15px; font-weight: bold; background-color: #f8f9fa; color: #0078D7; outline: none; }
+
+    .styled-selection-card { background: linear-gradient(135deg, #e8f4fd 0%, #ffffff 100%); border: 2px solid #0078D7; border-radius: 12px; padding: 14px; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .styled-selection-card .card-badge { background: linear-gradient(135deg, #0078D7, #005fa3); color: #ffffff; padding: 6px 14px; border-radius: 20px; font-size: 14px; font-weight: bold; }
+
+    footer { background:#1a2634; color:#adb5bd; text-align:center; padding:15px; margin-top:20px; border-top:3px solid #0078D7; }
+
+    @media (max-width:768px) {
+      header h1 { font-size:24px; }
+      .nav-bar { flex-direction:column; gap:8px; padding:10px; }
+      .digital-clock-container { flex-direction: column; text-align: center; gap: 10px; }
+      .input-row { flex-direction: column; align-items: stretch; }
+      input, select, button, textarea { width: 100%; }
+      .draw-time-selector, .type-selector { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="apply-card">
-    <h2>ទម្រង់ដាក់ពាក្យធ្វើការ</h2>
-    <form action="#" method="POST" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="fullname">ឈ្មោះពេញ:</label>
-            <input type="text" id="fullname" name="fullname" required placeholder="ឧ. សុខ មករា">
+  <header>
+    <h1>📝 ប្រព័ន្ធដាក់ពាក្យធ្វើការអនឡាញ (HR Recruitment)</h1>
+    <p>ស្វែងរកឱកាសការងារ និងដាក់ពាក្យជាមួយក្រុមហ៊ុនយើងខ្ញុំដោយមានទំនុកចិត្ត</p>
+  </header>
+
+  <nav class="nav-bar">
+    <div class="nav-links">
+      <a href="#" class="active" id="link-home" onclick="showSection('home')">🏠 ទំព័រដើម</a>
+      <a href="#" id="link-history" onclick="showSection('history')">📊 ប្រវត្តិដាក់ពាក្យ</a>
+      <a href="#" id="link-rules" onclick="showSection('rules')">📋 ច្បាប់ និងលក្ខខណ្ឌ</a>
+      <button class="btn-nav-share" onclick="copyWebsiteLink()">🔗 ចែករំលែកតំណភ្ជាប់</button>
+      <button class="btn-nav-announce" onclick="openAgentModal()">💬 ទាក់ទងផ្នែក HR</button>
+    </div>
+  </nav>
+
+  <section>
+    <!-- Digital Clock -->
+    <div class="digital-clock-container">
+      <div class="stars-bg"><div class="star star-1"></div><div class="star star-2"></div></div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span class="sticker-float">⏰</span>
+        <div>
+          <div class="clock-title">🕒 ម៉ោងបច្ចុប្បន្ន</div>
+          <div class="clock-time" id="widgetTime">00:00:00</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div>
+          <div class="clock-date" id="widgetDate">កំពុងរៀបចំ...</div>
+        </div>
+        <span class="sticker-float sticker-delay">📅</span>
+      </div>
+    </div>
+
+    <!-- Home Section -->
+    <div id="homeSection">
+      <!-- Job Positions Info Box -->
+      <div class="job-box">
+        <div class="time-box">💼 មុខតំណែងកំពុងជ្រើសរើសប្រញាប់ <span class="badge">៥ ផ្នែកផ្សេងៗគ្នា</span></div>
+        <div class="job-positions-container">
+          <div><span class="letter">A:</span> <div class="title">អ្នកគ្រប់គ្រង (Manager)</div></div>
+          <div><span class="letter">B:</span> <div class="title">អ្នកជំនាញ IT / Web</div></div>
+          <div><span class="letter">C:</span> <div class="title">ផ្នែកគណនេយ្យ (Accounting)</div></div>
+          <div><span class="letter">D:</span> <div class="title">ផ្នែកលក់ (Marketing/Sales)</div></div>
+          <div><span class="letter">E:</span> <div class="title">ផ្នែកបម្រើអតិថិជន (CS)</div></div>
+        </div>
+      </div>
+
+      <!-- Application Form Box -->
+      <div class="form-box-container">
+        <div class="form-box-header">
+          <h2>🎯 ទម្រង់រៀបចំការដាក់ពាក្យធ្វើការរហ័ស (Quick Job Application Form)</h2>
         </div>
 
-        <div class="form-group">
-            <label for="email">អ៊ីមែល:</label>
-            <input type="email" id="email" name="email" required placeholder="example@mail.com">
+        <table class="reward-info-table">
+          <thead>
+            <tr><th>ប្រភេទការងារ</th><th>ពេលវេលាធ្វើការ</th><th>ប្រាក់បៀវត្សរ៍រំពឹងទុក</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>ការងារពេញម៉ោង (Full-Time)</td><td>8:00 AM - 5:00 PM</td><td>ចន្លោះ <span class="text-respond">$300 - $1,500+</span></td></tr>
+            <tr><td>ការងារខកម៉ោង/Remote</td><td>អាចផ្លាស់ប្តូរបាន</td><td>ចន្លោះ <span class="text-respond">$150 - $600+</span></td></tr>
+          </tbody>
+        </table>
+
+        <!-- Step 1 & 2 Selectors -->
+        <label style="font-weight:bold; color:#0078D7; font-size:15px; display:block; margin-bottom:10px;">
+          ១. ជ្រើសរើស វេនធ្វើការ និង កម្រិតបទពិសោធន៍
+        </label>
+        
+        <div class="draw-time-selector">
+          <button type="button" class="time-btn active" id="btnWorkFull" onclick="setWorkSchedule('Full-Time')">☀️ ពេញម៉ោង (Full-Time)</button>
+          <button type="button" class="time-btn" id="btnWorkPart" onclick="setWorkSchedule('Part-Time / Remote')">🌙 ខកម៉ោង / Remote</button>
         </div>
 
-        <div class="form-group">
-            <label for="phone">លេខទូរស័ព្ទ:</label>
-            <input type="tel" id="phone" name="phone" required placeholder="012 345 678">
+        <div class="type-selector">
+          <button type="button" class="type-btn active" id="btnExpYes" onclick="setExpLevel('មានបទពិសោធន៍')">🎓 មានបទពិសោធន៍ស្រាប់</button>
+          <button type="button" class="type-btn" id="btnExpNo" onclick="setExpLevel('និស្សិតថ្មី / គ្មានបទពិសោធន៍')">🌱 និស្សិតថ្មី / រៀនការងារ</button>
         </div>
 
-        <div class="form-group">
-            <label for="position">តំណែងដែលចង់ដាក់:</label>
-            <select id="position" name="position">
-                <option value="frontend">Frontend Developer</option>
-                <option value="backend">Backend Developer</option>
-                <option value="designer">UI/UX Designer</option>
-                <option value="marketing">Digital Marketing</option>
+        <div class="styled-selection-card">
+          <div style="font-weight:bold; color:#2d3748;">📌 ជម្រើសដែលបានជ្រើសរើស៖</div>
+          <div class="card-badge" id="selectedConfigDisplayBadge">វេនធ្វើការ: Full-Time | កម្រិត: មានបទពិសោធន៍</div>
+        </div>
+
+        <!-- Position Selector -->
+        <label style="font-weight:bold; color:#0078D7; font-size:15px; display:block; margin-bottom:10px; text-align:center;">
+          ២. ចុចជ្រើសរើសផ្នែក/មុខតំណែង (A, B, C, D, E)
+        </label>
+        <div class="letter-selector">
+          <div class="letter-circle" id="circle_A" onclick="selectPosition('A', 'Manager')">A</div>
+          <div class="letter-circle" id="circle_B" onclick="selectPosition('B', 'IT / Web Developer')">B</div>
+          <div class="letter-circle" id="circle_C" onclick="selectPosition('C', 'Accounting')">C</div>
+          <div class="letter-circle" id="circle_D" onclick="selectPosition('D', 'Marketing & Sales')">D</div>
+          <div class="letter-circle" id="circle_E" onclick="selectPosition('E', 'Customer Service')">E</div>
+        </div>
+
+        <!-- Add Skills -->
+        <label style="font-weight:bold; color:#0078D7; font-size:14px; display:block; margin-bottom:6px;">៣. បញ្ចូលជំនាញ ឬភាសាដែលអ្នកចេះ (បានច្រើនយ៉ាង)៖</label>
+        <div class="input-row">
+          <input type="text" id="skillInput" placeholder="ជ្រើសរើសមុខតំណែងខាងលើជាមុនសិន..." disabled>
+          <button class="btn btn-primary" id="btnAddSkill" onclick="addSkill()" disabled>➕ បន្ថែមជំនាញ</button>
+        </div>
+
+        <div class="selected-numbers-display" id="selectedSkillsDisplay">
+          <span style="color:#6c757d; font-size:13px;">មិនទាន់មានជំនាញត្រូវបានបញ្ចូលនៅឡើយទេ</span>
+        </div>
+
+        <!-- Salary Expectation -->
+        <div>
+          <label style="font-weight:bold; color:#0078D7; font-size:14px; display:block; margin-bottom:6px;">💵 ៤. ជ្រើសរើសប្រាក់បៀវត្សរ៍ដែលរំពឹងទុក (Salary Expectation)</label>
+          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px;">
+            <button type="button" class="btn btn-amount" onclick="selectQuickSalary(250, '$')">$250</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickSalary(400, '$')">$400</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickSalary(600, '$')">$600</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickSalary(1000, '$')">$1,000</button>
+            <button type="button" class="btn btn-amount" onclick="selectQuickSalary(1500000, '៛')">1.5 លាន៛</button>
+          </div>
+          
+          <div class="custom-amount-wrapper">
+            <input type="number" id="quickSalaryInput" placeholder="✍️ វាយបញ្ចូលប្រាក់ខែរំពឹងទុក..." oninput="updateSalaryDisplay()">
+            <select id="quickCurrency" onchange="updateSalaryDisplay()">
+              <option value="USD">ដុល្លារ ($)</option>
+              <option value="KHR">រៀល (៛)</option>
             </select>
+          </div>
         </div>
 
-        <div class="form-group">
-            <label for="resume">តម្លើងប្រវត្តិរូបសង្ខេប (CV / Résumé):</label>
-            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+        <br>
+        <button class="btn btn-success" id="btnSubmitApp" onclick="openSubmitModal()" style="width:100%; padding:12px; font-size:16px;" disabled>
+          📄 បំពេញព័ត៌មានផ្ទាល់ខ្លួន និងផ្ញើពាក្យសុំ
+        </button>
+      </div>
+    </div>
+
+    <!-- History Section -->
+    <div id="historySection" style="display:none;">
+      <div class="job-box">
+        <div class="time-box">📊 ប្រវត្តិពាក្យសុំធ្វើការរបស់អ្នក</div>
+        <div style="overflow-x:auto; margin-top: 10px;">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>កាលបរិច្ឆេទ</th><th>ឈ្មោះបេក្ខជន</th><th>លេខទូរសព្ទ</th><th>មុខតំណែង</th><th>ជំនាញ</th><th>ប្រាក់ខែរំពឹងទុក</th><th>ស្ថានភាព</th>
+              </tr>
+            </thead>
+            <tbody id="appHistoryBody">
+              <tr><td colspan="7" style="color:#6c757d; padding:15px;">មិនទាន់មានប្រវត្តិដាក់ពាក្យនៅឡើយទេ</td></tr>
+            </tbody>
+          </table>
         </div>
+      </div>
+    </div>
 
-        <div class="form-group">
-            <label for="message">សារបន្ថែម (បើមាន):</label>
-            <textarea id="message" name="message" rows="4"></textarea>
-        </div>
+    <!-- Rules Section -->
+    <div id="rulesSection" style="display:none;">
+      <div class="rules-section">
+        <h3>📋 លក្ខខណ្ឌ និងរបៀបដាក់ពាក្យធ្វើការ</h3>
+        <h4>១. ដំណើរការដាក់ពាក្យ</h4>
+        <ul>
+          <li><strong>ជំហានទី១៖</strong> ជ្រើសរើសវេនធ្វើការ (Full-Time ឬ Part-Time) និងកម្រិតបទពិសោធន៍។</li>
+          <li><strong>ជំហានទី២៖</strong> ចុចជ្រើសរើសផ្នែក ឬមុខតំណែង (A, B, C, D, E) ដែលសមស្របនឹងសមត្ថភាព។</li>
+          <li><strong>ជំហានទី៣៖</strong> បញ្ចូលជំនាញ ឬភាសាដែលអ្នកចេះ និងកំណត់ប្រាក់ខែរំពឹងទុក។</li>
+          <li><strong>ជំហានទី៤៖</strong> បំពេញឈ្មោះ លេខទូរសព្ទ និង Attach ឯកសារ CV (PDF/Image) រួចចុចផ្ញើ។</li>
+        </ul>
+        <h4>២. ការឆ្លើយតប និងសម្ភាសន៍</h4>
+        <ul>
+          <li>ក្រុមការងារ HR នឹងពិនិត្យមើលពាក្យសុំ និង CV របស់អ្នកក្នុងរយៈពេល ១ ទៅ ៣ ថ្ងៃធ្វើការ។</li>
+          <li>ប្រសិនបើជាប់ជម្រើសដំបូង (Shortlisted) HR នឹងទាក់ទងទៅលេខទូរសព្ទ ឬ Telegram របស់អ្នកផ្ទាល់។</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-        <button type="submit">ផ្ញើពាក្យសុំ</button>
-    </form>
-</div>
+  <!-- ====== 💳 Submit Applicant Info Modal ====== -->
+  <div class="modal" id="submitModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('submitModal')">&times;</span>
+      <h2>📄 បំពេញព័ត៌មានបេក្ខជន</h2>
+      <form id="applicantForm">
+        <label>ឈ្មោះពេញរបស់អ្នក (Full Name) *</label>
+        <input type="text" id="appFullName" required placeholder="ឧទាហរណ៍៖ សុខ ជា">
 
+        <label>លេខទូរសព្ទទំនាក់ទំនង *</label>
+        <input type="tel" id="appPhone" required placeholder="012 345 678">
+        
+        <label>អ៊ីមែល (Email - បើមាន)</label>
+        <input type="email" id="appEmail" placeholder="example@gmail.com">
+
+        <label>ភ្ជាប់ប្រវត្តិរូបសង្ខេប (Upload CV / Resume) *</label>
+        <input type="file" id="appCvFile" accept="image/*,.pdf" required>
+
+        <label>កំណត់ចំណាំបន្ថែម (Cover Note)</label>
+        <textarea id="appNote" rows="3" placeholder="រៀបរាប់សង្ខេបអំពីចំណុចខ្លាំងរបស់អ្នក..."></textarea>
+
+        <button type="submit" class="btn btn-success" id="btnFinalSubmit" style="width:100%; margin-top:20px;">🚀 ផ្ញើពាក្យសុំធ្វើការទៅ HR</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ====== 💬 Modal Contact Agent ====== -->
+  <div class="modal" id="agentModal">
+    <div class="modal-content" style="text-align: center;">
+      <span class="close" onclick="closeModal('agentModal')">&times;</span>
+      <div style="font-size: 50px; margin-bottom: 10px;">💬</div>
+      <h2 style="color:#0078D7; margin-bottom: 10px;">ទំនាក់ទំនងផ្នែកធនធានមនុស្ស (HR)</h2>
+      <p style="font-size: 14.5px; color:#4a5568; line-height: 1.6; margin-bottom: 20px;">
+        តើលោកអ្នកមានចម្ងល់អំពីមុខតំណែងការងារ ឬត្រូវការជំនួយក្នុងការដាក់ពាក្យមែនទេ?
+      </p>
+      <button class="btn btn-telegram" onclick="window.open('https://t.me/Sreypich8889999', '_blank')" style="width: 100%; padding: 12px; font-size: 16px; border-radius: 10px;">
+        💬 ឆាតទៅកាន់ HR តាម Telegram
+      </button>
+    </div>
+  </div>
+
+  <!-- ====== Dynamic Custom Alert Modal ====== -->
+  <div class="modal" id="customAlertModal">
+    <div class="modal-content alert-modal-content">
+      <span class="alert-icon" id="customAlertIcon">🔔</span>
+      <h3 class="alert-title" id="customAlertTitle">ដំណឹង</h3>
+      <p class="alert-message" id="customAlertMessage">សារលម្អិត...</p>
+      <button class="btn btn-primary" onclick="closeModal('customAlertModal')" style="padding: 10px 25px; border-radius: 20px;">យល់ព្រម</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 HR Online Job Application System | រក្សាសិទ្ធិគ្រប់យ៉ាង</p>
+  </footer>
+
+  <script>
+    // ===== TELEGRAM CONFIG =====
+    const TELEGRAM_CONFIG = {
+        BOT_TOKEN: '8603184541:AAHmaJnY057ywvAhh04p1NfrIYiBPo8p8TI',
+        CHAT_ID: '-1003922702406'
+    };
+
+    let currentWorkSchedule = 'Full-Time';
+    let currentExpLevel = 'មានបទពិសោធន៍';
+    let selectedLetterCode = '';
+    let selectedPositionTitle = '';
+    let applicantSkills = [];
+    let expectedSalary = 0;
+    let salaryCurrency = 'USD';
+
+    // Digital Clock Engine
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('widgetTime').innerText = now.toLocaleTimeString('en-US', { hour12: false });
+        document.getElementById('widgetDate').innerText = now.toLocaleDateString('km-KH', { weekday:'long', year:'numeric', month:'short', day:'numeric' });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function showSection(section) {
+        document.getElementById('homeSection').style.display = section === 'home' ? 'block' : 'none';
+        document.getElementById('historySection').style.display = section === 'history' ? 'block' : 'none';
+        document.getElementById('rulesSection').style.display = section === 'rules' ? 'block' : 'none';
+        
+        document.getElementById('link-home').classList.toggle('active', section === 'home');
+        document.getElementById('link-history').classList.toggle('active', section === 'history');
+        document.getElementById('link-rules').classList.toggle('active', section === 'rules');
+
+        if(section === 'history') renderHistory();
+    }
+
+    function customAlert(title, message, icon = '🔔') {
+        document.getElementById('customAlertIcon').innerText = icon;
+        document.getElementById('customAlertTitle').innerText = title;
+        document.getElementById('customAlertMessage').innerText = message;
+        document.getElementById('customAlertModal').style.display = 'block';
+    }
+
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function openAgentModal() { document.getElementById('agentModal').style.display = 'block'; }
+
+    function copyWebsiteLink() {
+        navigator.clipboard.writeText(window.location.href);
+        customAlert("ជោគជ័យ", "បានចម្លងតំណភ្ជាប់គេហទំព័រ!", "🔗");
+    }
+
+    function setWorkSchedule(val) {
+        currentWorkSchedule = val;
+        document.getElementById('btnWorkFull').classList.toggle('active', val === 'Full-Time');
+        document.getElementById('btnWorkPart').classList.toggle('active', val !== 'Full-Time');
+        updateBadge();
+    }
+
+    function setExpLevel(val) {
+        currentExpLevel = val;
+        document.getElementById('btnExpYes').classList.toggle('active', val === 'មានបទពិសោធន៍');
+        document.getElementById('btnExpNo').classList.toggle('active', val !== 'មានបទពិសោធន៍');
+        updateBadge();
+    }
+
+    function updateBadge() {
+        document.getElementById('selectedConfigDisplayBadge').innerText = `វេនធ្វើការ: ${currentWorkSchedule} | កម្រិត: ${currentExpLevel}`;
+    }
+
+    function selectPosition(code, title) {
+        selectedLetterCode = code;
+        selectedPositionTitle = title;
+        ['A','B','C','D','E'].forEach(l => {
+            document.getElementById(`circle_${l}`).classList.toggle('active', l === code);
+        });
+
+        const input = document.getElementById('skillInput');
+        input.disabled = false;
+        input.placeholder = `បញ្ចូលជំនាញសម្រាប់មុខតំណែង (${title})...`;
+        document.getElementById('btnAddSkill').disabled = false;
+        checkCanSubmit();
+    }
+
+    function addSkill() {
+        const input = document.getElementById('skillInput');
+        const val = input.value.trim();
+        if(!val) return;
+
+        if(!applicantSkills.includes(val)) {
+            applicantSkills.push(val);
+            renderSkills();
+        }
+        input.value = '';
+    }
+
+    function removeSkill(idx) {
+        applicantSkills.splice(idx, 1);
+        renderSkills();
+    }
+
+    function renderSkills() {
+        const container = document.getElementById('selectedSkillsDisplay');
+        if(applicantSkills.length === 0) {
+            container.innerHTML = '<span style="color:#6c757d; font-size:13px;">មិនទាន់មានជំនាញត្រូវបានបញ្ចូលនៅឡើយទេ</span>';
+        } else {
+            container.innerHTML = applicantSkills.map((s, idx) => `
+                <span class="selected-number-tag">
+                    ${s} <span class="remove" onclick="removeSkill(${idx})">&times;</span>
+                </span>
+            `).join('');
+        }
+        checkCanSubmit();
+    }
+
+    function selectQuickSalary(amt, cur) {
+        document.getElementById('quickSalaryInput').value = amt;
+        document.getElementById('quickCurrency').value = cur === '$' ? 'USD' : 'KHR';
+        updateSalaryDisplay();
+    }
+
+    function updateSalaryDisplay() {
+        expectedSalary = parseFloat(document.getElementById('quickSalaryInput').value) || 0;
+        salaryCurrency = document.getElementById('quickCurrency').value;
+        checkCanSubmit();
+    }
+
+    function checkCanSubmit() {
+        const btn = document.getElementById('btnSubmitApp');
+        if(selectedLetterCode && expectedSalary > 0) {
+            btn.disabled = false;
+        } else {
+            btn.disabled = true;
+        }
+    }
+
+    function openSubmitModal() {
+        document.getElementById('submitModal').style.display = 'block';
+    }
+
+    document.getElementById('applicantForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const name = document.getElementById('appFullName').value.trim();
+        const phone = document.getElementById('appPhone').value.trim();
+        const email = document.getElementById('appEmail').value.trim() || 'គ្មាន';
+        const note = document.getElementById('appNote').value.trim() || 'គ្មាន';
+        const cvFile = document.getElementById('appCvFile').files[0];
+
+        const salDisplay = salaryCurrency === 'USD' ? `$${expectedSalary}` : `${expectedSalary.toLocaleString()}៛`;
+
+        const newApp = {
+            id: 'APP-' + Date.now(),
+            date: new Date().toLocaleDateString('km-KH'),
+            name: name,
+            phone: phone,
+            position: `[${selectedLetterCode}] ${selectedPositionTitle}`,
+            skills: applicantSkills.join(', ') || 'មិនបានដាក់',
+            salary: salDisplay,
+            status: 'pending'
+        };
+
+        // Save local
+        let history = JSON.parse(localStorage.getItem('job_applications') || '[]');
+        history.unshift(newApp);
+        localStorage.setItem('job_applications', JSON.stringify(history));
+
+        // Telegram Send
+        const msg = `📄 <b>ពាក្យសុំធ្វើការថ្មី (New Applicant)</b>\n\n` +
+                    `👤 ឈ្មោះ: <b>${name}</b>\n` +
+                    `📱 ទូរសព្ទ: <code>${phone}</code>\n` +
+                    `📧 អ៊ីមែល: ${email}\n` +
+                    `💼 មុខតំណែង: <b>${selectedPositionTitle} (${currentWorkSchedule})</b>\n` +
+                    `🎓 បទពិសោធន៍: ${currentExpLevel}\n` +
+                    `🛠️ ជំនាញ: ${newApp.skills}\n` +
+                    `💵 ប្រាក់ខែរំពឹងទុក: <b>${salDisplay}</b>\n` +
+                    `📝 ចំណាំ: ${note}`;
+
+        const formData = new FormData();
+        formData.append('chat_id', TELEGRAM_CONFIG.CHAT_ID);
+        formData.append('photo', cvFile);
+        formData.append('caption', msg);
+        formData.append('parse_mode', 'HTML');
+
+        const btn = document.getElementById('btnFinalSubmit');
+        btn.disabled = true;
+        btn.innerText = 'កំពុងផ្ញើ...';
+
+        fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.BOT_TOKEN}/sendPhoto`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            customAlert("ជោគជ័យ", "✅ ពាក្យសុំធ្វើការរបស់អ្នកត្រូវបានផ្ញើទៅកាន់ HR រួចរាល់!", "🎉");
+            closeModal('submitModal');
+            document.getElementById('applicantForm').reset();
+            renderHistory();
+        })
+        .catch(err => {
+            customAlert("បរាជ័យ", "❌ មានបញ្ហាក្នុងការផ្ញើពាក្យសុំ!", "❌");
+        })
+        .finally(() => {
+            btn.disabled = false;
+            btn.innerText = '🚀 ផ្ញើពាក្យសុំធ្វើការទៅ HR';
+        });
+    });
+
+    function renderHistory() {
+        const history = JSON.parse(localStorage.getItem('job_applications') || '[]');
+        const tbody = document.getElementById('appHistoryBody');
+
+        if(history.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="color:#6c757d; padding:15px;">មិនទាន់មានប្រវត្តិដាក់ពាក្យនៅឡើយទេ</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = history.map(item => `
+            <tr>
+                <td>${item.date}</td>
+                <td><strong>${item.name}</strong></td>
+                <td><code>${item.phone}</code></td>
+                <td>${item.position}</td>
+                <td>${item.skills}</td>
+                <td><strong style="color:#0078D7;">${item.salary}</strong></td>
+                <td><span class="status-badge status-pending">⏳ កំពុងពិនិត្យ</span></td>
+            </tr>
+        `).join('');
+    }
+  </script>
 </body>
 </html>
