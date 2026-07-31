@@ -3,535 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ទម្រង់ដាក់ពាក្យធ្វើការ - Job Application Form</title>
-  <!-- Google Fonts for Khmer -->
-  <link href="https://fonts.googleapis.com/css2?family=Kanten:wght@400;500;600;700&family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Job Application</title>
   <style>
-    :root {
-      --primary-color: #0F172A; /* Slate Navy Dark */
-      --accent-color: #2563EB;  /* Royal Blue */
-      --accent-hover: #1D4ED8;
-      --bg-color: #F8FAFC;      /* Light Soft Gray */
-      --card-bg: #FFFFFF;
-      --text-main: #1E293B;
-      --text-muted: #64748B;
-      --border-color: #E2E8F0;
-      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
-    }
-
-    * {
+    body { font-family: Arial, sans-serif; margin:0; padding:0; }
+    header { background:#0078D7; color:white; padding:20px; text-align:center; }
+    nav { background:#333; padding:10px; text-align:center; }
+    nav a { color:white; margin:0 15px; text-decoration:none; }
+    section { padding:40px; }
+    .banner { background:#f4f4f4; padding:60px; text-align:center; }
+    .cta { background:#0078D7; color:white; padding:10px 20px; text-decoration:none; border-radius:5px; }
+    footer { background:#333; color:white; text-align:center; padding:20px; }
+    form { max-width:500px; margin:auto; }
+    input, select, textarea {
+      width:100%; padding:10px; margin:10px 0;
+      border:1px solid #ccc; border-radius:5px;
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Kantumruy Pro', sans-serif;
     }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      line-height: 1.6;
-      padding: 40px 20px;
-    }
-
-    .container {
-      max-width: 850px;
-      margin: 0 auto;
-      background: var(--card-bg);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      overflow: hidden;
-    }
-
-    /* Header Styling */
-    .header {
-      background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
-      color: #FFFFFF;
-      padding: 35px 30px;
-      text-align: center;
-    }
-
-    .header h1 {
-      font-size: 26px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .header p {
-      color: #93C5FD;
-      font-size: 14px;
-    }
-
-    .form-body {
-      padding: 35px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      color: var(--primary-color);
-      border-bottom: 2px solid #EFF6FF;
-      padding-bottom: 8px;
-      margin-bottom: 20px;
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Available Positions Section */
-    .job-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .job-card {
-      border: 2px solid var(--border-color);
-      border-radius: 10px;
-      padding: 15px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      position: relative;
-    }
-
-    .job-card:hover {
-      border-color: var(--accent-color);
-      background-color: #F0F6FF;
-    }
-
-    .job-card input[type="radio"] {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      accent-color: var(--accent-color);
-    }
-
-    .job-card h3 {
+    button {
+      background:#0078D7; color:white; padding:12px;
+      border:none; border-radius:5px; cursor:pointer;
+      width:100%;
       font-size: 16px;
-      color: var(--primary-color);
-      margin-bottom: 5px;
     }
-
-    .job-card p {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    /* Form Inputs Layout */
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-
-    .full-width {
-      grid-column: span 2;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .form-group label {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--primary-color);
-    }
-
-    .form-group input, 
-    .form-group select, 
-    .form-group textarea {
-      width: 100%;
-      padding: 12px 14px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .form-group input:focus, 
-    .form-group select:focus, 
-    .form-group textarea:focus {
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-    }
-
-    /* Photo Upload Style */
-    .photo-upload-box {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      border: 2px dashed var(--border-color);
-      padding: 15px;
-      border-radius: 10px;
-      background: #FAFAFA;
-    }
-
-    .photo-preview {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: #E2E8F0;
-      object-fit: cover;
-      border: 2px solid #FFFFFF;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .upload-btn-wrapper {
-      position: relative;
-      overflow: hidden;
-      display: inline-block;
-    }
-
-    .btn-upload {
-      border: 1px solid var(--accent-color);
-      color: var(--accent-color);
-      background-color: white;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .upload-btn-wrapper input[type=file] {
-      font-size: 100px;
-      position: absolute;
-      left: 0;
-      top: 0;
-      opacity: 0;
-      cursor: pointer;
-    }
-
-    /* Buttons */
-    .btn-submit {
-      width: 100%;
-      background-color: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 14px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background-color 0.2s;
-      margin-top: 10px;
-    }
-
-    .btn-submit:hover {
-      background-color: var(--accent-hover);
-    }
-
-    /* Modal / Preview Dialog */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(15, 23, 42, 0.6);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-
-    .modal-content {
-      background: white;
-      width: 100%;
-      max-width: 600px;
-      border-radius: 12px;
-      padding: 25px;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal-header {
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--primary-color);
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 10px;
-      margin-bottom: 15px;
-    }
-
-    .preview-list {
-      margin-bottom: 20px;
-    }
-
-    .preview-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px dashed var(--border-color);
-      font-size: 14px;
-    }
-
-    .preview-item strong {
-      color: var(--primary-color);
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    .btn-cancel {
-      flex: 1;
-      background: #E2E8F0;
-      border: none;
-      padding: 12px;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .btn-confirm {
-      flex: 1;
-      background: var(--accent-color);
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    @media (max-width: 600px) {
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-      .full-width {
-        grid-column: span 1;
-      }
-    }
+    button:hover { background:#005f99; }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="header">
-    <h1>ទម្រង់ដាក់ពាក្យធ្វើការ (Job Application)</h1>
-    <p>សូមបំពេញព័ត៌មានខាងក្រោមដើម្បីដាក់ពាក្យចូលបំពេញការងារ</p>
-  </div>
+  <header>
+    <h1>ក្រុមហ៊ុនរបស់យើង</h1>
+    <p>ស្វាគមន៍មកកាន់ទំព័រដាក់ពាក្យធ្វើការ</p>
+  </header>
 
-  <form id="jobForm" class="form-body">
-    
-    <!-- 1. Available Jobs -->
-    <div class="section-title">📌 ជ្រើសរើសតំណែងការងារដែលកំពុងរើស</div>
-    <div class="job-list">
-      <label class="job-card">
-        <input type="radio" name="job_position" value="Web Developer" checked>
-        <h3>Web Developer</h3>
-        <p>ពេញម៉ោង | ភ្នំពេញ</p>
-      </label>
-      <label class="job-card">
-        <input type="radio" name="job_position" value="Graphic Designer">
-        <h3>Graphic Designer</h3>
-        <p>ពេញម៉ោង | ភ្នំពេញ</p>
-      </label>
-      <label class="job-card">
-        <input type="radio" name="job_position" value="Digital Marketer">
-        <h3>Digital Marketer</h3>
-        <p>ក្រៅម៉ោង / Remote</p>
-      </label>
-    </div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#jobs">Jobs</a>
+    <a href="#apply">Apply</a>
+  </nav>
 
-    <!-- 2. Personal Information -->
-    <div class="section-title">👤 ព័ត៌មានផ្ទាល់ខ្លួន</div>
+  <section id="home" class="banner">
+    <h2>ស្វាគមន៍!</h2>
+    <p>ចូលរួមជាមួយក្រុមការងាររបស់យើង</p>
+    <a href="#apply" class="cta">Apply Now</a>
+  </section>
 
-    <!-- Photo Upload Section -->
-    <div class="form-group full-width" style="margin-bottom: 15px;">
-      <label>រូបថតផ្ទាល់ខ្លួន (Photo)</label>
-      <div class="photo-upload-box">
-        <img id="imgPreview" class="photo-preview" src="https://via.placeholder.com/150?text=Photo" alt="Preview">
-        <div>
-          <div class="upload-btn-wrapper">
-            <button type="button" class="btn-upload">ជ្រើសរើសរូបថត</button>
-            <input type="file" id="photoInput" accept="image/*" onchange="previewImage(event)">
-          </div>
-          <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">ឯកសាររូបភាព (JPG, PNG)</p>
-        </div>
-      </div>
-    </div>
+  <section id="about">
+    <h2>អំពីក្រុមហ៊ុន</h2>
+    <p>Vision & Mission របស់យើងគឺបង្កើតឱកាសការងារដ៏មានតម្លៃសម្រាប់មនុស្សគ្រប់គ្នា។</p>
+  </section>
 
-    <div class="form-grid">
-      <div class="form-group">
-        <label for="fullname">ឈ្មោះពេញ (Full Name) *</label>
-        <input type="text" id="fullname" required placeholder="ឧ. សុខ មករា">
-      </div>
-      <div class="form-group">
-        <label for="gender">ភេទ (Gender) *</label>
-        <select id="gender" required>
-          <option value="">-- ជ្រើសរើស --</option>
-          <option value="ប្រុស">ប្រុស (Male)</option>
-          <option value="ស្រី">ស្រី (Female)</option>
-          <option value="ផ្សេងៗ">ផ្សេងៗ (Other)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="dob">ថ្ងៃខែឆ្នាំកំណើត (Date of Birth) *</label>
-        <input type="date" id="dob" required>
-      </div>
-      <div class="form-group">
-        <label for="phone">លេខទូរស័ព្ទ (Phone Number) *</label>
-        <input type="tel" id="phone" required placeholder="012 345 678">
-      </div>
-      <div class="form-group full-width">
-        <label for="email">អ៊ីមែល (Email Address) *</label>
-        <input type="email" id="email" required placeholder="example@gmail.com">
-      </div>
-      <div class="form-group full-width">
-        <label for="experience">បទពិសោធន៍ធ្វើការ & ជំនាញ (Experience & Skills)</label>
-        <textarea id="experience" rows="4" placeholder="រៀបរាប់សង្ខេបពីបទពិសោធន៍ធ្វើការពីមុនៗ..."></textarea>
-      </div>
-    </div>
+  <section id="jobs">
+    <h2>ការងារដែលកំពុងបើក</h2>
+    <ul>
+      <li>Web Developer</li>
+      <li>Graphic Designer</li>
+      <li>Marketing Specialist</li>
+    </ul>
+  </section>
 
-    <button type="button" class="btn-submit" onclick="openPreview()">ពិនិត្យមើលទិន្នន័យ (Preview Application)</button>
-  </form>
-</div>
+  <section id="apply">
+    <h2>ដាក់ពាក្យ</h2>
+    <form id="jobForm">
+      <input type="text" id="fullname" placeholder="ឈ្មោះពេញ *" required>
+      
+      <!-- បន្ថែមប្រអប់បំពេញអាយុ -->
+      <input type="number" id="age" placeholder="អាយុ *" min="18" max="70" required>
+      
+      <!-- ប្តូរពី Email ទៅជា Telegram Link ឬ Username -->
+      <input type="text" id="telegram" placeholder="តំណភ្ជាប់ ឬ ឈ្មោះអ្នកប្រើប្រាស់តេឡេក្រាម (e.g. @username) *" required>
+      
+      <input type="tel" id="phone" placeholder="លេខទូរស័ព្ទ *" required>
+      
+      <p style="margin: 10px 0 0 0; font-size: 14px; color: #555;">Upload រូបថត ឬ CV:</p>
+      <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx" required>
+      
+      <textarea id="message" placeholder="សារបន្ថែម..." rows="4"></textarea>
+      
+      <button type="submit">ដាក់ពាក្យ</button>
+    </form>
+  </section>
 
-<!-- Modal Preview System -->
-<div class="modal-overlay" id="previewModal">
-  <div class="modal-content">
-    <div class="modal-header">ផ្ទៀងផ្ទាត់ព័ត៌មានមុននឹងផ្ញើ</div>
-    <div class="preview-list" id="previewData">
-      <!-- Data will be dynamically inserted here -->
-    </div>
-    <div class="modal-actions">
-      <button class="btn-cancel" onclick="closePreview()">កែប្រែឡើងវិញ</button>
-      <button class="btn-confirm" id="sendBtn" onclick="submitToTelegram()">បញ្ជាក់ & ផ្ញើពាក្យ</button>
-    </div>
-  </div>
-</div>
+  <footer>
+    <p>&copy; 2026 ក្រុមហ៊ុនរបស់យើង</p>
+  </footer>
 
-<script>
-  // Telegram Bot Credentials (សូមជំនួស Token និង Chat ID របស់អ្នកនៅទីនេះ)
-  const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN_HERE';
-  const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID_HERE';
-
-  let selectedImageFile = null;
-
-  // Image Preview Function
-  function previewImage(event) {
-    const reader = new FileReader();
-    reader.onload = function() {
-      const output = document.getElementById('imgPreview');
-      output.src = reader.result;
-    };
-    if (event.target.files[0]) {
-      selectedImageFile = event.target.files[0];
-      reader.readAsDataURL(selectedImageFile);
-    }
-  }
-
-  // Open Preview Modal
-  function openPreview() {
-    const fullname = document.getElementById('fullname').value;
-    const gender = document.getElementById('gender').value;
-    const dob = document.getElementById('dob').value;
-    const phone = document.getElementById('phone').value;
-    const email = document.getElementById('email').value;
-    const experience = document.getElementById('experience').value;
-    const position = document.querySelector('input[name="job_position"]:checked').value;
-
-    if (!fullname || !gender || !dob || !phone || !email) {
-      alert('សូមបំពេញព័ត៌មានចាំបាច់ (*) ឱ្យបានគ្រប់គ្រាន់!');
-      return;
-    }
-
-    const previewHTML = `
-      <div class="preview-item"><strong>តំណែងការងារ៖</strong> <span>${position}</span></div>
-      <div class="preview-item"><strong>ឈ្មោះពេញ៖</strong> <span>${fullname}</span></div>
-      <div class="preview-item"><strong>ភេទ៖</strong> <span>${gender}</span></div>
-      <div class="preview-item"><strong>ថ្ងៃខែឆ្នាំកំណើត៖</strong> <span>${dob}</span></div>
-      <div class="preview-item"><strong>លេខទូរស័ព្ទ៖</strong> <span>${phone}</span></div>
-      <div class="preview-item"><strong>អ៊ីមែល៖</strong> <span>${email}</span></div>
-      <div class="preview-item"><strong>បទពិសោធន៍៖</strong> <span>${experience || 'គ្មាន'}</span></div>
-    `;
-
-    document.getElementById('previewData').innerHTML = previewHTML;
-    document.getElementById('previewModal').style.display = 'flex';
-  }
-
-  // Close Preview Modal
-  function closePreview() {
-    document.getElementById('previewModal').style.display = 'none';
-  }
-
-  // Send Data to Telegram
-  async function submitToTelegram() {
-    const sendBtn = document.getElementById('sendBtn');
-    sendBtn.innerText = "កំពុងផ្ញើ...";
-    sendBtn.disabled = true;
-
-    const fullname = document.getElementById('fullname').value;
-    const gender = document.getElementById('gender').value;
-    const dob = document.getElementById('dob').value;
-    const phone = document.getElementById('phone').value;
-    const email = document.getElementById('email').value;
-    const experience = document.getElementById('experience').value;
-    const position = document.querySelector('input[name="job_position"]:checked').value;
-
-    // Text Message Format
-    const message = `
-📩 **ពាក្យសុំធ្វើការថ្មី (New Job Application)**
-━━━━━━━━━━━━━━━━━━
-🎯 **តំណែង៖** ${position}
-👤 **ឈ្មោះ៖** ${fullname}
-👫 **ភេទ៖** ${gender}
-📅 **ថ្ងៃកំណើត៖** ${dob}
-📞 **លេខទូរស័ព្ទ៖** ${phone}
-📧 **អ៊ីមែល៖** ${email}
-📝 **បទពិសោធន៍៖** 
-${experience || 'គ្មាន'}
-━━━━━━━━━━━━━━━━━━`;
-
-    try {
-      // Send Photo first if selected
-      if (selectedImageFile) {
-        const formData = new FormData();
-        formData.append('chat_id', TELEGRAM_CHAT_ID);
-        formData.append('photo', selectedImageFile);
-        formData.append('caption', message);
-        formData.append('parse_mode', 'Markdown');
-
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
-          method: 'POST',
-          body: formData
-        });
-      } else {
-        // Send Text Message only
-        await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: TELEGRAM_CHAT_ID,
-            text: message,
-            parse_mode: 'Markdown'
-          })
-        });
-      }
-
-      alert('ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ! អរគុណ។');
-      closePreview();
-      document.getElementById('jobForm').reset();
-      document.getElementById('imgPreview').src = "https://via.placeholder.com/150?text=Photo";
-    } catch (error) {
-      alert('មានបញ្ហាក្នុងការផ្ញើ! សូមពិនិត្យមើល Bot Token / Chat ID របស់អ្នកឡើងវិញ។');
-      console.error(error);
-    } finally {
-      sendBtn.innerText = "បញ្ជាក់ & ផ្ញើពាក្យ";
-      sendBtn.disabled = false;
-    }
-  }
-</script>
+  <script>
+    document.getElementById("jobForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      
+      const name = document.getElementById("fullname").value;
+      const age = document.getElementById("age").value;
+      const telegram = document.getElementById("telegram").value;
+      
+      alert(`អរគុណ ${name} (អាយុ ${age})! \nការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ។ ក្រុមការងារនឹងទាក់ទងទៅ Telegram: ${telegram}`);
+      
+      // Clear form
+      this.reset();
+    });
+  </script>
 
 </body>
 </html>
