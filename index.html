@@ -4,28 +4,206 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Job Application</title>
+  <!-- Google Fonts សម្រាប់អក្សរខ្មែរស្អាត -->
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; margin:0; padding:0; }
-    header { background:#0078D7; color:white; padding:20px; text-align:center; }
-    nav { background:#333; padding:10px; text-align:center; }
-    nav a { color:white; margin:0 15px; text-decoration:none; }
-    section { padding:40px; }
-    .banner { background:#f4f4f4; padding:60px; text-align:center; }
-    .cta { background:#0078D7; color:white; padding:10px 20px; text-decoration:none; border-radius:5px; }
-    footer { background:#333; color:white; text-align:center; padding:20px; }
-    form { max-width:500px; margin:auto; }
-    input, select, textarea {
-      width:100%; padding:10px; margin:10px 0;
-      border:1px solid #ccc; border-radius:5px;
+    :root {
+      --primary: #0F172A;
+      --accent: #2563EB;
+      --accent-hover: #1D4ED8;
+      --bg-light: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --text: #1E293B;
+      --text-muted: #64748B;
+      --border: #E2E8F0;
+    }
+
+    * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Kantumruy Pro', sans-serif;
     }
-    button {
-      background:#0078D7; color:white; padding:12px;
-      border:none; border-radius:5px; cursor:pointer;
-      width:100%;
+
+    body { 
+      background-color: var(--bg-light); 
+      color: var(--text); 
+      line-height: 1.6; 
+    }
+
+    /* Header & Navigation */
+    header { 
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); 
+      color: white; 
+      padding: 40px 20px; 
+      text-align: center; 
+    }
+
+    header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #93C5FD;
+      font-size: 15px;
+    }
+
+    nav { 
+      background: #1E293B; 
+      padding: 12px; 
+      text-align: center; 
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    }
+
+    nav a { 
+      color: #E2E8F0; 
+      margin: 0 15px; 
+      text-decoration: none; 
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: #60A5FA;
+    }
+
+    /* Sections Shared Style */
+    section { 
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 30px; 
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+    }
+
+    section h2 {
+      color: var(--primary);
+      font-size: 20px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #EFF6FF;
+      padding-bottom: 8px;
+    }
+
+    /* Banner Section */
+    .banner { 
+      background: linear-gradient(to right, #EFF6FF, #EEF2FF); 
+      padding: 50px 30px; 
+      text-align: center; 
+      border: none;
+    }
+
+    .banner h2 {
+      border: none;
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .banner p {
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .cta { 
+      background: var(--accent); 
+      color: white; 
+      padding: 10px 24px; 
+      text-decoration: none; 
+      border-radius: 6px; 
+      font-weight: 600;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+
+    .cta:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Jobs List */
+    #jobs ul {
+      list-style-type: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    #jobs li {
+      background: #F1F5F9;
+      padding: 15px;
+      border-radius: 8px;
+      font-weight: 600;
+      color: var(--primary);
+      border-left: 4px solid var(--accent);
+    }
+
+    /* Form Layout */
+    form { 
+      max-width: 600px; 
+      margin: auto; 
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: var(--primary);
+    }
+
+    input, textarea { 
+      width: 100%; 
+      padding: 12px; 
+      border: 1px solid var(--border); 
+      border-radius: 8px; 
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    button { 
+      background: var(--accent); 
+      color: white; 
+      padding: 14px; 
+      border: none; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      width: 100%; 
       font-size: 16px;
+      font-weight: 600;
+      transition: background 0.2s;
+      margin-top: 10px;
     }
-    button:hover { background:#005f99; }
+
+    button:hover { 
+      background: var(--accent-hover); 
+    }
+
+    /* Footer */
+    footer { 
+      background: var(--primary); 
+      color: #94A3B8; 
+      text-align: center; 
+      padding: 25px; 
+      margin-top: 50px;
+      font-size: 14px;
+    }
   </style>
 </head>
 <body>
@@ -65,21 +243,36 @@
   <section id="apply">
     <h2>ដាក់ពាក្យ</h2>
     <form id="jobForm">
-      <input type="text" id="fullname" placeholder="ឈ្មោះពេញ *" required>
+      <div class="form-group">
+        <label>ឈ្មោះពេញ *</label>
+        <input type="text" placeholder="ឈ្មោះពេញ" required>
+      </div>
       
-      <!-- បន្ថែមប្រអប់បំពេញអាយុ -->
-      <input type="number" id="age" placeholder="អាយុ *" min="18" max="70" required>
-      
-      <!-- ប្តូរពី Email ទៅជា Telegram Link ឬ Username -->
-      <input type="text" id="telegram" placeholder="តំណភ្ជាប់ ឬ ឈ្មោះអ្នកប្រើប្រាស់តេឡេក្រាម (e.g. @username) *" required>
-      
-      <input type="tel" id="phone" placeholder="លេខទូរស័ព្ទ *" required>
-      
-      <p style="margin: 10px 0 0 0; font-size: 14px; color: #555;">Upload រូបថត ឬ CV:</p>
-      <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx" required>
-      
-      <textarea id="message" placeholder="សារបន្ថែម..." rows="4"></textarea>
-      
+      <div class="form-group">
+        <label>អាយុ *</label>
+        <input type="number" placeholder="អាយុ" required>
+      </div>
+
+      <div class="form-group">
+        <label>តេឡេក្រាម (Link / Username) *</label>
+        <input type="text" placeholder="តំណភ្ជាប់ ឬ ឈ្មោះអ្នកប្រើប្រាស់តេឡេក្រាម" required>
+      </div>
+
+      <div class="form-group">
+        <label>លេខទូរស័ព្ទ *</label>
+        <input type="tel" placeholder="លេខទូរស័ព្ទ" required>
+      </div>
+
+      <div class="form-group">
+        <label>ឯកសារ CV / រូបថត *</label>
+        <input type="file" accept=".pdf,.doc,.docx,image/*" required>
+      </div>
+
+      <div class="form-group">
+        <label>សារបន្ថែម</label>
+        <textarea placeholder="សារបន្ថែម..." rows="4"></textarea>
+      </div>
+
       <button type="submit">ដាក់ពាក្យ</button>
     </form>
   </section>
@@ -91,15 +284,7 @@
   <script>
     document.getElementById("jobForm").addEventListener("submit", function(e){
       e.preventDefault();
-      
-      const name = document.getElementById("fullname").value;
-      const age = document.getElementById("age").value;
-      const telegram = document.getElementById("telegram").value;
-      
-      alert(`អរគុណ ${name} (អាយុ ${age})! \nការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ។ ក្រុមការងារនឹងទាក់ទងទៅ Telegram: ${telegram}`);
-      
-      // Clear form
-      this.reset();
+      alert("ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើ!");
     });
   </script>
 
