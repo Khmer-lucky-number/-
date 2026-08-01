@@ -170,6 +170,13 @@
       background: rgba(96, 165, 250, 0.15);
     }
 
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+
     .btn-nav-share {
       background: var(--accent);
       color: white;
@@ -185,6 +192,23 @@
 
     .btn-nav-share:hover {
       background: var(--accent-hover);
+    }
+
+    .btn-history {
+      background: #22C55E;
+      color: white;
+      border: none;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: background 0.2s;
+      font-family: 'Kantumruy Pro', sans-serif;
+    }
+
+    .btn-history:hover {
+      background: #16A34A;
     }
 
     /* Sections */
@@ -211,7 +235,7 @@
       padding-bottom: 8px;
     }
 
-    /* Job Cards - HOME (No buttons) */
+    /* Job Cards - HOME */
     .job-card-home {
       background: #F8FAFC;
       border-radius: 10px;
@@ -256,7 +280,7 @@
       font-size: 14px;
     }
 
-    /* Job Cards - JOBS (With Apply Button) */
+    /* Job Cards - JOBS */
     .job-card {
       background: #F8FAFC;
       border-radius: 10px;
@@ -383,13 +407,13 @@
     }
 
     .social-btn.facebook {
-      background: var(--facebook);
+      background: #1877f2;
     }
     .social-btn.tiktok {
-      background: var(--tiktok);
+      background: #000000;
     }
     .social-btn.telegram {
-      background: var(--telegram);
+      background: #0088cc;
     }
 
     /* Form */
@@ -583,26 +607,128 @@
       grid-column: 1 / -1;
     }
 
-    @media (max-width: 480px) {
-      .address-grid {
-        grid-template-columns: 1fr;
-      }
-      .address-grid .full-width {
-        grid-column: 1;
-      }
+    .address-grid .hidden-input {
+      display: none;
     }
 
-    /* Responsive */
+    .address-grid .visible-input {
+      display: block;
+    }
+
+    /* History Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 800px;
+      width: 95%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-content h2 {
+      margin-bottom: 20px;
+      border-bottom: 2px solid #EFF6FF;
+      padding-bottom: 12px;
+    }
+
+    .modal-close {
+      position: sticky;
+      top: 0;
+      float: right;
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: var(--text-muted);
+      z-index: 10;
+    }
+
+    .modal-close:hover {
+      color: var(--text);
+    }
+
+    .history-item {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .history-item .history-header {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .history-item .history-name {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .history-item .history-date {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .history-item .history-job {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .history-empty {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 40px 20px;
+    }
+
+    /* Number Input - Force English numbers */
+    input[type="number"] {
+      -moz-appearance: textfield;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    input[type="number"] {
+      appearance: textfield;
+    }
+
     @media (max-width: 768px) {
       header h1 { font-size: 22px; }
       section { padding: 20px; margin: 20px 15px; }
       nav { padding: 10px; gap: 5px; }
       nav a { font-size: 13px; margin: 0 4px; padding: 5px 10px; }
-      .btn-nav-share { font-size: 12px; padding: 5px 10px; }
+      .btn-nav-share, .btn-history { font-size: 12px; padding: 5px 10px; }
       .job-card .job-meta { gap: 8px; }
       .social-btn { padding: 8px 14px; font-size: 13px; }
       .custom-alert { width: 95%; padding: 14px 18px; }
       .form-buttons { flex-direction: column; }
+      .address-grid { grid-template-columns: 1fr; }
+      .address-grid .full-width { grid-column: 1; }
+      .modal-content { padding: 20px; }
     }
 
     @media (max-width: 480px) {
@@ -614,6 +740,7 @@
       .job-card .job-salary, .job-card-home .job-salary { font-size: 16px; }
       .social-btn { padding: 6px 12px; font-size: 12px; }
       .radio-group { gap: 10px; }
+      .modal-content { padding: 15px; }
     }
   </style>
 </head>
@@ -626,6 +753,20 @@
     <span id="alertMessage">សារជូនដំណឹង</span>
   </div>
 
+  <!-- History Modal -->
+  <div id="historyModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeHistory()">&times;</button>
+      <h2>📜 ប្រវត្តិដាក់ពាក្យ</h2>
+      <div id="historyList">
+        <div class="history-empty">
+          <i class="fas fa-inbox" style="font-size:48px; color:#CBD5E1; display:block; margin-bottom:16px;"></i>
+          មិនទាន់មានប្រវត្តិដាក់ពាក្យនៅឡើយទេ
+        </div>
+      </div>
+    </div>
+  </div>
+
   <header>
     <h1>ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</h1>
     <p>សូមស្វាគមន៍មកកាន់ទំព័រប្រកាសការងារ និងដាក់ពាក្យធ្វើការ</p>
@@ -635,7 +776,10 @@
     <a href="#" class="active" data-section="home">🏠 ទំព័រដើម</a>
     <a href="#" data-section="jobs">💼 ការងារកំពុងមាន</a>
     <a href="#" data-section="rules">📋 ច្បាប់និងរបៀបប្រើប្រាស</a>
-    <button class="btn-nav-share" onclick="copyWebsiteLink()">🔗 ចែករំលែកគេហទំព័រ</button>
+    <div class="nav-right">
+      <button class="btn-history" onclick="openHistory()">📜 ប្រវត្តិដាក់ពាក្យ</button>
+      <button class="btn-nav-share" onclick="copyWebsiteLink()">🔗 ចែករំលែក</button>
+    </div>
   </nav>
 
   <!-- ============ HOME SECTION ============ -->
@@ -843,12 +987,12 @@
       
       <div class="form-group">
         <label>អាយុ</label>
-        <input type="number" id="age" placeholder="បំពេញអាយុរបស់អ្នក" min="15" max="80" required>
+        <input type="number" id="age" placeholder="បំពេញអាយុរបស់អ្នក" min="15" max="80" required oninput="enforceEnglishNumbers(this)">
       </div>
 
       <div class="form-group">
         <label>កម្ពស់ (សង់ទីម៉ែត្រ)</label>
-        <input type="number" id="height" placeholder="បំពេញកម្ពស់របស់អ្នក (ឧ: 170)" min="100" max="250" required>
+        <input type="number" id="height" placeholder="បំពេញកម្ពស់របស់អ្នក (ឧ: 170)" min="100" max="250" required oninput="enforceEnglishNumbers(this)">
       </div>
 
       <div class="form-group">
@@ -870,7 +1014,7 @@
         <input type="text" id="otherEducation" placeholder="បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ">
       </div>
 
-      <!-- Address Section - Cambodia Provinces -->
+      <!-- Address Section -->
       <div class="form-group">
         <label>អាសយដ្ឋានបច្ចុប្បន្ន</label>
         <div class="address-grid">
@@ -942,6 +1086,12 @@
               <option value="other">ផ្សេងៗ</option>
             </select>
           </div>
+          <div class="full-width" id="districtOtherContainer" style="display:none;">
+            <input type="text" id="districtOther" placeholder="សូមបញ្ជាក់ស្រុក/ខណ្ឌរបស់អ្នក">
+          </div>
+          <div class="full-width" id="communeOtherContainer" style="display:none;">
+            <input type="text" id="communeOther" placeholder="សូមបញ្ជាក់ឃុំ/សង្កាត់របស់អ្នក">
+          </div>
           <div class="full-width">
             <input type="text" id="village" placeholder="ភូមិ (បញ្ជាក់ភូមិរបស់អ្នក)" required>
           </div>
@@ -992,7 +1142,7 @@
 
       <div class="form-group">
         <label>លេខទូរស័ព្ទ</label>
-        <input type="tel" id="phone" placeholder="លេខទូរស័ព្ទ" required>
+        <input type="tel" id="phone" placeholder="លេខទូរស័ព្ទ" required oninput="enforceEnglishNumbers(this)">
       </div>
 
       <div class="form-group">
@@ -1024,6 +1174,58 @@
   <script>
     let selectedJob = '';
     let isSubmitting = false;
+    let applicationHistory = JSON.parse(localStorage.getItem('applicationHistory')) || [];
+
+    // ============ ENFORCE ENGLISH NUMBERS ============
+    function enforceEnglishNumbers(input) {
+      // Convert Khmer numbers to English numbers
+      const khmerNumbers = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
+      const englishNumbers = ['0','1','2','3','4','5','6','7','8','9'];
+      
+      let value = input.value;
+      let converted = '';
+      for (let char of value) {
+        const index = khmerNumbers.indexOf(char);
+        if (index !== -1) {
+          converted += englishNumbers[index];
+        } else {
+          converted += char;
+        }
+      }
+      input.value = converted;
+      
+      // Remove any non-numeric characters except decimal point
+      if (input.type === 'number') {
+        input.value = input.value.replace(/[^0-9.]/g, '');
+      }
+    }
+
+    // ============ ADDRESS "OTHER" HANDLING ============
+    document.getElementById("district").addEventListener("change", function() {
+      const container = document.getElementById("districtOtherContainer");
+      const otherInput = document.getElementById("districtOther");
+      if (this.value === "other") {
+        container.style.display = "block";
+        otherInput.required = false;
+        otherInput.placeholder = "សូមបញ្ជាក់ស្រុក/ខណ្ឌរបស់អ្នក...";
+      } else {
+        container.style.display = "none";
+        otherInput.value = "";
+      }
+    });
+
+    document.getElementById("commune").addEventListener("change", function() {
+      const container = document.getElementById("communeOtherContainer");
+      const otherInput = document.getElementById("communeOther");
+      if (this.value === "other") {
+        container.style.display = "block";
+        otherInput.required = false;
+        otherInput.placeholder = "សូមបញ្ជាក់ឃុំ/សង្កាត់របស់អ្នក...";
+      } else {
+        container.style.display = "none";
+        otherInput.value = "";
+      }
+    });
 
     // ============ CUSTOM ALERT ============
     function showAlert(message, type = 'info') {
@@ -1076,7 +1278,6 @@
 
     // ============ GO BACK ============
     function goBack() {
-      // Navigate to jobs section
       document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
       document.querySelector('nav a[data-section="jobs"]')?.classList.add('active');
       
@@ -1129,6 +1330,57 @@
       }
     });
 
+    // ============ HISTORY FUNCTIONS ============
+    function openHistory() {
+      const modal = document.getElementById('historyModal');
+      const list = document.getElementById('historyList');
+      
+      if (applicationHistory.length === 0) {
+        list.innerHTML = `
+          <div class="history-empty">
+            <i class="fas fa-inbox" style="font-size:48px; color:#CBD5E1; display:block; margin-bottom:16px;"></i>
+            មិនទាន់មានប្រវត្តិដាក់ពាក្យនៅឡើយទេ
+          </div>
+        `;
+      } else {
+        let html = '';
+        // Show newest first
+        const reversed = [...applicationHistory].reverse();
+        for (const item of reversed) {
+          html += `
+            <div class="history-item">
+              <div class="history-header">
+                <span class="history-name">👤 ${item.name}</span>
+                <span class="history-date">🕐 ${item.date}</span>
+              </div>
+              <div>
+                <span class="history-job">💼 ${item.job}</span>
+              </div>
+              <div style="color:var(--text-muted); font-size:13px; margin-top:4px;">
+                📞 ${item.phone} | 📱 ${item.telegram}
+              </div>
+            </div>
+          `;
+        }
+        list.innerHTML = html;
+      }
+      
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeHistory() {
+      document.getElementById('historyModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on overlay click
+    document.getElementById('historyModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeHistory();
+      }
+    });
+
     // ============ FORM SUBMISSION ============
     document.getElementById("jobForm").addEventListener("submit", function(e) {
       e.preventDefault();
@@ -1146,7 +1398,9 @@
       const otherEducation = document.getElementById('otherEducation').value;
       const province = document.getElementById('province').value;
       const district = document.getElementById('district').value;
+      const districtOther = document.getElementById('districtOther').value;
       const commune = document.getElementById('commune').value;
+      const communeOther = document.getElementById('communeOther').value;
       const village = document.getElementById('village').value;
       const workStatus = document.querySelector('input[name="workStatus"]:checked')?.value || '';
       const experience = document.querySelector('input[name="experience"]:checked')?.value || '';
@@ -1159,7 +1413,9 @@
       const file = fileInput.files[0];
       
       // Build full address
-      const fullAddress = `${village}, ${commune}, ${district}, ${province}`;
+      const finalDistrict = district === 'other' ? districtOther : district;
+      const finalCommune = commune === 'other' ? communeOther : commune;
+      const fullAddress = `${village}, ${finalCommune}, ${finalDistrict}, ${province}`;
       
       // Validate
       if (!fullName || !age || !height || !education || !province || !district || !commune || !village || !workStatus || !experience || !telegram || !phone || !file) {
@@ -1206,6 +1462,17 @@
         `🎯 *ការងារដែលបានជ្រើសរើស:* ${selectedJob}\n` +
         `🕐 *កាលបរិច្ឆេទដាក់ពាក្យ:* ${dateTime}\n\n` +
         `🔗 ផ្ញើពី: ${window.location.href}`;
+      
+      // Save to history
+      const historyItem = {
+        name: fullName,
+        job: selectedJob,
+        phone: phone,
+        telegram: telegram,
+        date: dateTime
+      };
+      applicationHistory.push(historyItem);
+      localStorage.setItem('applicationHistory', JSON.stringify(applicationHistory));
       
       // Read file as base64
       const reader = new FileReader();
@@ -1262,6 +1529,10 @@
               document.getElementById('selectedJobInfo').classList.remove('show');
               document.getElementById('otherEducation').value = '';
               document.getElementById('otherJob').value = '';
+              document.getElementById('districtOtherContainer').style.display = 'none';
+              document.getElementById('communeOtherContainer').style.display = 'none';
+              document.getElementById('districtOther').value = '';
+              document.getElementById('communeOther').value = '';
               selectedJob = '';
               resetSubmitButton();
             }, 3000);
@@ -1318,6 +1589,7 @@
     document.getElementById('home')?.classList.add('active');
     
     console.log('✅ គេហទំព័របានដំណើរការយ៉ាងពេញលេញ!');
+    console.log(`📊 មានប្រវត្តិដាក់ពាក្យចំនួន ${applicationHistory.length} ប្រវត្តិ`);
   </script>
 
 </body>
