@@ -461,32 +461,49 @@
       accent-color: var(--accent);
     }
 
-    button[type="submit"] { 
-      background: var(--accent); 
-      color: white; 
-      padding: 14px; 
-      border: none; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      width: 100%; 
+    .form-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .form-buttons button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
       font-size: 16px;
       font-weight: 600;
+      cursor: pointer;
       transition: background 0.2s, transform 0.1s;
-      margin-top: 10px;
       font-family: 'Kantumruy Pro', sans-serif;
     }
 
-    button[type="submit"]:hover { 
-      background: var(--accent-hover); 
-    }
-
-    button[type="submit"]:active {
+    .form-buttons button:active {
       transform: scale(0.98);
     }
 
-    button[type="submit"]:disabled {
+    .btn-submit {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-submit:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-submit:disabled {
       background: #94A3B8;
       cursor: not-allowed;
+    }
+
+    .btn-back {
+      background: #E2E8F0;
+      color: var(--text);
+    }
+
+    .btn-back:hover {
+      background: #CBD5E1;
     }
 
     /* Footer */
@@ -531,6 +548,15 @@
       flex-shrink: 0;
     }
 
+    .rules-list .fee-info {
+      background: #EFF6FF;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-size: 14px;
+      border-left: 4px solid var(--accent);
+    }
+
     /* Selected Job Display */
     .selected-job-info {
       background: #EFF6FF;
@@ -546,6 +572,26 @@
       display: block;
     }
 
+    /* Address Select Grid */
+    .address-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .address-grid .full-width {
+      grid-column: 1 / -1;
+    }
+
+    @media (max-width: 480px) {
+      .address-grid {
+        grid-template-columns: 1fr;
+      }
+      .address-grid .full-width {
+        grid-column: 1;
+      }
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       header h1 { font-size: 22px; }
@@ -556,6 +602,7 @@
       .job-card .job-meta { gap: 8px; }
       .social-btn { padding: 8px 14px; font-size: 13px; }
       .custom-alert { width: 95%; padding: 14px 18px; }
+      .form-buttons { flex-direction: column; }
     }
 
     @media (max-width: 480px) {
@@ -591,7 +638,7 @@
     <button class="btn-nav-share" onclick="copyWebsiteLink()">🔗 ចែករំលែកគេហទំព័រ</button>
   </nav>
 
-  <!-- ============ HOME SECTION (No buttons) ============ -->
+  <!-- ============ HOME SECTION ============ -->
   <section id="home" class="active">
     <h2>អំពីភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</h2>
     <p>ភ្នាក់ងាររបស់យើងកំពុងបង្កើត និងស្រាវជ្រាវឱកាសការងារថ្មីៗ និងមានតម្លៃ ដើម្បីប្រកាសដល់មនុស្សគ្រប់គ្នា។</p>
@@ -634,7 +681,6 @@
       <div class="job-benefits">📈 អត្ថប្រយោជន៍: 20$-25$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ប្រចាំខែ</div>
     </div>
 
-    <!-- Social Media Buttons (Only in Home) -->
     <div style="margin-top:30px; text-align:center;">
       <h3>តាមដានយើងតាមរយៈ</h3>
       <div class="social-buttons">
@@ -768,6 +814,16 @@
         <span class="rule-number">6</span>
         <div><strong>ការការពារព័ត៌មាន</strong><br>ព័ត៌មានផ្ទាល់ខ្លួនរបស់អ្នកនឹងត្រូវរក្សាទុកជាសម្ងាត់ និងប្រើប្រាស់សម្រាប់ការដាក់ពាក្យការងារតែប៉ុណ្ណោះ។</div>
       </li>
+      <li>
+        <span class="rule-number">7</span>
+        <div>
+          <strong>ថ្លៃសេវាកម្ម</strong>
+          <div class="fee-info">
+            💰 <strong>ថ្លៃសេវា 1$</strong> នៅពេលភ្នាក់ងារបញ្ជូនព័ត៌មានដាក់ពាក្យរបស់អ្នកទៅកាន់ក្រុមហ៊ុនជ្រើសរើសបុគ្គលិក<br>
+            🎉 <strong>ថ្លៃសេវា 4$</strong> នៅពេលជាប់ការដាក់ពាក្យ (ទទួលបានការងារ)
+          </div>
+        </div>
+      </li>
     </ul>
   </section>
 
@@ -810,13 +866,86 @@
       </div>
 
       <div class="form-group">
-        <label>បញ្ជាក់កម្រិតសិក្សា <span class="optional">(ប្រសិនបើជ្រើសរើស "ផ្សេងៗ")</span></label>
-        <input type="text" id="otherEducation" placeholder="សូមបញ្ជាក់កម្រិតសិក្សារបស់អ្នក">
+        <label>បញ្ជាក់កម្រិតសិក្សា <span class="optional">(មិនចាំបាច់បំពេញក៏បាន)</span></label>
+        <input type="text" id="otherEducation" placeholder="បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ">
       </div>
 
+      <!-- Address Section - Cambodia Provinces -->
       <div class="form-group">
         <label>អាសយដ្ឋានបច្ចុប្បន្ន</label>
-        <input type="text" id="address" placeholder="បំពេញអាសយដ្ឋានបច្ចុប្បន្នរបស់អ្នក" required>
+        <div class="address-grid">
+          <div class="full-width">
+            <select id="province" required>
+              <option value="">-- រាជធានី/ខេត្ត --</option>
+              <option value="ភ្នំពេញ">ភ្នំពេញ</option>
+              <option value="បាត់ដំបង">បាត់ដំបង</option>
+              <option value="សៀមរាប">សៀមរាប</option>
+              <option value="កំពង់ចាម">កំពង់ចាម</option>
+              <option value="កំពង់ឆ្នាំង">កំពង់ឆ្នាំង</option>
+              <option value="កំពង់ស្ពឺ">កំពង់ស្ពឺ</option>
+              <option value="កំពង់ធំ">កំពង់ធំ</option>
+              <option value="កណ្តាល">កណ្តាល</option>
+              <option value="តាកែវ">តាកែវ</option>
+              <option value="កែប">កែប</option>
+              <option value="កំពត">កំពត</option>
+              <option value="ព្រះសីហនុ">ព្រះសីហនុ</option>
+              <option value="កោះកុង">កោះកុង</option>
+              <option value="ព្រៃវែង">ព្រៃវែង</option>
+              <option value="ស្វាយរៀង">ស្វាយរៀង</option>
+              <option value="ព្រះវិហារ">ព្រះវិហារ</option>
+              <option value="ឧត្តរមានជ័យ">ឧត្តរមានជ័យ</option>
+              <option value="បន្ទាយមានជ័យ">បន្ទាយមានជ័យ</option>
+              <option value="ប៉ៃលិន">ប៉ៃលិន</option>
+              <option value="រតនគិរី">រតនគិរី</option>
+              <option value="ស្ទឹងត្រែង">ស្ទឹងត្រែង</option>
+              <option value="មណ្ឌលគិរី">មណ្ឌលគិរី</option>
+              <option value="ក្រចេះ">ក្រចេះ</option>
+              <option value="ត្បូងឃ្មុំ">ត្បូងឃ្មុំ</option>
+            </select>
+          </div>
+          <div>
+            <select id="district" required>
+              <option value="">-- ស្រុក/ខណ្ឌ --</option>
+              <option value="ចំការមន">ចំការមន</option>
+              <option value="ដូនពេញ">ដូនពេញ</option>
+              <option value="៧មករា">៧មករា</option>
+              <option value="បឹងកេងកង">បឹងកេងកង</option>
+              <option value="ទួលគោក">ទួលគោក</option>
+              <option value="ឫស្សីកែវ">ឫស្សីកែវ</option>
+              <option value="សែនសុខ">សែនសុខ</option>
+              <option value="ពោធិ៍សែនជ័យ">ពោធិ៍សែនជ័យ</option>
+              <option value="ជ្រោយចង្វា">ជ្រោយចង្វា</option>
+              <option value="មានជ័យ">មានជ័យ</option>
+              <option value="ដង្កោ">ដង្កោ</option>
+              <option value="គីរីវង្ស">គីរីវង្ស</option>
+              <option value="ច្បារអំពៅ">ច្បារអំពៅ</option>
+              <option value="ព្រែកព្នៅ">ព្រែកព្នៅ</option>
+              <option value="other">ផ្សេងៗ</option>
+            </select>
+          </div>
+          <div>
+            <select id="commune" required>
+              <option value="">-- ឃុំ/សង្កាត់ --</option>
+              <option value="វត្តភ្នំ">វត្តភ្នំ</option>
+              <option value="បឹងរាំង">បឹងរាំង</option>
+              <option value="ផ្សារថ្មី">ផ្សារថ្មី</option>
+              <option value="ផ្សារកណ្តាល">ផ្សារកណ្តាល</option>
+              <option value="ជ័យជំនះ">ជ័យជំនះ</option>
+              <option value="បឹងត្របែក">បឹងត្របែក</option>
+              <option value="ទួលស្វាយព្រៃ">ទួលស្វាយព្រៃ</option>
+              <option value="ទួលទំពូង">ទួលទំពូង</option>
+              <option value="បឹងកក់">បឹងកក់</option>
+              <option value="ផ្សារដេប៉ូ">ផ្សារដេប៉ូ</option>
+              <option value="ផ្សារចាស់">ផ្សារចាស់</option>
+              <option value="ស្រះចក">ស្រះចក</option>
+              <option value="វាលវង់">វាលវង់</option>
+              <option value="other">ផ្សេងៗ</option>
+            </select>
+          </div>
+          <div class="full-width">
+            <input type="text" id="village" placeholder="ភូមិ (បញ្ជាក់ភូមិរបស់អ្នក)" required>
+          </div>
+        </div>
       </div>
 
       <div class="form-group">
@@ -836,7 +965,7 @@
       </div>
 
       <div class="form-group">
-        <label>ការងារពីមុន <span class="optional">(ប្រសិនបើមាន)</span></label>
+        <label>ការងារពីមុន <span class="optional">(មិនចាំបាច់បំពេញក៏បាន)</span></label>
         <select id="previousJob">
           <option value="">-- សូមជ្រើសរើស --</option>
           <option value="គ្រូបង្រៀន">គ្រូបង្រៀន</option>
@@ -872,11 +1001,16 @@
       </div>
 
       <div class="form-group">
-        <label>ការពិពណ៌នាសង្ខេបអំពីប្រវត្តិការងារពីមុនរបស់អ្នក</label>
+        <label>ការពិពណ៌នាសង្ខេបអំពីប្រវត្តិការងារពីមុនរបស់អ្នក <span class="optional">(មិនចាំបាច់បំពេញក៏បាន)</span></label>
         <textarea id="description" placeholder="សរសេរសង្ខេបអំពីប្រវត្តិការងារពីមុនរបស់អ្នក..." rows="4"></textarea>
       </div>
 
-      <button type="submit" id="submitBtn">ផ្ញើការដាក់ពាក្យទៅកាន់ភ្នាក់ងារ</button>
+      <div class="form-buttons">
+        <button type="button" class="btn-back" onclick="goBack()">
+          <i class="fas fa-arrow-left"></i> ថយក្រោយ
+        </button>
+        <button type="submit" class="btn-submit" id="submitBtn">ផ្ញើការដាក់ពាក្យ</button>
+      </div>
     </form>
     <div id="successMessage" style="display:none; background:#F0FDF4; border:1px solid #BBF7D0; color:#166534; padding:16px; border-radius:8px; margin-top:20px; text-align:center; font-weight:600;">
       ✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!
@@ -940,6 +1074,20 @@
       });
     });
 
+    // ============ GO BACK ============
+    function goBack() {
+      // Navigate to jobs section
+      document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+      document.querySelector('nav a[data-section="jobs"]')?.classList.add('active');
+      
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      const jobsSection = document.getElementById('jobs');
+      if (jobsSection) {
+        jobsSection.classList.add('active');
+        jobsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
     // ============ APPLY TO JOB ============
     function applyToJob(jobTitle, salary) {
       selectedJob = jobTitle;
@@ -964,7 +1112,6 @@
       const otherInput = document.getElementById("otherEducation");
       if (this.value === "other") {
         otherInput.placeholder = "សូមបញ្ជាក់កម្រិតសិក្សារបស់អ្នក...";
-        otherInput.required = false;
       } else {
         otherInput.placeholder = "បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ";
         otherInput.value = "";
@@ -997,7 +1144,10 @@
       const height = document.getElementById('height').value;
       const education = document.getElementById('education').value;
       const otherEducation = document.getElementById('otherEducation').value;
-      const address = document.getElementById('address').value;
+      const province = document.getElementById('province').value;
+      const district = document.getElementById('district').value;
+      const commune = document.getElementById('commune').value;
+      const village = document.getElementById('village').value;
       const workStatus = document.querySelector('input[name="workStatus"]:checked')?.value || '';
       const experience = document.querySelector('input[name="experience"]:checked')?.value || '';
       const previousJob = document.getElementById('previousJob').value;
@@ -1008,8 +1158,11 @@
       const fileInput = document.getElementById('cvFile');
       const file = fileInput.files[0];
       
+      // Build full address
+      const fullAddress = `${village}, ${commune}, ${district}, ${province}`;
+      
       // Validate
-      if (!fullName || !age || !height || !education || !address || !workStatus || !experience || !telegram || !phone || !file) {
+      if (!fullName || !age || !height || !education || !province || !district || !commune || !village || !workStatus || !experience || !telegram || !phone || !file) {
         showAlert('សូមបំពេញព័ត៌មានឲ្យបានពេញលេញ និងភ្ជាប់ឯកសារ!', 'error');
         return;
       }
@@ -1043,7 +1196,7 @@
         `📅 *អាយុ:* ${age}\n` +
         `📏 *កម្ពស់:* ${height} សង់ទីម៉ែត្រ\n` +
         `🎓 *កម្រិតសិក្សា:* ${finalEducation}\n` +
-        `📍 *អាសយដ្ឋាន:* ${address}\n` +
+        `📍 *អាសយដ្ឋាន:* ${fullAddress}\n` +
         `💼 *ស្ថានភាពការងារ:* ${workStatus}\n` +
         `📊 *បទពិសោធន៍:* ${experience}\n` +
         `💻 *ការងារពីមុន:* ${finalJob}\n` +
@@ -1067,19 +1220,17 @@
       reader.readAsDataURL(file);
     });
 
-    // ============ SEND PHOTO WITH CAPTION (ONE MESSAGE) ============
+    // ============ SEND PHOTO WITH CAPTION ============
     function sendPhotoWithCaption(fileBase64, fileName, caption) {
       const token = '8133960195:AAGss5J-d0GXsFkfsOa3yjQ7p3yp9W5uCFs';
       const chatId = '-5304708525';
       
-      // Convert base64 to blob
       fetch(fileBase64)
         .then(res => res.blob())
         .then(blob => {
           const formData = new FormData();
           formData.append('chat_id', chatId);
           
-          // Check if it's an image or document
           const isImage = blob.type.startsWith('image/');
           
           if (isImage) {
@@ -1129,7 +1280,7 @@
     function resetSubmitButton() {
       isSubmitting = false;
       document.getElementById('submitBtn').disabled = false;
-      document.getElementById('submitBtn').textContent = 'ផ្ញើការដាក់ពាក្យទៅកាន់ភ្នាក់ងារ';
+      document.getElementById('submitBtn').textContent = 'ផ្ញើការដាក់ពាក្យ';
     }
 
     // ============ COPY WEBSITE LINK ============
