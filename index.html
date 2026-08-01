@@ -135,8 +135,7 @@
 
     nav { 
       background: #1E293B; 
-      padding: 12px; 
-      text-align: center; 
+      padding: 12px 20px; 
       position: sticky;
       top: 0;
       z-index: 100;
@@ -150,7 +149,6 @@
 
     nav a { 
       color: #E2E8F0; 
-      margin: 0 8px; 
       text-decoration: none; 
       font-weight: 500;
       font-size: 14px;
@@ -170,14 +168,7 @@
       background: rgba(96, 165, 250, 0.15);
     }
 
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-left: auto;
-    }
-
-    .btn-nav-share {
+    .nav-btn {
       background: var(--accent);
       color: white;
       border: none;
@@ -190,11 +181,11 @@
       font-family: 'Kantumruy Pro', sans-serif;
     }
 
-    .btn-nav-share:hover {
+    .nav-btn:hover {
       background: var(--accent-hover);
     }
 
-    .btn-history {
+    .nav-btn-history {
       background: #22C55E;
       color: white;
       border: none;
@@ -207,7 +198,7 @@
       font-family: 'Kantumruy Pro', sans-serif;
     }
 
-    .btn-history:hover {
+    .nav-btn-history:hover {
       background: #16A34A;
     }
 
@@ -235,52 +226,7 @@
       padding-bottom: 8px;
     }
 
-    /* Job Cards - HOME */
-    .job-card-home {
-      background: #F8FAFC;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      border: 1px solid var(--border);
-      cursor: default;
-    }
-
-    .job-card-home .job-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 14px;
-      color: var(--text-muted);
-      margin: 10px 0;
-    }
-
-    .job-card-home .job-meta span {
-      background: #E2E8F0;
-      padding: 2px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-    }
-
-    .job-card-home .job-salary {
-      font-weight: 700;
-      color: var(--accent);
-      font-size: 18px;
-    }
-
-    .job-card-home .job-description {
-      margin: 12px 0;
-      color: var(--text);
-    }
-
-    .job-card-home .job-benefits {
-      background: #EFF6FF;
-      padding: 12px;
-      border-radius: 8px;
-      margin: 10px 0;
-      font-size: 14px;
-    }
-
-    /* Job Cards - JOBS */
+    /* Job Cards */
     .job-card {
       background: #F8FAFC;
       border-radius: 10px;
@@ -379,7 +325,7 @@
       transform: scale(1.02);
     }
 
-    /* Social Buttons */
+    /* Social Buttons - Inside Home */
     .social-buttons {
       display: flex;
       flex-wrap: wrap;
@@ -407,13 +353,13 @@
     }
 
     .social-btn.facebook {
-      background: #1877f2;
+      background: var(--facebook);
     }
     .social-btn.tiktok {
-      background: #000000;
+      background: var(--tiktok);
     }
     .social-btn.telegram {
-      background: #0088cc;
+      background: var(--telegram);
     }
 
     /* Form */
@@ -719,9 +665,9 @@
     @media (max-width: 768px) {
       header h1 { font-size: 22px; }
       section { padding: 20px; margin: 20px 15px; }
-      nav { padding: 10px; gap: 5px; }
+      nav { padding: 10px 15px; gap: 5px; }
       nav a { font-size: 13px; margin: 0 4px; padding: 5px 10px; }
-      .btn-nav-share, .btn-history { font-size: 12px; padding: 5px 10px; }
+      .nav-btn, .nav-btn-history { font-size: 12px; padding: 5px 10px; }
       .job-card .job-meta { gap: 8px; }
       .social-btn { padding: 8px 14px; font-size: 13px; }
       .custom-alert { width: 95%; padding: 14px 18px; }
@@ -736,8 +682,9 @@
       header h1 { font-size: 18px; }
       section { padding: 15px; margin: 15px 10px; }
       nav a { font-size: 11px; padding: 4px 6px; }
-      .job-card h3, .job-card-home h3 { font-size: 16px; }
-      .job-card .job-salary, .job-card-home .job-salary { font-size: 16px; }
+      .nav-btn, .nav-btn-history { font-size: 11px; padding: 4px 8px; }
+      .job-card h3 { font-size: 16px; }
+      .job-card .job-salary { font-size: 16px; }
       .social-btn { padding: 6px 12px; font-size: 12px; }
       .radio-group { gap: 10px; }
       .modal-content { padding: 15px; }
@@ -772,78 +719,17 @@
     <p>សូមស្វាគមន៍មកកាន់ទំព័រប្រកាសការងារ និងដាក់ពាក្យធ្វើការ</p>
   </header>
 
+  <!-- ============ NAVIGATION (CENTERED) ============ -->
   <nav>
     <a href="#" class="active" data-section="home">🏠 ទំព័រដើម</a>
-    <a href="#" data-section="jobs">💼 ការងារកំពុងមាន</a>
     <a href="#" data-section="rules">📋 ច្បាប់និងរបៀបប្រើប្រាស</a>
-    <div class="nav-right">
-      <button class="btn-history" onclick="openHistory()">📜 ប្រវត្តិដាក់ពាក្យ</button>
-      <button class="btn-nav-share" onclick="copyWebsiteLink()">🔗 ចែករំលែក</button>
-    </div>
+    <button class="nav-btn-history" onclick="openHistory()">📜 ប្រវត្តិដាក់ពាក្យ</button>
+    <button class="nav-btn" onclick="copyWebsiteLink()">🔗 ចែករំលែក</button>
   </nav>
 
-  <!-- ============ HOME SECTION ============ -->
+  <!-- ============ HOME SECTION (was JOBS) ============ -->
   <section id="home" class="active">
-    <h2>អំពីភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</h2>
-    <p>ភ្នាក់ងាររបស់យើងកំពុងបង្កើត និងស្រាវជ្រាវឱកាសការងារថ្មីៗ និងមានតម្លៃ ដើម្បីប្រកាសដល់មនុស្សគ្រប់គ្នា។</p>
-
-    <h2 style="margin-top:30px;">ការងារដែលកំពុងមាន</h2>
-    
-    <div class="job-card-home">
-      <h3>Web Developer</h3>
-      <div class="job-meta">
-        <span>⏰ ពេញម៉ោង</span>
-        <span>📍 ភ្នំពេញ</span>
-        <span>🏠 ពីចម្ងាយ</span>
-      </div>
-      <div class="job-salary">ប្រាក់ខែ: 300$ - 500$</div>
-      <p class="job-description">កំពុងស្វែងរកអ្នកអភិវឌ្ឍន៍គេហទំព័រដែលមានបទពិសោធន៍ HTML, CSS, JavaScript</p>
-      <div class="job-benefits">📈 អត្ថប្រយោជន៍: 15$-20$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់</div>
-    </div>
-
-    <div class="job-card-home">
-      <h3>Graphic Designer</h3>
-      <div class="job-meta">
-        <span>⏰ ក្រៅម៉ោង</span>
-        <span>📍 សៀមរាប</span>
-        <span>🏠 ពីចម្ងាយ</span>
-      </div>
-      <div class="job-salary">ប្រាក់ខែ: 350$ - 550$</div>
-      <p class="job-description">រកអ្នករចនាក្រាហ្វិកដែលមានជំនាញ Photoshop, Illustrator, Canva</p>
-      <div class="job-benefits">📈 អត្ថប្រយោជន៍: 18$-22$ ក្នុងមួយថ្ងៃ + ថ្ងៃឈប់សម្រាក</div>
-    </div>
-
-    <div class="job-card-home">
-      <h3>Marketing Specialist</h3>
-      <div class="job-meta">
-        <span>⏰ ពេញម៉ោង</span>
-        <span>📍 ភ្នំពេញ</span>
-        <span>🏠 ការិយាល័យ</span>
-      </div>
-      <div class="job-salary">ប្រាក់ខែ: 400$ - 600$</div>
-      <p class="job-description">រកអ្នកជំនាញផ្នែកទីផ្សារឌីជីថល មានបទពិសោធន៍ SEO, Social Media</p>
-      <div class="job-benefits">📈 អត្ថប្រយោជន៍: 20$-25$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ប្រចាំខែ</div>
-    </div>
-
-    <div style="margin-top:30px; text-align:center;">
-      <h3>តាមដានយើងតាមរយៈ</h3>
-      <div class="social-buttons">
-        <a href="https://www.facebook.com/share/18hfTDgJZS/?mibextid=wwXIfr" target="_blank" class="social-btn facebook">
-          <i class="fab fa-facebook-f"></i> Facebook
-        </a>
-        <a href="https://www.tiktok.com/@generalrecruitmen" target="_blank" class="social-btn tiktok">
-          <i class="fab fa-tiktok"></i> TikTok
-        </a>
-        <a href="https://t.me/Job_in_cambodia_98" target="_blank" class="social-btn telegram">
-          <i class="fab fa-telegram"></i> Telegram
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ JOBS SECTION ============ -->
-  <section id="jobs">
-    <h2>💼 ការងារកំពុងមាន</h2>
+    <h2>🏠 ការងារកំពុងមាន</h2>
     
     <div class="job-card">
       <h3>Web Developer</h3>
@@ -928,6 +814,22 @@
         <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
       </button>
     </div>
+
+    <!-- Social Media Buttons (Now inside Home) -->
+    <div style="margin-top:30px; text-align:center;">
+      <h3>តាមដានយើងតាមរយៈ</h3>
+      <div class="social-buttons">
+        <a href="https://www.facebook.com/share/18hfTDgJZS/?mibextid=wwXIfr" target="_blank" class="social-btn facebook">
+          <i class="fab fa-facebook-f"></i> Facebook
+        </a>
+        <a href="https://www.tiktok.com/@generalrecruitmen" target="_blank" class="social-btn tiktok">
+          <i class="fab fa-tiktok"></i> TikTok
+        </a>
+        <a href="https://t.me/Job_in_cambodia_98" target="_blank" class="social-btn telegram">
+          <i class="fab fa-telegram"></i> Telegram
+        </a>
+      </div>
+    </div>
   </section>
 
   <!-- ============ RULES SECTION ============ -->
@@ -952,7 +854,7 @@
       </li>
       <li>
         <span class="rule-number">5</span>
-        <div><strong>របៀបប្រើប្រាស</strong><br>1. ចូលទៅកាន់ 💼 ការងារកំពុងមាន<br>2. ចុចប៊ូតុង "ដាក់ពាក្យសម្រាប់ការងារនេះ"<br>3. បំពេញទម្រង់ដាក់ពាក្យ<br>4. រង់ចាំការឆ្លើយតបពីភ្នាក់ងារ</div>
+        <div><strong>របៀបប្រើប្រាស</strong><br>1. ចូលទៅកាន់ 🏠 ទំព័រដើម<br>2. ចុចប៊ូតុង "ដាក់ពាក្យសម្រាប់ការងារនេះ"<br>3. បំពេញទម្រង់ដាក់ពាក្យ<br>4. រង់ចាំការឆ្លើយតបពីភ្នាក់ងារ</div>
       </li>
       <li>
         <span class="rule-number">6</span>
@@ -1178,7 +1080,6 @@
 
     // ============ ENFORCE ENGLISH NUMBERS ============
     function enforceEnglishNumbers(input) {
-      // Convert Khmer numbers to English numbers
       const khmerNumbers = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
       const englishNumbers = ['0','1','2','3','4','5','6','7','8','9'];
       
@@ -1194,7 +1095,6 @@
       }
       input.value = converted;
       
-      // Remove any non-numeric characters except decimal point
       if (input.type === 'number') {
         input.value = input.value.replace(/[^0-9.]/g, '');
       }
@@ -1279,13 +1179,13 @@
     // ============ GO BACK ============
     function goBack() {
       document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-      document.querySelector('nav a[data-section="jobs"]')?.classList.add('active');
+      document.querySelector('nav a[data-section="home"]')?.classList.add('active');
       
       document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-      const jobsSection = document.getElementById('jobs');
-      if (jobsSection) {
-        jobsSection.classList.add('active');
-        jobsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const homeSection = document.getElementById('home');
+      if (homeSection) {
+        homeSection.classList.add('active');
+        homeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }
 
@@ -1344,7 +1244,6 @@
         `;
       } else {
         let html = '';
-        // Show newest first
         const reversed = [...applicationHistory].reverse();
         for (const item of reversed) {
           html += `
@@ -1374,7 +1273,6 @@
       document.body.style.overflow = '';
     }
 
-    // Close modal on overlay click
     document.getElementById('historyModal').addEventListener('click', function(e) {
       if (e.target === this) {
         closeHistory();
@@ -1390,7 +1288,6 @@
         return;
       }
       
-      // Collect form data
       const fullName = document.getElementById('fullName').value;
       const age = document.getElementById('age').value;
       const height = document.getElementById('height').value;
@@ -1412,12 +1309,10 @@
       const fileInput = document.getElementById('cvFile');
       const file = fileInput.files[0];
       
-      // Build full address
       const finalDistrict = district === 'other' ? districtOther : district;
       const finalCommune = commune === 'other' ? communeOther : commune;
       const fullAddress = `${village}, ${finalCommune}, ${finalDistrict}, ${province}`;
       
-      // Validate
       if (!fullName || !age || !height || !education || !province || !district || !commune || !village || !workStatus || !experience || !telegram || !phone || !file) {
         showAlert('សូមបំពេញព័ត៌មានឲ្យបានពេញលេញ និងភ្ជាប់ឯកសារ!', 'error');
         return;
@@ -1432,7 +1327,6 @@
       document.getElementById('submitBtn').disabled = true;
       document.getElementById('submitBtn').textContent = '⏳ កំពុងផ្ញើ...';
       
-      // Get current date/time
       const now = new Date();
       const dateTime = now.toLocaleString('km-KH', {
         year: 'numeric',
@@ -1443,7 +1337,6 @@
         second: '2-digit'
       });
       
-      // Build caption text
       const finalEducation = education === 'other' ? otherEducation : education;
       const finalJob = previousJob === 'other' ? otherJob : (previousJob || 'មិនមាន');
       
@@ -1463,7 +1356,6 @@
         `🕐 *កាលបរិច្ឆេទដាក់ពាក្យ:* ${dateTime}\n\n` +
         `🔗 ផ្ញើពី: ${window.location.href}`;
       
-      // Save to history
       const historyItem = {
         name: fullName,
         job: selectedJob,
@@ -1474,7 +1366,6 @@
       applicationHistory.push(historyItem);
       localStorage.setItem('applicationHistory', JSON.stringify(applicationHistory));
       
-      // Read file as base64
       const reader = new FileReader();
       reader.onload = function(event) {
         const fileBase64 = event.target.result;
