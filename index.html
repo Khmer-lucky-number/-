@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Job Application</title>
+  <title>ការជូនដំណឹងអំពីការងារ និងពាក្យសុំការងារ</title>
   <!-- Google Fonts សម្រាប់អក្សរខ្មែរស្អាត -->
   <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -16,6 +16,8 @@
       --text: #1E293B;
       --text-muted: #64748B;
       --border: #E2E8F0;
+      --success: #22C55E;
+      --error: #EF4444;
     }
 
     * {
@@ -58,19 +60,42 @@
       top: 0;
       z-index: 100;
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
     }
 
     nav a { 
       color: #E2E8F0; 
-      margin: 0 15px; 
+      margin: 0 10px; 
       text-decoration: none; 
       font-weight: 500;
-      font-size: 15px;
+      font-size: 14px;
       transition: color 0.2s;
+      padding: 4px 8px;
     }
 
     nav a:hover {
       color: #60A5FA;
+    }
+
+    .btn-nav-share {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: background 0.2s;
+      font-family: 'Kantumruy Pro', sans-serif;
+    }
+
+    .btn-nav-share:hover {
+      background: var(--accent-hover);
     }
 
     /* Sections Shared Style */
@@ -151,7 +176,7 @@
     }
 
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
 
     label {
@@ -162,19 +187,60 @@
       color: var(--primary);
     }
 
-    input, textarea { 
+    label .optional {
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    input, textarea, select { 
       width: 100%; 
       padding: 12px; 
       border: 1px solid var(--border); 
       border-radius: 8px; 
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: white;
     }
 
-    input:focus, textarea:focus {
+    input:focus, textarea:focus, select:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    select {
+      appearance: auto;
+      cursor: pointer;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding-top: 5px;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 400;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .radio-group input[type="radio"] {
+      width: auto;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      accent-color: var(--accent);
     }
 
     button { 
@@ -187,12 +253,33 @@
       width: 100%; 
       font-size: 16px;
       font-weight: 600;
-      transition: background 0.2s;
+      transition: background 0.2s, transform 0.1s;
       margin-top: 10px;
     }
 
     button:hover { 
       background: var(--accent-hover); 
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    /* Success Message */
+    .success-message {
+      display: none;
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      color: #166534;
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .success-message.show {
+      display: block;
     }
 
     /* Footer */
@@ -204,88 +291,291 @@
       margin-top: 50px;
       font-size: 14px;
     }
+
+    /* Responsive - Mobile First */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 22px;
+      }
+
+      section {
+        padding: 20px;
+        margin: 20px 15px;
+      }
+
+      nav {
+        padding: 10px;
+        gap: 6px;
+      }
+
+      nav a {
+        font-size: 13px;
+        margin: 0 5px;
+      }
+
+      .btn-nav-share {
+        font-size: 12px;
+        padding: 6px 12px;
+      }
+
+      .banner {
+        padding: 30px 20px;
+      }
+
+      .banner h2 {
+        font-size: 20px;
+      }
+
+      #jobs ul {
+        grid-template-columns: 1fr;
+      }
+
+      .radio-group {
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        padding: 25px 15px;
+      }
+
+      header h1 {
+        font-size: 18px;
+      }
+
+      header p {
+        font-size: 13px;
+      }
+
+      section {
+        padding: 15px;
+        margin: 15px 10px;
+      }
+
+      nav a {
+        font-size: 12px;
+        margin: 0 3px;
+        padding: 4px 6px;
+      }
+
+      .btn-nav-share {
+        font-size: 11px;
+        padding: 5px 10px;
+      }
+
+      input, textarea, select {
+        padding: 10px;
+        font-size: 13px;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+    }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>ក្រុមហ៊ុនរបស់យើង</h1>
-    <p>ស្វាគមន៍មកកាន់ទំព័រដាក់ពាក្យធ្វើការ</p>
+    <h1>ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</h1>
+    <p>សូមស្វាគមន៍មកកាន់ទំព័រប្រកាសការងារ និងដាក់ពាក្យធ្វើការ</p>
   </header>
 
   <nav>
-    <a href="#home">Home</a>
-    <a href="#about">About</a>
-    <a href="#jobs">Jobs</a>
-    <a href="#apply">Apply</a>
+    <a href="#" id="link-home" onclick="showSection('home')">🏠 ទំព័រដើម</a>
+    <a href="#" id="link-history" onclick="showSection('history')">💼 ការងារកំពុងមាន</a>
+    <a href="#" id="link-rules" onclick="showSection('rules')">📋 ច្បាប់និងរបៀបប្រើប្រាស</a>
+    <button class="btn-nav-share" onclick="copyWebsiteLink()">🔗 ចែករំលែកគេហទំព័រ</button>
   </nav>
 
-  <section id="home" class="banner">
-    <h2>ស្វាគមន៍!</h2>
-    <p>ចូលរួមជាមួយក្រុមការងាររបស់យើង</p>
-    <a href="#apply" class="cta">Apply Now</a>
-  </section>
-
   <section id="about">
-    <h2>អំពីក្រុមហ៊ុន</h2>
-    <p>Vision & Mission របស់យើងគឺបង្កើតឱកាសការងារដ៏មានតម្លៃសម្រាប់មនុស្សគ្រប់គ្នា។</p>
+    <h2>អំពីភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</h2>
+    <p>ភ្នាក់ងាររបស់យើងកំពុងបង្កើត និងស្រាវជ្រាវឱកាសការងារថ្មីៗ និងមានតម្លៃ ដើម្បីប្រកាសដល់មនុស្សគ្រប់គ្នា។</p>
   </section>
 
   <section id="jobs">
-    <h2>ការងារដែលកំពុងបើក</h2>
+    <h2>ការងារដែលកំពុងមាន</h2>
     <ul>
       <li>Web Developer</li>
       <li>Graphic Designer</li>
       <li>Marketing Specialist</li>
+      <li>Data Analyst</li>
+      <li>Content Writer</li>
     </ul>
   </section>
 
   <section id="apply">
-    <h2>ដាក់ពាក្យ</h2>
+    <h2>បំពេញទម្រង់ដាក់ពាក្យ</h2>
     <form id="jobForm">
       <div class="form-group">
-        <label>ឈ្មោះពេញ *</label>
-        <input type="text" placeholder="ឈ្មោះពេញ" required>
+        <label>ឈ្មោះពេញ</label>
+        <input type="text" id="fullName" placeholder="ឈ្មោះ និងនាមត្រកូល" required>
       </div>
       
       <div class="form-group">
-        <label>អាយុ *</label>
-        <input type="number" placeholder="អាយុ" required>
+        <label>អាយុ</label>
+        <input type="number" id="age" placeholder="បំពេញអាយុរបស់អ្នក" min="15" max="80" required>
       </div>
 
       <div class="form-group">
-        <label>តេឡេក្រាម (Link / Username) *</label>
-        <input type="text" placeholder="តំណភ្ជាប់ ឬ ឈ្មោះអ្នកប្រើប្រាស់តេឡេក្រាម" required>
+        <label>អាសយដ្ឋានបច្ចុប្បន្ន</label>
+        <input type="text" id="address" placeholder="បំពេញអាសយដ្ឋានបច្ចុប្បន្នរបស់អ្នក" required>
       </div>
 
       <div class="form-group">
-        <label>លេខទូរស័ព្ទ *</label>
-        <input type="tel" placeholder="លេខទូរស័ព្ទ" required>
+        <label>ស្ថានភាពការងារបច្ចុប្បន្ន</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="workStatus" value="កំពុងធ្វើការ" required>
+            កំពុងធ្វើការ
+          </label>
+          <label>
+            <input type="radio" name="workStatus" value="មិនទាន់មានការងារ">
+            មិនទាន់មានការងារ
+          </label>
+        </div>
       </div>
 
       <div class="form-group">
-        <label>ឯកសារ CV / រូបថត *</label>
-        <input type="file" accept=".pdf,.doc,.docx,image/*" required>
+        <label>បទពិសោធន៍ការងារ</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" name="experience" value="ធ្លាប់មាន" required>
+            ធ្លាប់មាន
+          </label>
+          <label>
+            <input type="radio" name="experience" value="មិនធ្លាប់មាន">
+            មិនធ្លាប់មាន
+          </label>
+        </div>
       </div>
 
       <div class="form-group">
-        <label>សារបន្ថែម</label>
-        <textarea placeholder="សារបន្ថែម..." rows="4"></textarea>
+        <label>ការងារពីមុន <span class="optional">(ប្រសិនបើមាន)</span></label>
+        <select id="previousJob">
+          <option value="">-- សូមជ្រើសរើស --</option>
+          <option value="គ្រូបង្រៀន">គ្រូបង្រៀន</option>
+          <option value="អ្នកជំនួញ">អ្នកជំនួញ</option>
+          <option value="កម្មករ">កម្មករ</option>
+          <option value="វេជ្ជបណ្ឌិត">វេជ្ជបណ្ឌិត</option>
+          <option value="វិស្វករ">វិស្វករ</option>
+          <option value="គណនេយ្យករ">គណនេយ្យករ</option>
+          <option value="អ្នកសរសេរកម្មវិធី">អ្នកសរសេរកម្មវិធី</option>
+          <option value="អ្នកគ្រប់គ្រង">អ្នកគ្រប់គ្រង</option>
+          <option value="other">ផ្សេងៗ (សូមបញ្ជាក់)</option>
+        </select>
       </div>
 
-      <button type="submit">ដាក់ពាក្យ</button>
+      <div class="form-group">
+        <label>បញ្ជាក់ការងារពីមុន <span class="optional">(មិនចាំបាច់បំពេញក៏បាន)</span></label>
+        <input type="text" id="otherJob" placeholder="បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ">
+      </div>
+
+      <div class="form-group">
+        <label>តេឡេក្រាម (Link / Username)</label>
+        <input type="text" id="telegram" placeholder="តំណភ្ជាប់ ឬ ឈ្មោះអ្នកប្រើប្រាស់តេឡេក្រាម" required>
+      </div>
+
+      <div class="form-group">
+        <label>លេខទូរស័ព្ទ</label>
+        <input type="tel" id="phone" placeholder="លេខទូរស័ព្ទ" required>
+      </div>
+
+      <div class="form-group">
+        <label>ឯកសារ CV / រូបថត</label>
+        <input type="file" id="cvFile" accept=".pdf,.doc,.docx,image/*" required>
+      </div>
+
+      <div class="form-group">
+        <label>ការពិពណ៌នាសង្ខេបអំពីប្រវត្តិការងារពីមុនរបស់អ្នក</label>
+        <textarea id="description" placeholder="សរសេរសង្ខេបអំពីប្រវត្តិការងារពីមុនរបស់អ្នក..." rows="4"></textarea>
+      </div>
+
+      <button type="submit">ផ្ញើការដាក់ពាក្យទៅកាន់ភ្នាក់ងារ</button>
     </form>
+    <div id="successMessage" class="success-message">
+      ✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!
+    </div>
   </section>
 
   <footer>
-    <p>&copy; 2026 ក្រុមហ៊ុនរបស់យើង</p>
+    <p>&copy; 2026 ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</p>
   </footer>
 
   <script>
-    document.getElementById("jobForm").addEventListener("submit", function(e){
+    // Handle form submission
+    document.getElementById("jobForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      alert("ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើ!");
+      
+      // Show success message
+      const successMsg = document.getElementById("successMessage");
+      successMsg.classList.add("show");
+      
+      // Scroll to success message
+      successMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      // Optional: Reset form after 5 seconds
+      setTimeout(() => {
+        // this.reset();
+        // successMsg.classList.remove("show");
+      }, 5000);
     });
+
+    // Handle other job input - show/hide based on selection
+    document.getElementById("previousJob").addEventListener("change", function() {
+      const otherInput = document.getElementById("otherJob");
+      if (this.value === "other") {
+        otherInput.style.display = "block";
+        otherInput.required = false;
+        otherInput.placeholder = "សូមបញ្ជាក់ការងាររបស់អ្នក...";
+      } else {
+        otherInput.style.display = "block";
+        otherInput.placeholder = "បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ";
+        otherInput.value = "";
+      }
+    });
+
+    // Initialize other job input visibility
+    document.addEventListener("DOMContentLoaded", function() {
+      const otherInput = document.getElementById("otherJob");
+      otherInput.style.display = "block";
+    });
+
+    // Copy website link function
+    function copyWebsiteLink() {
+      const url = window.location.href;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          alert("🔗 តំណភ្ជាប់ត្រូវបានចម្លងជោគជ័យ!\n" + url);
+        }).catch(() => {
+          fallbackCopy(url);
+        });
+      } else {
+        fallbackCopy(url);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        alert("🔗 តំណភ្ជាប់ត្រូវបានចម្លងជោគជ័យ!\n" + text);
+      } catch (err) {
+        alert("សូមចម្លងតំណភ្ជាប់នេះដោយដៃ: \n" + text);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // Simple navigation function (for demo)
+    function showSection(section) {
+      alert("📄 ផ្នែក " + section + " - មុខងារនេះកំពុងអភិវឌ្ឍន៍");
+    }
   </script>
 
 </body>
