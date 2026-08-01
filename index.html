@@ -7,21 +7,36 @@
   <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
+    /* ============================================================
+       CSS VARIABLES & RESET
+    ============================================================ */
     :root {
       --primary: #0F172A;
+      --primary-light: #1E293B;
       --accent: #2563EB;
       --accent-hover: #1D4ED8;
-      --bg-light: #F8FAFC;
+      --accent-light: #DBEAFE;
+      --bg-light: #F1F5F9;
       --card-bg: #FFFFFF;
-      --text: #1E293B;
+      --text: #0F172A;
       --text-muted: #64748B;
       --border: #E2E8F0;
       --success: #22C55E;
+      --success-bg: #F0FDF4;
       --error: #EF4444;
+      --error-bg: #FEF2F2;
       --warning: #F59E0B;
+      --warning-bg: #FFFBEB;
+      --info-bg: #EFF6FF;
       --telegram: #0088cc;
       --facebook: #1877f2;
       --tiktok: #000000;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     * {
@@ -32,289 +47,394 @@
     }
 
     body { 
-      background-color: var(--bg-light); 
+      background: var(--bg-light); 
       color: var(--text); 
-      line-height: 1.6; 
+      line-height: 1.7;
+      min-height: 100vh;
     }
 
-    /* Custom Alert */
+    /* ============================================================
+       SCROLLBAR
+    ============================================================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-light); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-hover); }
+
+    /* ============================================================
+       CUSTOM ALERT
+    ============================================================ */
     .custom-alert {
       display: none;
       position: fixed;
-      top: 20px;
+      top: 24px;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translateX(-50%) translateY(-10px);
       z-index: 9999;
       padding: 16px 24px;
-      border-radius: 12px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      border-radius: var(--radius);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
       font-weight: 500;
       max-width: 90%;
-      width: 500px;
+      width: 520px;
       text-align: center;
-      animation: slideDown 0.4s ease-out;
+      animation: alertSlideDown 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
     }
 
-    @keyframes slideDown {
-      from {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(-50%) translateY(0);
-      }
+    @keyframes alertSlideDown {
+      from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
     .custom-alert.success {
       display: block;
-      background: #F0FDF4;
-      border-left: 6px solid var(--success);
+      background: rgba(240, 253, 244, 0.95);
+      border-left: 5px solid var(--success);
       color: #166534;
     }
-
     .custom-alert.error {
       display: block;
-      background: #FEF2F2;
-      border-left: 6px solid var(--error);
+      background: rgba(254, 242, 242, 0.95);
+      border-left: 5px solid var(--error);
       color: #991B1B;
     }
-
     .custom-alert.info {
       display: block;
-      background: #EFF6FF;
-      border-left: 6px solid var(--accent);
+      background: rgba(239, 246, 255, 0.95);
+      border-left: 5px solid var(--accent);
       color: #1E40AF;
     }
-
     .custom-alert.warning {
       display: block;
-      background: #FFFBEB;
-      border-left: 6px solid var(--warning);
+      background: rgba(255, 251, 235, 0.95);
+      border-left: 5px solid var(--warning);
       color: #92400E;
     }
 
-    .custom-alert .alert-icon {
-      margin-right: 12px;
-      font-size: 20px;
-    }
-
+    .custom-alert .alert-icon { margin-right: 12px; font-size: 20px; }
     .custom-alert .alert-close {
       float: right;
       background: none;
       border: none;
-      font-size: 20px;
+      font-size: 22px;
       cursor: pointer;
       color: inherit;
-      opacity: 0.7;
+      opacity: 0.6;
       padding: 0 0 0 12px;
+      transition: opacity var(--transition);
     }
+    .custom-alert .alert-close:hover { opacity: 1; }
 
-    .custom-alert .alert-close:hover {
-      opacity: 1;
-    }
-
-    /* Header & Navigation */
+    /* ============================================================
+       HEADER
+    ============================================================ */
     header { 
-      background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%); 
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 50%, #1E40AF 100%); 
       color: white; 
-      padding: 40px 20px; 
-      text-align: center; 
+      padding: 50px 20px 40px; 
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: rgba(37, 99, 235, 0.1);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -40%;
+      left: -10%;
+      width: 300px;
+      height: 300px;
+      background: rgba(96, 165, 250, 0.08);
+      border-radius: 50%;
+      pointer-events: none;
     }
 
     header h1 {
-      font-size: 28px;
+      font-size: 32px;
       font-weight: 700;
       margin-bottom: 8px;
+      position: relative;
+      letter-spacing: -0.5px;
+    }
+
+    header h1 i {
+      color: #60A5FA;
+      margin-right: 10px;
     }
 
     header p {
       color: #93C5FD;
-      font-size: 15px;
+      font-size: 16px;
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
     nav { 
-      background: #1E293B; 
-      padding: 12px 20px; 
+      background: var(--primary-light); 
+      padding: 14px 24px; 
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
     nav a { 
-      color: #E2E8F0; 
+      color: #94A3B8; 
       text-decoration: none; 
       font-weight: 500;
       font-size: 14px;
-      transition: color 0.2s, background 0.2s;
-      padding: 6px 12px;
-      border-radius: 6px;
+      transition: all var(--transition);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     nav a:hover {
-      color: #60A5FA;
-      background: rgba(255,255,255,0.05);
+      color: #E2E8F0;
+      background: rgba(255,255,255,0.06);
     }
 
     nav a.active {
       color: #60A5FA;
-      background: rgba(96, 165, 250, 0.15);
+      background: rgba(96, 165, 250, 0.12);
+    }
+
+    .nav-btn, .nav-btn-history {
+      border: none;
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all var(--transition);
+      font-family: 'Kantumruy Pro', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .nav-btn {
       background: var(--accent);
       color: white;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 13px;
-      transition: background 0.2s;
-      font-family: 'Kantumruy Pro', sans-serif;
     }
-
     .nav-btn:hover {
       background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     }
 
     .nav-btn-history {
-      background: #22C55E;
+      background: var(--success);
       color: white;
-      border: none;
-      padding: 6px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 13px;
-      transition: background 0.2s;
-      font-family: 'Kantumruy Pro', sans-serif;
     }
-
     .nav-btn-history:hover {
       background: #16A34A;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
     }
 
-    /* Sections */
+    /* ============================================================
+       SECTIONS
+    ============================================================ */
     section { 
-      max-width: 900px;
+      max-width: 920px;
       margin: 30px auto;
-      padding: 30px; 
+      padding: 32px 36px; 
       background: var(--card-bg);
-      border-radius: 12px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
       border: 1px solid var(--border);
       display: none;
+      animation: fadeIn 0.5s ease;
     }
 
-    section.active {
-      display: block;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
     }
+
+    section.active { display: block; }
 
     section h2 {
       color: var(--primary);
-      font-size: 20px;
-      margin-bottom: 15px;
-      border-bottom: 2px solid #EFF6FF;
-      padding-bottom: 8px;
+      font-size: 22px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--accent-light);
+      padding-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* Job Cards */
+    section h2 i {
+      color: var(--accent);
+    }
+
+    /* ============================================================
+       JOB CARDS
+    ============================================================ */
     .job-card {
-      background: #F8FAFC;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
+      background: var(--bg-light);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
       border: 1px solid var(--border);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .job-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
+      border-radius: 0 2px 2px 0;
     }
 
     .job-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--accent-light);
     }
 
     .job-card h3 {
       color: var(--primary);
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
-
-    .job-card .job-meta {
+      font-size: 20px;
+      margin-bottom: 6px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 14px;
-      color: var(--text-muted);
-      margin: 10px 0;
+      align-items: center;
+      gap: 8px;
     }
 
-    .job-card .job-meta span {
-      background: #E2E8F0;
+    .job-card h3 .badge-new {
+      background: var(--success);
+      color: white;
+      font-size: 10px;
       padding: 2px 10px;
       border-radius: 20px;
-      font-size: 12px;
+      font-weight: 600;
     }
 
-    .job-card .job-salary {
+    .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 8px 0 12px;
+    }
+
+    .job-meta span {
+      background: white;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .job-salary {
       font-weight: 700;
       color: var(--accent);
-      font-size: 18px;
+      font-size: 20px;
+      display: inline-block;
+      background: var(--accent-light);
+      padding: 2px 16px;
+      border-radius: 20px;
+      margin-bottom: 10px;
     }
 
-    .job-card .job-description {
+    .job-description {
       margin: 12px 0;
       color: var(--text);
+      font-size: 14px;
+      line-height: 1.8;
     }
 
-    .job-card .job-benefits {
-      background: #EFF6FF;
-      padding: 12px;
-      border-radius: 8px;
-      margin: 10px 0;
+    .job-benefits {
+      background: var(--info-bg);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      margin: 12px 0 16px;
       font-size: 14px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .job-benefits strong {
+      color: var(--primary);
+      display: block;
+      margin-bottom: 4px;
     }
 
     .btn-apply {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       background: var(--accent);
       color: white;
-      padding: 10px 24px;
-      border-radius: 8px;
+      padding: 12px 28px;
+      border-radius: var(--radius-sm);
       border: none;
       font-weight: 600;
       font-size: 14px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      transition: all var(--transition);
       font-family: 'Kantumruy Pro', sans-serif;
     }
 
     .btn-apply:hover {
       background: var(--accent-hover);
-      transform: scale(1.02);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
     }
 
-    .btn-apply:active {
-      transform: scale(0.98);
-    }
+    .btn-apply:active { transform: scale(0.97); }
 
     .btn-telegram-contact {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       background: var(--telegram);
       color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
       text-decoration: none;
       font-weight: 600;
       font-size: 14px;
-      transition: background 0.2s, transform 0.1s;
+      transition: all var(--transition);
       border: none;
       cursor: pointer;
       font-family: 'Kantumruy Pro', sans-serif;
@@ -322,61 +442,77 @@
 
     .btn-telegram-contact:hover {
       background: #006699;
-      transform: scale(1.02);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 136, 204, 0.3);
     }
 
-    /* Social Buttons - Inside Home */
+    .job-card .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    /* ============================================================
+       SOCIAL BUTTONS
+    ============================================================ */
+    .social-section {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 2px solid var(--border);
+      text-align: center;
+    }
+
+    .social-section h3 {
+      font-size: 18px;
+      color: var(--primary);
+      margin-bottom: 16px;
+    }
+
     .social-buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 14px;
       justify-content: center;
-      margin-top: 20px;
     }
 
     .social-btn {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      border-radius: 8px;
+      gap: 10px;
+      padding: 12px 28px;
+      border-radius: var(--radius-sm);
       color: white;
       text-decoration: none;
       font-weight: 600;
       font-size: 14px;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: all var(--transition);
+      box-shadow: var(--shadow-sm);
     }
 
     .social-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
     }
 
-    .social-btn.facebook {
-      background: var(--facebook);
-    }
-    .social-btn.tiktok {
-      background: var(--tiktok);
-    }
-    .social-btn.telegram {
-      background: var(--telegram);
-    }
+    .social-btn.facebook { background: var(--facebook); }
+    .social-btn.tiktok { background: var(--tiktok); }
+    .social-btn.telegram { background: var(--telegram); }
 
-    /* Form */
-    form { 
-      max-width: 600px; 
-      margin: auto; 
-    }
+    /* ============================================================
+       FORM
+    ============================================================ */
+    form { max-width: 620px; margin: auto; }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 22px;
     }
 
     label {
       display: block;
       font-size: 14px;
       font-weight: 600;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
       color: var(--primary);
     }
 
@@ -386,182 +522,232 @@
       font-size: 12px;
     }
 
+    label .required-star {
+      color: var(--error);
+      margin-left: 2px;
+    }
+
     input, textarea, select { 
       width: 100%; 
-      padding: 12px; 
-      border: 1px solid var(--border); 
-      border-radius: 8px; 
+      padding: 12px 16px; 
+      border: 2px solid var(--border); 
+      border-radius: var(--radius-sm); 
       font-size: 14px;
       outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
+      transition: all var(--transition);
       background: white;
+      color: var(--text);
     }
 
     input:focus, textarea:focus, select:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #94A3B8;
     }
 
     textarea {
       resize: vertical;
-      min-height: 80px;
+      min-height: 90px;
     }
 
     .radio-group {
       display: flex;
-      gap: 20px;
+      gap: 24px;
       flex-wrap: wrap;
-      padding-top: 5px;
+      padding-top: 4px;
     }
 
     .radio-group label {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       font-weight: 400;
       font-size: 14px;
       cursor: pointer;
+      padding: 8px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition);
+      margin-bottom: 0;
+    }
+
+    .radio-group label:hover {
+      border-color: var(--accent);
+      background: var(--accent-light);
     }
 
     .radio-group input[type="radio"] {
-      width: auto;
+      width: 18px;
+      height: 18px;
       padding: 0;
       margin: 0;
       cursor: pointer;
       accent-color: var(--accent);
-    }
-
-    .form-buttons {
-      display: flex;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .form-buttons button {
-      flex: 1;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      font-family: 'Kantumruy Pro', sans-serif;
-    }
-
-    .form-buttons button:active {
-      transform: scale(0.98);
-    }
-
-    .btn-submit {
-      background: var(--accent);
-      color: white;
-    }
-
-    .btn-submit:hover {
-      background: var(--accent-hover);
-    }
-
-    .btn-submit:disabled {
-      background: #94A3B8;
-      cursor: not-allowed;
-    }
-
-    .btn-back {
-      background: #E2E8F0;
-      color: var(--text);
-    }
-
-    .btn-back:hover {
-      background: #CBD5E1;
-    }
-
-    /* Footer */
-    footer { 
-      background: var(--primary); 
-      color: #94A3B8; 
-      text-align: center; 
-      padding: 25px; 
-      margin-top: 50px;
-      font-size: 14px;
-    }
-
-    /* Rules */
-    .rules-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .rules-list li {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-    }
-
-    .rules-list li:last-child {
-      border-bottom: none;
-    }
-
-    .rules-list .rule-number {
-      background: var(--accent);
-      color: white;
-      border-radius: 50%;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 14px;
       flex-shrink: 0;
     }
 
-    .rules-list .fee-info {
-      background: #EFF6FF;
-      padding: 10px 14px;
-      border-radius: 8px;
-      margin-top: 8px;
-      font-size: 14px;
-      border-left: 4px solid var(--accent);
+    .radio-group label:has(input:checked) {
+      border-color: var(--accent);
+      background: var(--accent-light);
     }
 
-    /* Selected Job Display */
-    .selected-job-info {
-      background: #EFF6FF;
-      border: 1px solid var(--accent);
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin-bottom: 20px;
-      display: none;
-      font-weight: 500;
-    }
-
-    .selected-job-info.show {
-      display: block;
-    }
-
-    /* Address Select Grid */
+    /* ============================================================
+       ADDRESS GRID
+    ============================================================ */
     .address-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      gap: 14px;
     }
 
     .address-grid .full-width {
       grid-column: 1 / -1;
     }
 
-    .address-grid .hidden-input {
+    .address-grid .hidden-input { display: none; }
+    .address-grid .visible-input { display: block; }
+
+    /* ============================================================
+       SELECTED JOB INFO
+    ============================================================ */
+    .selected-job-info {
+      background: var(--info-bg);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      margin-bottom: 24px;
       display: none;
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--primary);
+      animation: fadeIn 0.4s ease;
     }
 
-    .address-grid .visible-input {
+    .selected-job-info.show { display: block; }
+    .selected-job-info i { color: var(--accent); margin-right: 10px; }
+
+    /* ============================================================
+       FORM BUTTONS
+    ============================================================ */
+    .form-buttons {
+      display: flex;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .form-buttons button {
+      flex: 1;
+      padding: 14px 20px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: 'Kantumruy Pro', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .form-buttons button:active { transform: scale(0.97); }
+
+    .btn-submit {
+      background: var(--accent);
+      color: white;
+    }
+    .btn-submit:hover { background: var(--accent-hover); }
+    .btn-submit:disabled {
+      background: #94A3B8;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .btn-back {
+      background: #F1F5F9;
+      color: var(--text);
+      border: 2px solid var(--border) !important;
+    }
+    .btn-back:hover { background: #E2E8F0; }
+
+    /* ============================================================
+       SUCCESS MESSAGE
+    ============================================================ */
+    #successMessage {
+      display: none;
+      background: var(--success-bg);
+      border: 2px solid #BBF7D0;
+      color: #166534;
+      padding: 20px;
+      border-radius: var(--radius-sm);
+      margin-top: 24px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    #successMessage i {
+      font-size: 28px;
       display: block;
+      margin-bottom: 8px;
     }
 
-    /* History Modal */
+    /* ============================================================
+       RULES
+    ============================================================ */
+    .rules-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .rules-list li {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: background var(--transition);
+      border-radius: var(--radius-sm);
+    }
+
+    .rules-list li:hover {
+      background: var(--bg-light);
+    }
+
+    .rules-list li:last-child { border-bottom: none; }
+
+    .rules-list .rule-number {
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .rules-list .fee-info {
+      background: var(--info-bg);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      margin-top: 10px;
+      font-size: 14px;
+      border-left: 4px solid var(--accent);
+    }
+
+    /* ============================================================
+       HISTORY MODAL
+    ============================================================ */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -569,32 +755,40 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.5);
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(6px);
       z-index: 1000;
       justify-content: center;
       align-items: center;
+      padding: 20px;
     }
 
-    .modal-overlay.active {
-      display: flex;
-    }
+    .modal-overlay.active { display: flex; }
 
     .modal-content {
       background: white;
-      border-radius: 16px;
-      padding: 30px;
-      max-width: 800px;
-      width: 95%;
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      max-width: 780px;
+      width: 100%;
       max-height: 80vh;
       overflow-y: auto;
       position: relative;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.2);
+      animation: fadeIn 0.4s ease;
     }
 
     .modal-content h2 {
       margin-bottom: 20px;
-      border-bottom: 2px solid #EFF6FF;
-      padding-bottom: 12px;
+      border-bottom: 2px solid var(--accent-light);
+      padding-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 22px;
     }
+
+    .modal-content h2 i { color: var(--accent); }
 
     .modal-close {
       position: sticky;
@@ -602,22 +796,28 @@
       float: right;
       background: none;
       border: none;
-      font-size: 28px;
+      font-size: 30px;
       cursor: pointer;
       color: var(--text-muted);
       z-index: 10;
+      transition: color var(--transition);
+      padding: 0 4px;
     }
 
-    .modal-close:hover {
-      color: var(--text);
-    }
+    .modal-close:hover { color: var(--text); }
 
     .history-item {
-      background: #F8FAFC;
+      background: var(--bg-light);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      margin-bottom: 12px;
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      transition: all var(--transition);
+    }
+
+    .history-item:hover {
+      border-color: var(--accent-light);
+      box-shadow: var(--shadow-sm);
     }
 
     .history-item .history-header {
@@ -625,12 +825,13 @@
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .history-item .history-name {
       font-weight: 700;
       color: var(--primary);
+      font-size: 16px;
     }
 
     .history-item .history-date {
@@ -646,178 +847,319 @@
     .history-empty {
       text-align: center;
       color: var(--text-muted);
-      padding: 40px 20px;
+      padding: 50px 20px;
     }
 
-    /* Number Input - Force English numbers */
+    .history-empty i {
+      font-size: 56px;
+      color: #CBD5E1;
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer { 
+      background: var(--primary); 
+      color: #94A3B8; 
+      text-align: center; 
+      padding: 30px; 
+      margin-top: 60px;
+      font-size: 14px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 768px) {
+      header h1 { font-size: 24px; }
+      header { padding: 35px 16px 28px; }
+      
+      section { 
+        padding: 24px 20px; 
+        margin: 20px 12px; 
+      }
+
+      nav { 
+        padding: 10px 12px; 
+        gap: 4px; 
+      }
+      nav a { 
+        font-size: 12px; 
+        padding: 6px 10px; 
+      }
+      .nav-btn, .nav-btn-history { 
+        font-size: 12px; 
+        padding: 6px 12px; 
+      }
+
+      .job-card { padding: 18px; }
+      .job-card h3 { font-size: 17px; }
+      .job-salary { font-size: 17px; }
+
+      .social-btn { 
+        padding: 10px 18px; 
+        font-size: 13px; 
+      }
+
+      .custom-alert { 
+        width: 95%; 
+        padding: 14px 18px; 
+        top: 16px;
+      }
+
+      .form-buttons { 
+        flex-direction: column; 
+        gap: 10px;
+      }
+
+      .address-grid { 
+        grid-template-columns: 1fr; 
+      }
+      .address-grid .full-width { grid-column: 1; }
+
+      .modal-content { 
+        padding: 24px 18px; 
+        max-height: 85vh;
+      }
+
+      .radio-group { 
+        gap: 10px; 
+      }
+      .radio-group label { 
+        padding: 6px 14px; 
+        font-size: 13px; 
+      }
+
+      .btn-group { 
+        flex-direction: column; 
+        align-items: stretch;
+      }
+      .btn-apply, .btn-telegram-contact { 
+        justify-content: center; 
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header h1 { font-size: 20px; }
+      header p { font-size: 14px; }
+      
+      section { 
+        padding: 18px 14px; 
+        margin: 14px 8px; 
+      }
+
+      nav a { 
+        font-size: 11px; 
+        padding: 4px 8px; 
+      }
+      .nav-btn, .nav-btn-history { 
+        font-size: 10px; 
+        padding: 4px 10px; 
+      }
+
+      .job-card { padding: 14px; }
+      .job-card h3 { font-size: 15px; }
+      .job-meta span { font-size: 10px; padding: 2px 8px; }
+      .job-salary { font-size: 15px; }
+      .job-description { font-size: 13px; }
+      .job-benefits { font-size: 13px; padding: 10px 14px; }
+
+      .btn-apply, .btn-telegram-contact { 
+        font-size: 13px; 
+        padding: 10px 18px; 
+      }
+
+      .social-btn { 
+        padding: 8px 14px; 
+        font-size: 12px; 
+        gap: 6px;
+      }
+
+      .modal-content { 
+        padding: 18px 14px; 
+        border-radius: var(--radius-sm);
+      }
+      .modal-content h2 { font-size: 18px; }
+
+      .history-item { padding: 14px; }
+      .history-item .history-name { font-size: 14px; }
+
+      .form-group { margin-bottom: 16px; }
+      input, textarea, select { padding: 10px 14px; font-size: 13px; }
+    }
+
+    /* ============================================================
+       NUMBER INPUT - Force English numbers
+    ============================================================ */
     input[type="number"] {
       -moz-appearance: textfield;
+      appearance: textfield;
     }
     input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
       -webkit-appearance: none;
       margin: 0;
     }
-    input[type="number"] {
-      appearance: textfield;
-    }
-
-    @media (max-width: 768px) {
-      header h1 { font-size: 22px; }
-      section { padding: 20px; margin: 20px 15px; }
-      nav { padding: 10px 15px; gap: 5px; }
-      nav a { font-size: 13px; margin: 0 4px; padding: 5px 10px; }
-      .nav-btn, .nav-btn-history { font-size: 12px; padding: 5px 10px; }
-      .job-card .job-meta { gap: 8px; }
-      .social-btn { padding: 8px 14px; font-size: 13px; }
-      .custom-alert { width: 95%; padding: 14px 18px; }
-      .form-buttons { flex-direction: column; }
-      .address-grid { grid-template-columns: 1fr; }
-      .address-grid .full-width { grid-column: 1; }
-      .modal-content { padding: 20px; }
-    }
-
-    @media (max-width: 480px) {
-      header { padding: 25px 15px; }
-      header h1 { font-size: 18px; }
-      section { padding: 15px; margin: 15px 10px; }
-      nav a { font-size: 11px; padding: 4px 6px; }
-      .nav-btn, .nav-btn-history { font-size: 11px; padding: 4px 8px; }
-      .job-card h3 { font-size: 16px; }
-      .job-card .job-salary { font-size: 16px; }
-      .social-btn { padding: 6px 12px; font-size: 12px; }
-      .radio-group { gap: 10px; }
-      .modal-content { padding: 15px; }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Custom Alert -->
+  <!-- ============================================================
+       CUSTOM ALERT
+  ============================================================ -->
   <div id="customAlert" class="custom-alert">
     <button class="alert-close" onclick="closeAlert()">&times;</button>
     <span class="alert-icon" id="alertIcon">✅</span>
     <span id="alertMessage">សារជូនដំណឹង</span>
   </div>
 
-  <!-- History Modal -->
+  <!-- ============================================================
+       HISTORY MODAL
+  ============================================================ -->
   <div id="historyModal" class="modal-overlay">
     <div class="modal-content">
       <button class="modal-close" onclick="closeHistory()">&times;</button>
-      <h2>📜 ប្រវត្តិដាក់ពាក្យ</h2>
+      <h2><i class="fas fa-history"></i> ប្រវត្តិដាក់ពាក្យ</h2>
       <div id="historyList">
         <div class="history-empty">
-          <i class="fas fa-inbox" style="font-size:48px; color:#CBD5E1; display:block; margin-bottom:16px;"></i>
+          <i class="fas fa-inbox"></i>
           មិនទាន់មានប្រវត្តិដាក់ពាក្យនៅឡើយទេ
         </div>
       </div>
     </div>
   </div>
 
+  <!-- ============================================================
+       HEADER
+  ============================================================ -->
   <header>
-    <h1>ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</h1>
+    <h1><i class="fas fa-briefcase"></i> ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</h1>
     <p>សូមស្វាគមន៍មកកាន់ទំព័រប្រកាសការងារ និងដាក់ពាក្យធ្វើការ</p>
   </header>
 
-  <!-- ============ NAVIGATION (CENTERED) ============ -->
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
   <nav>
-    <a href="#" class="active" data-section="home">🏠 ទំព័រដើម</a>
-    <a href="#" data-section="rules">📋 ច្បាប់និងរបៀបប្រើប្រាស</a>
-    <button class="nav-btn-history" onclick="openHistory()">📜 ប្រវត្តិដាក់ពាក្យ</button>
-    <button class="nav-btn" onclick="copyWebsiteLink()">🔗 ចែករំលែក</button>
+    <a href="#" class="active" data-section="home"><i class="fas fa-home"></i> ដើម</a>
+    <a href="#" data-section="rules"><i class="fas fa-list-ul"></i> ច្បាប់</a>
+    <button class="nav-btn-history" onclick="openHistory()"><i class="fas fa-history"></i> ប្រវត្តិដាក់ពាក្យ</button>
+    <button class="nav-btn" onclick="copyWebsiteLink()"><i class="fas fa-share-alt"></i> ចែករំលែក</button>
   </nav>
 
-  <!-- ============ HOME SECTION (was JOBS) ============ -->
+  <!-- ============================================================
+       HOME SECTION
+  ============================================================ -->
   <section id="home" class="active">
-    <h2>🏠 ការងារកំពុងមាន</h2>
+    <h2><i class="fas fa-briefcase"></i> ការងារកំពុងមាន</h2>
     
+    <!-- Job 1: Web Developer -->
     <div class="job-card">
-      <h3>Web Developer</h3>
+      <h3>💻 Web Developer <span class="badge-new">ថ្មី</span></h3>
       <div class="job-meta">
-        <span>⏰ ពេញម៉ោង</span>
-        <span>📍 ភ្នំពេញ</span>
-        <span>🏠 ពីចម្ងាយ</span>
-        <span>📅 កាលបរិច្ឆេទ: 01/08/2026</span>
+        <span><i class="far fa-clock"></i> ពេញម៉ោង</span>
+        <span><i class="fas fa-map-marker-alt"></i> ភ្នំពេញ</span>
+        <span><i class="fas fa-home"></i> ពីចម្ងាយ</span>
+        <span><i class="far fa-calendar-alt"></i> 01/08/2026</span>
       </div>
       <div class="job-salary">ប្រាក់ខែ: 300$ - 500$</div>
-      <p class="job-description"><strong>ការពិពណ៌នា:</strong> កំពុងស្វែងរកអ្នកអភិវឌ្ឍន៍គេហទំព័រដែលមានបទពិសោធន៍<br> HTML, CSS, JavaScript <br>និងមានជំនាញក្នុងការបង្កើតគេហទំព័រឆ្លើយតប (Responsive)។</p>
+      <p class="job-description"><strong>ការពិពណ៌នា:</strong> កំពុងស្វែងរកអ្នកអភិវឌ្ឍន៍គេហទំព័រដែលមានបទពិសោធន៍ HTML, CSS, JavaScript និងមានជំនាញក្នុងការបង្កើតគេហទំព័រឆ្លើយតប (Responsive)។</p>
       <div class="job-benefits">
-        <strong>📈 អត្ថប្រយោជន៍:</strong> <br>15$-20$ ក្នុងមួយថ្ងៃ<br> + ប្រាក់រង្វាន់ប្រចាំខែ <br>+ ថ្ងៃឈប់សម្រាក
+        <strong><i class="fas fa-gem"></i> អត្ថប្រយោជន៍:</strong>
+        15$-20$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ប្រចាំខែ + ថ្ងៃឈប់សម្រាក
       </div>
-      <button class="btn-apply" onclick="applyToJob('Web Developer', '300$-500$')">
-        <i class="fas fa-paper-plane"></i> ដាក់ពាក្យសម្រាប់ការងារនេះ
-      </button>
-      <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')" style="margin-left:10px;">
-        <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
-      </button>
+      <div class="btn-group">
+        <button class="btn-apply" onclick="applyToJob('Web Developer', '300$-500$')">
+          <i class="fas fa-paper-plane"></i> ដាក់ពាក្យ
+        </button>
+        <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')">
+          <i class="fab fa-telegram"></i> ទាក់ទងតាម Telegram
+        </button>
+      </div>
     </div>
 
+    <!-- Job 2: Graphic Designer -->
     <div class="job-card">
-      <h3>Graphic Designer</h3>
+      <h3>🎨 Graphic Designer</h3>
       <div class="job-meta">
-        <span>⏰ ក្រៅម៉ោង</span>
-        <span>📍 សៀមរាប</span>
-        <span>🏠 ពីចម្ងាយ</span>
-        <span>📅 កាលបរិច្ឆេទ: 01/08/2026</span>
+        <span><i class="far fa-clock"></i> ក្រៅម៉ោង</span>
+        <span><i class="fas fa-map-marker-alt"></i> សៀមរាប</span>
+        <span><i class="fas fa-home"></i> ពីចម្ងាយ</span>
+        <span><i class="far fa-calendar-alt"></i> 01/08/2026</span>
       </div>
       <div class="job-salary">ប្រាក់ខែ: 350$ - 550$</div>
       <p class="job-description"><strong>ការពិពណ៌នា:</strong> រកអ្នករចនាក្រាហ្វិកដែលមានជំនាញ Photoshop, Illustrator, Canva និងមានគំនិតច្នៃប្រឌិតខ្ពស់។</p>
       <div class="job-benefits">
-        <strong>📈 អត្ថប្រយោជន៍:</strong> 18$-22$ ក្នុងមួយថ្ងៃ + ថ្ងៃឈប់សម្រាក + ប្រាក់រង្វាន់
+        <strong><i class="fas fa-gem"></i> អត្ថប្រយោជន៍:</strong>
+        18$-22$ ក្នុងមួយថ្ងៃ + ថ្ងៃឈប់សម្រាក + ប្រាក់រង្វាន់
       </div>
-      <button class="btn-apply" onclick="applyToJob('Graphic Designer', '350$-550$')">
-        <i class="fas fa-paper-plane"></i> ដាក់ពាក្យសម្រាប់ការងារនេះ
-      </button>
-      <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')" style="margin-left:10px;">
-        <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
-      </button>
+      <div class="btn-group">
+        <button class="btn-apply" onclick="applyToJob('Graphic Designer', '350$-550$')">
+          <i class="fas fa-paper-plane"></i> ដាក់ពាក្យ
+        </button>
+        <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')">
+          <i class="fab fa-telegram"></i> ទាក់ទងតាម Telegram
+        </button>
+      </div>
     </div>
 
+    <!-- Job 3: Marketing Specialist -->
     <div class="job-card">
-      <h3>Marketing Specialist</h3>
+      <h3>📈 Marketing Specialist</h3>
       <div class="job-meta">
-        <span>⏰ ពេញម៉ោង</span>
-        <span>📍 ភ្នំពេញ</span>
-        <span>🏠 ការិយាល័យ</span>
-        <span>📅 កាលបរិច្ឆេទ: 15/08/2026</span>
+        <span><i class="far fa-clock"></i> ពេញម៉ោង</span>
+        <span><i class="fas fa-map-marker-alt"></i> ភ្នំពេញ</span>
+        <span><i class="fas fa-building"></i> ការិយាល័យ</span>
+        <span><i class="far fa-calendar-alt"></i> 15/08/2026</span>
       </div>
       <div class="job-salary">ប្រាក់ខែ: 400$ - 600$</div>
       <p class="job-description"><strong>ការពិពណ៌នា:</strong> រកអ្នកជំនាញផ្នែកទីផ្សារឌីជីថល មានបទពិសោធន៍ SEO, Social Media, Content Marketing ។</p>
       <div class="job-benefits">
-        <strong>📈 អត្ថប្រយោជន៍:</strong> 20$-25$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ប្រចាំខែ + ការបណ្តុះបណ្តាល
+        <strong><i class="fas fa-gem"></i> អត្ថប្រយោជន៍:</strong>
+        20$-25$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ប្រចាំខែ + ការបណ្តុះបណ្តាល
       </div>
-      <button class="btn-apply" onclick="applyToJob('Marketing Specialist', '400$-600$')">
-        <i class="fas fa-paper-plane"></i> ដាក់ពាក្យសម្រាប់ការងារនេះ
-      </button>
-      <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')" style="margin-left:10px;">
-        <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
-      </button>
+      <div class="btn-group">
+        <button class="btn-apply" onclick="applyToJob('Marketing Specialist', '400$-600$')">
+          <i class="fas fa-paper-plane"></i> ដាក់ពាក្យ
+        </button>
+        <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')">
+          <i class="fab fa-telegram"></i> ទាក់ទងតាម Telegram
+        </button>
+      </div>
     </div>
 
+    <!-- Job 4: Data Analyst -->
     <div class="job-card">
-      <h3>Data Analyst</h3>
+      <h3>📊 Data Analyst</h3>
       <div class="job-meta">
-        <span>⏰ ពេញម៉ោង</span>
-        <span>📍 ភ្នំពេញ</span>
-        <span>🏠 ពីចម្ងាយ</span>
-        <span>📅 កាលបរិច្ឆេទ: 01/09/2026</span>
+        <span><i class="far fa-clock"></i> ពេញម៉ោង</span>
+        <span><i class="fas fa-map-marker-alt"></i> ភ្នំពេញ</span>
+        <span><i class="fas fa-home"></i> ពីចម្ងាយ</span>
+        <span><i class="far fa-calendar-alt"></i> 01/09/2026</span>
       </div>
       <div class="job-salary">ប្រាក់ខែ: 450$ - 650$</div>
       <p class="job-description"><strong>ការពិពណ៌នា:</strong> រកអ្នកវិភាគទិន្នន័យដែលមានជំនាញ Excel, SQL, Python និង Tableau។</p>
       <div class="job-benefits">
-        <strong>📈 អត្ថប្រយោជន៍:</strong> 22$-28$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ + កញ្ចប់សុខភាព
+        <strong><i class="fas fa-gem"></i> អត្ថប្រយោជន៍:</strong>
+        22$-28$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ + កញ្ចប់សុខភាព
       </div>
-      <button class="btn-apply" onclick="applyToJob('Data Analyst', '450$-650$')">
-        <i class="fas fa-paper-plane"></i> ដាក់ពាក្យសម្រាប់ការងារនេះ
-      </button>
-      <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')" style="margin-left:10px;">
-        <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
-      </button>
+      <div class="btn-group">
+        <button class="btn-apply" onclick="applyToJob('Data Analyst', '450$-650$')">
+          <i class="fas fa-paper-plane"></i> ដាក់ពាក្យ
+        </button>
+        <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')">
+          <i class="fab fa-telegram"></i> ទាក់ទងតាម Telegram
+        </button>
+      </div>
     </div>
 
-    <!-- Social Media Buttons (Now inside Home) -->
-    <div style="margin-top:30px; text-align:center;">
-      <h3>តាមដានយើងតាមរយៈ</h3>
+    <!-- Social Media -->
+    <div class="social-section">
+      <h3><i class="fas fa-share-alt"></i> តាមដានយើងតាមរយៈ</h3>
       <div class="social-buttons">
         <a href="https://www.facebook.com/share/18hfTDgJZS/?mibextid=wwXIfr" target="_blank" class="social-btn facebook">
           <i class="fab fa-facebook-f"></i> Facebook
@@ -832,9 +1174,11 @@
     </div>
   </section>
 
-  <!-- ============ RULES SECTION ============ -->
+  <!-- ============================================================
+       RULES SECTION
+  ============================================================ -->
   <section id="rules">
-    <h2>📋 ច្បាប់និងរបៀបប្រើប្រាស</h2>
+    <h2><i class="fas fa-list-ul"></i> ច្បាប់និងរបៀបប្រើប្រាស</h2>
     <ul class="rules-list">
       <li>
         <span class="rule-number">1</span>
@@ -865,18 +1209,20 @@
         <div>
           <strong>ថ្លៃសេវាកម្ម</strong>
           <div class="fee-info">
-            💰 <strong>ថ្លៃសេវា 1$</strong> នៅពេលភ្នាក់ងារបញ្ជូនព័ត៌មានដាក់ពាក្យរបស់អ្នកទៅកាន់ក្រុមហ៊ុនជ្រើសរើសបុគ្គលិក។<br>
-            🎉 <strong>ថ្លៃសេវា 4$</strong> នៅពេលជាប់ការដាក់ពាក្យ។<br>
-           💳 <strong>ការទូទាត់</strong> សូមប្រុងប្រយ័ត្នជាមួយនឹងការទូទាត់! អ្នកអាចបង់ប្រាក់ឱ្យភ្នាក់ងាររបស់យើងសម្រាប់សេវាកម្មនៅលើគេហទំព័រដែលបានផ្តល់ជូនតែប៉ុណ្ណោះ។
+            <i class="fas fa-money-bill-wave" style="color:var(--accent);"></i> <strong>ថ្លៃសេវា 1$</strong> នៅពេលភ្នាក់ងារបញ្ជូនព័ត៌មានដាក់ពាក្យរបស់អ្នកទៅកាន់ក្រុមហ៊ុនជ្រើសរើសបុគ្គលិក។<br>
+            <i class="fas fa-trophy" style="color:var(--warning);"></i> <strong>ថ្លៃសេវា 4$</strong> នៅពេលជាប់ការដាក់ពាក្យ។<br>
+            <i class="fas fa-shield-alt" style="color:var(--error);"></i> <strong>ការទូទាត់</strong> សូមប្រុងប្រយ័ត្នជាមួយនឹងការទូទាត់! អ្នកអាចបង់ប្រាក់ឱ្យភ្នាក់ងាររបស់យើងសម្រាប់សេវាកម្មនៅលើគេហទំព័រដែលបានផ្តល់ជូនតែប៉ុណ្ណោះ។
           </div>
         </div>
       </li>
     </ul>
   </section>
 
-  <!-- ============ APPLICATION FORM ============ -->
+  <!-- ============================================================
+       APPLICATION FORM SECTION
+  ============================================================ -->
   <section id="apply">
-    <h2>បំពេញទម្រង់ដាក់ពាក្យ</h2>
+    <h2><i class="fas fa-pen-fancy"></i> បំពេញទម្រង់ដាក់ពាក្យ</h2>
     
     <div id="selectedJobInfo" class="selected-job-info">
       <i class="fas fa-briefcase"></i> ការងារដែលបានជ្រើសរើស: <span id="selectedJobTitle">-</span>
@@ -884,22 +1230,22 @@
     
     <form id="jobForm" enctype="multipart/form-data">
       <div class="form-group">
-        <label>ឈ្មោះពេញ</label>
+        <label>ឈ្មោះពេញ <span class="required-star">*</span></label>
         <input type="text" id="fullName" placeholder="ឈ្មោះ និងនាមត្រកូល" required>
       </div>
       
       <div class="form-group">
-        <label>អាយុ</label>
+        <label>អាយុ <span class="required-star">*</span></label>
         <input type="number" id="age" placeholder="បំពេញអាយុរបស់អ្នក" min="15" max="80" required oninput="enforceEnglishNumbers(this)">
       </div>
 
       <div class="form-group">
-        <label>កម្ពស់ (សង់ទីម៉ែត្រ)</label>
+        <label>កម្ពស់ (សង់ទីម៉ែត្រ) <span class="required-star">*</span></label>
         <input type="number" id="height" placeholder="បំពេញកម្ពស់របស់អ្នក (ឧ: 170)" min="100" max="250" required oninput="enforceEnglishNumbers(this)">
       </div>
 
       <div class="form-group">
-        <label>កម្រិតសិក្សា</label>
+        <label>កម្រិតសិក្សា <span class="required-star">*</span></label>
         <select id="education" required>
           <option value="">-- សូមជ្រើសរើស --</option>
           <option value="បឋមសិក្សា">បឋមសិក្សា</option>
@@ -919,7 +1265,7 @@
 
       <!-- Address Section -->
       <div class="form-group">
-        <label>អាសយដ្ឋានបច្ចុប្បន្ន</label>
+        <label>អាសយដ្ឋានបច្ចុប្បន្ន <span class="required-star">*</span></label>
         <div class="address-grid">
           <div class="full-width">
             <select id="province" required>
@@ -1002,7 +1348,7 @@
       </div>
 
       <div class="form-group">
-        <label>ស្ថានភាពការងារបច្ចុប្បន្ន</label>
+        <label>ស្ថានភាពការងារបច្ចុប្បន្ន <span class="required-star">*</span></label>
         <div class="radio-group">
           <label><input type="radio" name="workStatus" value="កំពុងធ្វើការ" required> កំពុងធ្វើការ</label>
           <label><input type="radio" name="workStatus" value="មិនទាន់មានការងារ"> មិនទាន់មានការងារ</label>
@@ -1010,7 +1356,7 @@
       </div>
 
       <div class="form-group">
-        <label>បទពិសោធន៍ការងារ</label>
+        <label>បទពិសោធន៍ការងារ <span class="required-star">*</span></label>
         <div class="radio-group">
           <label><input type="radio" name="experience" value="ធ្លាប់មាន" required> ធ្លាប់មាន</label>
           <label><input type="radio" name="experience" value="មិនធ្លាប់មាន"> មិនធ្លាប់មាន</label>
@@ -1039,18 +1385,18 @@
       </div>
 
       <div class="form-group">
-        <label>តេឡេក្រាម (Link / Username)</label>
+        <label>តេឡេក្រាម (Link / Username) <span class="required-star">*</span></label>
         <input type="text" id="telegram" placeholder="តំណភ្ជាប់ ឬ ឈ្មោះអ្នកប្រើប្រាស់តេឡេក្រាម" required>
       </div>
 
       <div class="form-group">
-        <label>លេខទូរស័ព្ទ</label>
+        <label>លេខទូរស័ព្ទ <span class="required-star">*</span></label>
         <input type="tel" id="phone" placeholder="លេខទូរស័ព្ទ" required oninput="enforceEnglishNumbers(this)">
       </div>
 
       <div class="form-group">
-        <label>ឯកសារ CV / រូបថត</label>
-        <input type="file" id="cvFile" accept=".pdf,.doc,.docx,image/*" required>
+        <label>ឯកសារ CV / រូបថត <span class="required-star">*</span></label>
+        <input type="file" id="cvFile" accept=".pdf,.doc,.docx,image/*" required style="padding:10px 12px;">
       </div>
 
       <div class="form-group">
@@ -1062,24 +1408,35 @@
         <button type="button" class="btn-back" onclick="goBack()">
           <i class="fas fa-arrow-left"></i> ថយក្រោយ
         </button>
-        <button type="submit" class="btn-submit" id="submitBtn">✈️ផ្ញើការដាក់ពាក្យ</button>
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <i class="fas fa-paper-plane"></i> ផ្ញើការដាក់ពាក្យ
+        </button>
       </div>
     </form>
-    <div id="successMessage" style="display:none; background:#F0FDF4; border:1px solid #BBF7D0; color:#166534; padding:16px; border-radius:8px; margin-top:20px; text-align:center; font-weight:600;">
+    <div id="successMessage">
+      <i class="fas fa-check-circle"></i>
       ✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!
     </div>
   </section>
 
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
   <footer>
     <p>&copy; 2026 ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</p>
   </footer>
 
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
   <script>
     let selectedJob = '';
     let isSubmitting = false;
     let applicationHistory = JSON.parse(localStorage.getItem('applicationHistory')) || [];
 
-    // ============ ENFORCE ENGLISH NUMBERS ============
+    // ============================================================
+    // ENFORCE ENGLISH NUMBERS
+    // ============================================================
     function enforceEnglishNumbers(input) {
       const khmerNumbers = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
       const englishNumbers = ['0','1','2','3','4','5','6','7','8','9'];
@@ -1101,17 +1458,20 @@
       }
     }
 
-    // ============ ADDRESS "OTHER" HANDLING ============
+    // ============================================================
+    // ADDRESS "OTHER" HANDLING
+    // ============================================================
     document.getElementById("district").addEventListener("change", function() {
       const container = document.getElementById("districtOtherContainer");
       const otherInput = document.getElementById("districtOther");
       if (this.value === "other") {
         container.style.display = "block";
-        otherInput.required = false;
+        otherInput.required = true;
         otherInput.placeholder = "សូមបញ្ជាក់ស្រុក/ខណ្ឌរបស់អ្នក...";
       } else {
         container.style.display = "none";
         otherInput.value = "";
+        otherInput.required = false;
       }
     });
 
@@ -1120,15 +1480,45 @@
       const otherInput = document.getElementById("communeOther");
       if (this.value === "other") {
         container.style.display = "block";
-        otherInput.required = false;
+        otherInput.required = true;
         otherInput.placeholder = "សូមបញ្ជាក់ឃុំ/សង្កាត់របស់អ្នក...";
       } else {
         container.style.display = "none";
         otherInput.value = "";
+        otherInput.required = false;
       }
     });
 
-    // ============ CUSTOM ALERT ============
+    // ============================================================
+    // EDUCATION / OTHER JOB INPUTS
+    // ============================================================
+    document.getElementById("education").addEventListener("change", function() {
+      const otherInput = document.getElementById("otherEducation");
+      if (this.value === "other") {
+        otherInput.placeholder = "សូមបញ្ជាក់កម្រិតសិក្សារបស់អ្នក...";
+        otherInput.required = true;
+      } else {
+        otherInput.placeholder = "បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ";
+        otherInput.value = "";
+        otherInput.required = false;
+      }
+    });
+
+    document.getElementById("previousJob").addEventListener("change", function() {
+      const otherInput = document.getElementById("otherJob");
+      if (this.value === "other") {
+        otherInput.placeholder = "សូមបញ្ជាក់ការងាររបស់អ្នក...";
+        otherInput.required = true;
+      } else {
+        otherInput.placeholder = "បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ";
+        otherInput.value = "";
+        otherInput.required = false;
+      }
+    });
+
+    // ============================================================
+    // CUSTOM ALERT
+    // ============================================================
     function showAlert(message, type = 'info') {
       const alertEl = document.getElementById('customAlert');
       const iconEl = document.getElementById('alertIcon');
@@ -1159,11 +1549,14 @@
       clearTimeout(window.alertTimeout);
     }
 
-    // ============ NAVIGATION ============
+    // ============================================================
+    // NAVIGATION
+    // ============================================================
     document.querySelectorAll('nav a').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
         const sectionId = this.dataset.section;
+        if (!sectionId) return;
         
         document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
         this.classList.add('active');
@@ -1177,10 +1570,13 @@
       });
     });
 
-    // ============ GO BACK ============
+    // ============================================================
+    // GO BACK
+    // ============================================================
     function goBack() {
       document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-      document.querySelector('nav a[data-section="home"]')?.classList.add('active');
+      const homeLink = document.querySelector('nav a[data-section="home"]');
+      if (homeLink) homeLink.classList.add('active');
       
       document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
       const homeSection = document.getElementById('home');
@@ -1190,15 +1586,17 @@
       }
     }
 
-    // ============ APPLY TO JOB ============
+    // ============================================================
+    // APPLY TO JOB
+    // ============================================================
     function applyToJob(jobTitle, salary) {
       selectedJob = jobTitle;
       
       document.getElementById('selectedJobTitle').textContent = `${jobTitle} (ប្រាក់ខែ ${salary})`;
       document.getElementById('selectedJobInfo').classList.add('show');
       
+      // Switch to apply section
       document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-      document.querySelector('nav a[data-section="home"]')?.classList.add('active');
       document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
       const applySection = document.getElementById('apply');
       if (applySection) {
@@ -1209,29 +1607,9 @@
       showAlert(`អ្នកបានជ្រើសរើសការងារ: ${jobTitle}`, 'success');
     }
 
-    // ============ EDUCATION OTHER INPUT ============
-    document.getElementById("education").addEventListener("change", function() {
-      const otherInput = document.getElementById("otherEducation");
-      if (this.value === "other") {
-        otherInput.placeholder = "សូមបញ្ជាក់កម្រិតសិក្សារបស់អ្នក...";
-      } else {
-        otherInput.placeholder = "បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ";
-        otherInput.value = "";
-      }
-    });
-
-    // ============ OTHER JOB INPUT ============
-    document.getElementById("previousJob").addEventListener("change", function() {
-      const otherInput = document.getElementById("otherJob");
-      if (this.value === "other") {
-        otherInput.placeholder = "សូមបញ្ជាក់ការងាររបស់អ្នក...";
-      } else {
-        otherInput.placeholder = "បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ";
-        otherInput.value = "";
-      }
-    });
-
-    // ============ HISTORY FUNCTIONS ============
+    // ============================================================
+    // HISTORY FUNCTIONS
+    // ============================================================
     function openHistory() {
       const modal = document.getElementById('historyModal');
       const list = document.getElementById('historyList');
@@ -1239,7 +1617,7 @@
       if (applicationHistory.length === 0) {
         list.innerHTML = `
           <div class="history-empty">
-            <i class="fas fa-inbox" style="font-size:48px; color:#CBD5E1; display:block; margin-bottom:16px;"></i>
+            <i class="fas fa-inbox"></i>
             មិនទាន់មានប្រវត្តិដាក់ពាក្យនៅឡើយទេ
           </div>
         `;
@@ -1250,14 +1628,15 @@
           html += `
             <div class="history-item">
               <div class="history-header">
-                <span class="history-name">👤 ${item.name}</span>
-                <span class="history-date">🕐 ${item.date}</span>
+                <span class="history-name"><i class="fas fa-user" style="color:var(--accent);"></i> ${item.name}</span>
+                <span class="history-date"><i class="far fa-clock"></i> ${item.date}</span>
               </div>
               <div>
-                <span class="history-job">💼 ${item.job}</span>
+                <span class="history-job"><i class="fas fa-briefcase"></i> ${item.job}</span>
               </div>
-              <div style="color:var(--text-muted); font-size:13px; margin-top:4px;">
-                📞 ${item.phone} | 📱 ${item.telegram}
+              <div style="color:var(--text-muted); font-size:13px; margin-top:6px; display:flex; flex-wrap:wrap; gap:16px;">
+                <span><i class="fas fa-phone"></i> ${item.phone}</span>
+                <span><i class="fab fa-telegram"></i> ${item.telegram}</span>
               </div>
             </div>
           `;
@@ -1280,7 +1659,9 @@
       }
     });
 
-    // ============ FORM SUBMISSION ============
+    // ============================================================
+    // FORM SUBMISSION
+    // ============================================================
     document.getElementById("jobForm").addEventListener("submit", function(e) {
       e.preventDefault();
       
@@ -1326,7 +1707,7 @@
       
       isSubmitting = true;
       document.getElementById('submitBtn').disabled = true;
-      document.getElementById('submitBtn').textContent = '⏳ កំពុងផ្ញើ...';
+      document.getElementById('submitBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> កំពុងផ្ញើ...';
       
       const now = new Date();
       const dateTime = now.toLocaleString('km-KH', {
@@ -1379,7 +1760,9 @@
       reader.readAsDataURL(file);
     });
 
-    // ============ SEND PHOTO WITH CAPTION ============
+    // ============================================================
+    // SEND PHOTO WITH CAPTION
+    // ============================================================
     function sendPhotoWithCaption(fileBase64, fileName, caption) {
       const token = '8133960195:AAGss5J-d0GXsFkfsOa3yjQ7p3yp9W5uCFs';
       const chatId = '-5304708525';
@@ -1443,10 +1826,12 @@
     function resetSubmitButton() {
       isSubmitting = false;
       document.getElementById('submitBtn').disabled = false;
-      document.getElementById('submitBtn').textContent = 'ផ្ញើការដាក់ពាក្យ';
+      document.getElementById('submitBtn').innerHTML = '<i class="fas fa-paper-plane"></i> ផ្ញើការដាក់ពាក្យ';
     }
 
-    // ============ COPY WEBSITE LINK ============
+    // ============================================================
+    // COPY WEBSITE LINK
+    // ============================================================
     function copyWebsiteLink() {
       const url = window.location.href;
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1465,6 +1850,7 @@
       textArea.value = text;
       textArea.style.position = "fixed";
       textArea.style.left = "-9999px";
+      textArea.style.top = "-9999px";
       document.body.appendChild(textArea);
       textArea.select();
       try {
@@ -1476,7 +1862,10 @@
       document.body.removeChild(textArea);
     }
 
-    // ============ INIT ============
+    // ============================================================
+    // INIT
+    // ============================================================
+    // Set default active section
     document.querySelector('nav a[data-section="home"]')?.classList.add('active');
     document.getElementById('home')?.classList.add('active');
     
