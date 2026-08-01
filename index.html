@@ -24,7 +24,7 @@
     }
 
     .payment-container {
-      max-width: 520px;
+      max-width: 540px;
       width: 100%;
       background: #FFFFFF;
       border-radius: 20px;
@@ -69,10 +69,77 @@
       margin-top: 4px;
     }
 
+    /* ===== FEE SELECTION ===== */
+    .fee-selection {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .fee-option {
+      border: 2px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 16px 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #FAFAFA;
+      position: relative;
+    }
+
+    .fee-option:hover {
+      border-color: #94A3B8;
+    }
+
+    .fee-option.selected {
+      border-color: #2563EB;
+      background: #EFF6FF;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    .fee-option .fee-amount {
+      font-size: 28px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .fee-option .fee-amount small {
+      font-size: 14px;
+      font-weight: 400;
+      color: #64748B;
+    }
+
+    .fee-option .fee-label {
+      font-size: 13px;
+      color: #64748B;
+      margin-top: 2px;
+    }
+
+    .fee-option .fee-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #2563EB;
+      color: white;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+
+    .fee-option.selected .fee-badge {
+      background: #1D4ED8;
+    }
+
+    .fee-option input[type="radio"] {
+      display: none;
+    }
+
     .fee-summary {
       background: #F1F5F9;
       border-radius: 12px;
-      padding: 16px 20px;
+      padding: 14px 18px;
       margin-bottom: 24px;
       border-left: 4px solid #2563EB;
       display: flex;
@@ -100,7 +167,7 @@
     }
 
     .form-group {
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
     .form-group label {
@@ -187,7 +254,7 @@
       position: relative;
       border: 2px dashed #CBD5E1;
       border-radius: 12px;
-      padding: 32px 20px;
+      padding: 28px 20px;
       text-align: center;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -205,10 +272,10 @@
     }
 
     .file-upload i {
-      font-size: 40px;
+      font-size: 36px;
       color: #94A3B8;
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .file-upload.has-file i {
@@ -239,12 +306,12 @@
     }
 
     .file-preview {
-      margin-top: 12px;
+      margin-top: 10px;
       max-width: 100%;
       border-radius: 8px;
       border: 1px solid #E2E8F0;
       display: none;
-      max-height: 200px;
+      max-height: 180px;
       overflow: hidden;
     }
 
@@ -270,7 +337,7 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .submit-btn:hover {
@@ -391,12 +458,26 @@
       margin-top: 1px;
     }
 
+    .fee-description {
+      font-size: 12px;
+      color: #64748B;
+      margin-top: 4px;
+      padding-left: 4px;
+    }
+
     @media (max-width: 480px) {
       .payment-container {
-        padding: 24px 18px;
+        padding: 24px 16px;
       }
       .payment-header h1 {
         font-size: 20px;
+      }
+      .fee-selection {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .fee-option .fee-amount {
+        font-size: 22px;
       }
       .fee-summary .amount {
         font-size: 22px;
@@ -408,6 +489,12 @@
       .submit-btn {
         font-size: 16px;
         padding: 14px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .fee-selection {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -425,10 +512,26 @@
       <p>ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</p>
     </div>
 
+    <!-- Fee Selection -->
+    <div class="fee-selection" id="feeSelection">
+      <label class="fee-option selected" id="feeOption1">
+        <input type="radio" name="feeType" value="1" checked>
+        <div class="fee-amount">1$ <small>USD</small></div>
+        <div class="fee-label">📄 ផ្ញើព័ត៌មាន</div>
+        <div class="fee-badge">ពេញនិយម</div>
+      </label>
+      <label class="fee-option" id="feeOption4">
+        <input type="radio" name="feeType" value="4">
+        <div class="fee-amount">4$ <small>USD</small></div>
+        <div class="fee-label">✅ ជាប់ការងារ</div>
+        <div class="fee-badge">កម្រៃជោគជ័យ</div>
+      </label>
+    </div>
+
     <!-- Fee Summary -->
     <div class="fee-summary">
-      <span class="label">💳 ថ្លៃសេវាសរុប</span>
-      <span class="amount">1$ <small>USD</small></span>
+      <span class="label">💳 ថ្លៃសេវាដែលបានជ្រើសរើស</span>
+      <span class="amount" id="selectedAmount">1$ <small>USD</small></span>
     </div>
 
     <!-- Alert -->
@@ -441,6 +544,13 @@
       <div class="form-group">
         <label>លេខទូរស័ព្ទ <span class="required">*</span></label>
         <input type="tel" id="phone" placeholder="បំពេញលេខទូរស័ព្ទរបស់អ្នក" required>
+      </div>
+
+      <!-- Telegram (NEW) -->
+      <div class="form-group">
+        <label>តេឡេក្រាម (Link / Username) <span class="required">*</span></label>
+        <input type="text" id="telegram" placeholder="ឧ: https://t.me/username ឬ @username" required>
+        <div class="fee-description">📌 ភ្នាក់ងារនឹងប្រើតេឡេក្រាមដើម្បីជូនដំណឹងលទ្ធផលដាក់ពាក្យរបស់អ្នក</div>
       </div>
 
       <!-- Bank Account Name -->
@@ -462,7 +572,7 @@
           <i class="fas fa-university"></i>
           <span class="aba-text">
             <span>🏦 ABA Bank</span>
-            <span class="sub">ចុចដើម្បីបង់ប្រាក់ 1$</span>
+            <span class="sub">ចុចដើម្បីបង់ប្រាក់</span>
           </span>
           <i class="fas fa-external-link-alt" style="font-size:14px; opacity:0.7;"></i>
         </a>
@@ -494,13 +604,18 @@
     <div class="success-message" id="successMessage">
       <i class="fas fa-check-circle"></i>
       ✅ ព័ត៌មានទូទាត់របស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!
-      <br><small style="font-weight:400; display:block; margin-top:6px;">ភ្នាក់ងារនឹងទាក់ទងអ្នកក្នុងពេលឆាប់ៗ</small>
+      <br><small style="font-weight:400; display:block; margin-top:6px;">ភ្នាក់ងារនឹងទាក់ទងអ្នកតាមរយៈតេឡេក្រាមក្នុងពេលឆាប់ៗ</small>
     </div>
 
     <!-- Payment Note -->
     <div class="payment-note">
       <i class="fas fa-info-circle"></i>
-      <span><strong>សូមបញ្ជាក់៖</strong> ថ្លៃសេវា 1$ គឺសម្រាប់ការបញ្ជូនព័ត៌មានដាក់ពាក្យរបស់អ្នកទៅកាន់ក្រុមហ៊ុន។ បន្ទាប់ពីបង់ប្រាក់រួច សូមភ្ជាប់រូបភាពថតអេក្រង់ដើម្បីផ្ទៀងផ្ទាត់។</span>
+      <span>
+        <strong>សូមបញ្ជាក់៖</strong><br>
+        • <strong>1$</strong> សម្រាប់ការបញ្ជូនព័ត៌មានដាក់ពាក្យរបស់អ្នកទៅកាន់ក្រុមហ៊ុន<br>
+        • <strong>4$</strong> សម្រាប់កម្រៃជោគជ័យ (នៅពេលជាប់ការងារ)<br>
+        បន្ទាប់ពីបង់ប្រាក់រួច សូមភ្ជាប់រូបភាពថតអេក្រង់ដើម្បីផ្ទៀងផ្ទាត់។
+      </span>
     </div>
 
     <a href="#" class="back-link" onclick="history.back(); return false;">
@@ -509,6 +624,28 @@
   </div>
 
   <script>
+    // ============================================================
+    // FEE SELECTION
+    // ============================================================
+    const feeOptions = document.querySelectorAll('.fee-option');
+    const selectedAmountDisplay = document.getElementById('selectedAmount');
+    let selectedFee = '1';
+
+    feeOptions.forEach(option => {
+      option.addEventListener('click', function() {
+        // Remove selected from all
+        feeOptions.forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+        
+        const radio = this.querySelector('input[type="radio"]');
+        radio.checked = true;
+        selectedFee = radio.value;
+        
+        // Update display
+        selectedAmountDisplay.innerHTML = `${selectedFee}$ <small>USD</small>`;
+      });
+    });
+
     // ============================================================
     // FILE UPLOAD PREVIEW
     // ============================================================
@@ -565,11 +702,12 @@
       if (isSubmitting) return;
 
       const phone = document.getElementById('phone').value.trim();
+      const telegram = document.getElementById('telegram').value.trim();
       const accountName = document.getElementById('accountName').value.trim();
       const accountNumber = document.getElementById('accountNumber').value.trim();
       const file = document.getElementById('screenshot').files[0];
 
-      if (!phone || !accountName || !accountNumber || !file) {
+      if (!phone || !telegram || !accountName || !accountNumber || !file) {
         showAlert('សូមបំពេញព័ត៌មានឲ្យបានពេញលេញ និងភ្ជាប់រូបភាពថតអេក្រង់!', 'error');
         return;
       }
@@ -589,13 +727,16 @@
         second: '2-digit'
       });
 
+      const feeLabel = selectedFee === '1' ? '📄 ផ្ញើព័ត៌មាន' : '✅ ជាប់ការងារ (កម្រៃជោគជ័យ)';
+
       const caption = `💳 *ការទូទាត់ថ្លៃសេវាកម្មជ្រើសរើសបុគ្គលិក*\n\n` +
         `📱 *លេខទូរស័ព្ទ:* ${phone}\n` +
+        `📌 *តេឡេក្រាម:* ${telegram}\n` +
         `🏦 *ឈ្មោះគណនីធនាគារ:* ${accountName}\n` +
         `🔢 *លេខគណនីធនាគារ:* ${accountNumber}\n` +
-        `💰 *ថ្លៃសេវា:* 1$ USD\n` +
+        `💰 *ថ្លៃសេវា:* ${selectedFee}$ USD (${feeLabel})\n` +
         `🕐 *កាលបរិច្ឆេទ:* ${dateTime}\n\n` +
-        `✅ សូមផ្ទៀងផ្ទាត់ការទូទាត់នេះផង។`;
+        `✅ សូមផ្ទៀងផ្ទាត់ការទូទាត់នេះ និងទាក់ទងអតិថិជនតាមរយៈតេឡេក្រាមផង។`;
 
       // Read file
       const reader = new FileReader();
@@ -615,15 +756,13 @@
     // ============================================================
     function sendScreenshotWithCaption(fileBase64, fileName, caption) {
       const token = '8364652665:AAESgPsrL-Q2D3ZYtLTN6IzdkQ1pLYnc5vw';
-      const chatId = '-1003896872409';
+      const chatId = '-5410896989';
 
       fetch(fileBase64)
         .then(res => res.blob())
         .then(blob => {
           const formData = new FormData();
           formData.append('chat_id', chatId);
-
-          // Always send as photo (screenshot is image)
           formData.append('photo', blob, fileName);
           formData.append('caption', caption);
           formData.append('parse_mode', 'Markdown');
