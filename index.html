@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ការជូនដំណឹងអំពីការងារ និងពាក្យសុំការងារ</title>
   <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
@@ -38,7 +37,7 @@
       line-height: 1.6; 
     }
 
-    /* Custom Alert Styles */
+    /* Custom Alert */
     .custom-alert {
       display: none;
       position: fixed;
@@ -158,6 +157,7 @@
       transition: color 0.2s, background 0.2s;
       padding: 6px 12px;
       border-radius: 6px;
+      cursor: pointer;
     }
 
     nav a:hover {
@@ -211,7 +211,52 @@
       padding-bottom: 8px;
     }
 
-    /* Job Cards */
+    /* Job Cards - HOME (No buttons) */
+    .job-card-home {
+      background: #F8FAFC;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      cursor: default;
+    }
+
+    .job-card-home .job-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin: 10px 0;
+    }
+
+    .job-card-home .job-meta span {
+      background: #E2E8F0;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+
+    .job-card-home .job-salary {
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 18px;
+    }
+
+    .job-card-home .job-description {
+      margin: 12px 0;
+      color: var(--text);
+    }
+
+    .job-card-home .job-benefits {
+      background: #EFF6FF;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    /* Job Cards - JOBS (With Apply Button) */
     .job-card {
       background: #F8FAFC;
       border-radius: 10px;
@@ -267,7 +312,30 @@
       font-size: 14px;
     }
 
-    .btn-telegram {
+    .btn-apply {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 10px 24px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      font-family: 'Kantumruy Pro', sans-serif;
+    }
+
+    .btn-apply:hover {
+      background: var(--accent-hover);
+      transform: scale(1.02);
+    }
+
+    .btn-apply:active {
+      transform: scale(0.98);
+    }
+
+    .btn-telegram-contact {
       display: inline-block;
       background: var(--telegram);
       color: white;
@@ -275,13 +343,14 @@
       border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
+      font-size: 14px;
       transition: background 0.2s, transform 0.1s;
       border: none;
       cursor: pointer;
-      font-size: 14px;
+      font-family: 'Kantumruy Pro', sans-serif;
     }
 
-    .btn-telegram:hover {
+    .btn-telegram-contact:hover {
       background: #006699;
       transform: scale(1.02);
     }
@@ -404,6 +473,7 @@
       font-weight: 600;
       transition: background 0.2s, transform 0.1s;
       margin-top: 10px;
+      font-family: 'Kantumruy Pro', sans-serif;
     }
 
     button[type="submit"]:hover { 
@@ -412,6 +482,11 @@
 
     button[type="submit"]:active {
       transform: scale(0.98);
+    }
+
+    button[type="submit"]:disabled {
+      background: #94A3B8;
+      cursor: not-allowed;
     }
 
     /* Footer */
@@ -456,6 +531,21 @@
       flex-shrink: 0;
     }
 
+    /* Selected Job Display */
+    .selected-job-info {
+      background: #EFF6FF;
+      border: 1px solid var(--accent);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: none;
+      font-weight: 500;
+    }
+
+    .selected-job-info.show {
+      display: block;
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       header h1 { font-size: 22px; }
@@ -473,8 +563,8 @@
       header h1 { font-size: 18px; }
       section { padding: 15px; margin: 15px 10px; }
       nav a { font-size: 11px; padding: 4px 6px; }
-      .job-card h3 { font-size: 16px; }
-      .job-card .job-salary { font-size: 16px; }
+      .job-card h3, .job-card-home h3 { font-size: 16px; }
+      .job-card .job-salary, .job-card-home .job-salary { font-size: 16px; }
       .social-btn { padding: 6px 12px; font-size: 12px; }
       .radio-group { gap: 10px; }
     }
@@ -501,60 +591,53 @@
     <button class="btn-nav-share" onclick="copyWebsiteLink()">🔗 ចែករំលែកគេហទំព័រ</button>
   </nav>
 
-  <!-- ============ HOME SECTION ============ -->
+  <!-- ============ HOME SECTION (No buttons) ============ -->
   <section id="home" class="active">
     <h2>អំពីភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</h2>
     <p>ភ្នាក់ងាររបស់យើងកំពុងបង្កើត និងស្រាវជ្រាវឱកាសការងារថ្មីៗ និងមានតម្លៃ ដើម្បីប្រកាសដល់មនុស្សគ្រប់គ្នា។</p>
 
     <h2 style="margin-top:30px;">ការងារដែលកំពុងមាន</h2>
-    <div id="jobsPreview">
-      <div class="job-card" onclick="applyToJob('Web Developer', '300$-500$')" style="cursor:pointer;">
-        <h3>Web Developer</h3>
-        <div class="job-meta">
-          <span>⏰ ពេញម៉ោង</span>
-          <span>📍 ភ្នំពេញ</span>
-          <span>🏠 ពីចម្ងាយ</span>
-        </div>
-        <div class="job-salary">ប្រាក់ខែ: 300$ - 500$</div>
-        <p class="job-description">កំពុងស្វែងរកអ្នកអភិវឌ្ឍន៍គេហទំព័រដែលមានបទពិសោធន៍ HTML, CSS, JavaScript</p>
-        <div class="job-benefits">📈 អត្ថប្រយោជន៍: 15$-20$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់</div>
-        <button class="btn-telegram" onclick="event.stopPropagation(); window.open('https://t.me/Application_Receiving_Officer', '_blank')">
-          <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
-        </button>
+    
+    <!-- Job 1 - No button -->
+    <div class="job-card-home">
+      <h3>Web Developer</h3>
+      <div class="job-meta">
+        <span>⏰ ពេញម៉ោង</span>
+        <span>📍 ភ្នំពេញ</span>
+        <span>🏠 ពីចម្ងាយ</span>
       </div>
-
-      <div class="job-card" onclick="applyToJob('Graphic Designer', '350$-550$')" style="cursor:pointer;">
-        <h3>Graphic Designer</h3>
-        <div class="job-meta">
-          <span>⏰ ក្រៅម៉ោង</span>
-          <span>📍 សៀមរាប</span>
-          <span>🏠 ពីចម្ងាយ</span>
-        </div>
-        <div class="job-salary">ប្រាក់ខែ: 350$ - 550$</div>
-        <p class="job-description">រកអ្នករចនាក្រាហ្វិកដែលមានជំនាញ Photoshop, Illustrator, Canva</p>
-        <div class="job-benefits">📈 អត្ថប្រយោជន៍: 18$-22$ ក្នុងមួយថ្ងៃ + ថ្ងៃឈប់សម្រាក</div>
-        <button class="btn-telegram" onclick="event.stopPropagation(); window.open('https://t.me/Application_Receiving_Officer', '_blank')">
-          <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
-        </button>
-      </div>
-
-      <div class="job-card" onclick="applyToJob('Marketing Specialist', '400$-600$')" style="cursor:pointer;">
-        <h3>Marketing Specialist</h3>
-        <div class="job-meta">
-          <span>⏰ ពេញម៉ោង</span>
-          <span>📍 ភ្នំពេញ</span>
-          <span>🏠 ការិយាល័យ</span>
-        </div>
-        <div class="job-salary">ប្រាក់ខែ: 400$ - 600$</div>
-        <p class="job-description">រកអ្នកជំនាញផ្នែកទីផ្សារឌីជីថល មានបទពិសោធន៍ SEO, Social Media</p>
-        <div class="job-benefits">📈 អត្ថប្រយោជន៍: 20$-25$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ប្រចាំខែ</div>
-        <button class="btn-telegram" onclick="event.stopPropagation(); window.open('https://t.me/Application_Receiving_Officer', '_blank')">
-          <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
-        </button>
-      </div>
+      <div class="job-salary">ប្រាក់ខែ: 300$ - 500$</div>
+      <p class="job-description">កំពុងស្វែងរកអ្នកអភិវឌ្ឍន៍គេហទំព័រដែលមានបទពិសោធន៍ HTML, CSS, JavaScript</p>
+      <div class="job-benefits">📈 អត្ថប្រយោជន៍: 15$-20$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់</div>
     </div>
 
-    <!-- Social Media Buttons -->
+    <!-- Job 2 - No button -->
+    <div class="job-card-home">
+      <h3>Graphic Designer</h3>
+      <div class="job-meta">
+        <span>⏰ ក្រៅម៉ោង</span>
+        <span>📍 សៀមរាប</span>
+        <span>🏠 ពីចម្ងាយ</span>
+      </div>
+      <div class="job-salary">ប្រាក់ខែ: 350$ - 550$</div>
+      <p class="job-description">រកអ្នករចនាក្រាហ្វិកដែលមានជំនាញ Photoshop, Illustrator, Canva</p>
+      <div class="job-benefits">📈 អត្ថប្រយោជន៍: 18$-22$ ក្នុងមួយថ្ងៃ + ថ្ងៃឈប់សម្រាក</div>
+    </div>
+
+    <!-- Job 3 - No button -->
+    <div class="job-card-home">
+      <h3>Marketing Specialist</h3>
+      <div class="job-meta">
+        <span>⏰ ពេញម៉ោង</span>
+        <span>📍 ភ្នំពេញ</span>
+        <span>🏠 ការិយាល័យ</span>
+      </div>
+      <div class="job-salary">ប្រាក់ខែ: 400$ - 600$</div>
+      <p class="job-description">រកអ្នកជំនាញផ្នែកទីផ្សារឌីជីថល មានបទពិសោធន៍ SEO, Social Media</p>
+      <div class="job-benefits">📈 អត្ថប្រយោជន៍: 20$-25$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ប្រចាំខែ</div>
+    </div>
+
+    <!-- Social Media Buttons (Only in Home) -->
     <div style="margin-top:30px; text-align:center;">
       <h3>តាមដានយើងតាមរយៈ</h3>
       <div class="social-buttons">
@@ -588,7 +671,10 @@
       <div class="job-benefits">
         <strong>📈 អត្ថប្រយោជន៍:</strong> 15$-20$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ប្រចាំខែ + ថ្ងៃឈប់សម្រាកប្រចាំសប្តាហ៍
       </div>
-      <button class="btn-telegram" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')">
+      <button class="btn-apply" onclick="applyToJob('Web Developer', '300$-500$')">
+        <i class="fas fa-paper-plane"></i> ដាក់ពាក្យសម្រាប់ការងារនេះ
+      </button>
+      <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')" style="margin-left:10px;">
         <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
       </button>
     </div>
@@ -606,7 +692,10 @@
       <div class="job-benefits">
         <strong>📈 អត្ថប្រយោជន៍:</strong> 18$-22$ ក្នុងមួយថ្ងៃ + ថ្ងៃឈប់សម្រាក + ប្រាក់រង្វាន់ការងារល្អ
       </div>
-      <button class="btn-telegram" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')">
+      <button class="btn-apply" onclick="applyToJob('Graphic Designer', '350$-550$')">
+        <i class="fas fa-paper-plane"></i> ដាក់ពាក្យសម្រាប់ការងារនេះ
+      </button>
+      <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')" style="margin-left:10px;">
         <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
       </button>
     </div>
@@ -624,7 +713,10 @@
       <div class="job-benefits">
         <strong>📈 អត្ថប្រយោជន៍:</strong> 20$-25$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ប្រចាំខែ + ការបណ្តុះបណ្តាល
       </div>
-      <button class="btn-telegram" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')">
+      <button class="btn-apply" onclick="applyToJob('Marketing Specialist', '400$-600$')">
+        <i class="fas fa-paper-plane"></i> ដាក់ពាក្យសម្រាប់ការងារនេះ
+      </button>
+      <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')" style="margin-left:10px;">
         <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
       </button>
     </div>
@@ -642,7 +734,10 @@
       <div class="job-benefits">
         <strong>📈 អត្ថប្រយោជន៍:</strong> 22$-28$ ក្នុងមួយថ្ងៃ + ប្រាក់រង្វាន់ + កញ្ចប់សុខភាព
       </div>
-      <button class="btn-telegram" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')">
+      <button class="btn-apply" onclick="applyToJob('Data Analyst', '450$-650$')">
+        <i class="fas fa-paper-plane"></i> ដាក់ពាក្យសម្រាប់ការងារនេះ
+      </button>
+      <button class="btn-telegram-contact" onclick="window.open('https://t.me/Application_Receiving_Officer', '_blank')" style="margin-left:10px;">
         <i class="fab fa-telegram"></i> ទាក់ទងតាមតេឡេក្រាម
       </button>
     </div>
@@ -670,7 +765,7 @@
       </li>
       <li>
         <span class="rule-number">5</span>
-        <div><strong>របៀបប្រើប្រាស</strong><br>1. មើលការងារដែលកំពុងមាន<br>2. ចុចលើការងារដែលអ្នកចាប់អារម្មណ៍<br>3. បំពេញទម្រង់ដាក់ពាក្យ<br>4. រង់ចាំការឆ្លើយតបពីភ្នាក់ងារ</div>
+        <div><strong>របៀបប្រើប្រាស</strong><br>1. ចូលទៅកាន់ 💼 ការងារកំពុងមាន<br>2. ចុចប៊ូតុង "ដាក់ពាក្យសម្រាប់ការងារនេះ"<br>3. បំពេញទម្រង់ដាក់ពាក្យ<br>4. រង់ចាំការឆ្លើយតបពីភ្នាក់ងារ</div>
       </li>
       <li>
         <span class="rule-number">6</span>
@@ -682,7 +777,12 @@
   <!-- ============ APPLICATION FORM ============ -->
   <section id="apply">
     <h2>បំពេញទម្រង់ដាក់ពាក្យ</h2>
-    <form id="jobForm">
+    
+    <div id="selectedJobInfo" class="selected-job-info">
+      <i class="fas fa-briefcase"></i> ការងារដែលបានជ្រើសរើស: <span id="selectedJobTitle">-</span>
+    </div>
+    
+    <form id="jobForm" enctype="multipart/form-data">
       <div class="form-group">
         <label>ឈ្មោះពេញ</label>
         <input type="text" id="fullName" placeholder="ឈ្មោះ និងនាមត្រកូល" required>
@@ -695,7 +795,7 @@
 
       <div class="form-group">
         <label>អាសយដ្ឋានបច្ចុប្បន្ន</label>
-        <input type="text" id="address" placeholder="បំពេញអាសយដ្ឋានបច្ចុប្បន្នរបស់អ្នក ភូមិ ឃុំ ស្រុក/ខណ្ឌ រាជធានី/ខេត្ត" required>
+        <input type="text" id="address" placeholder="បំពេញអាសយដ្ឋានបច្ចុប្បន្នរបស់អ្នក" required>
       </div>
 
       <div class="form-group">
@@ -755,9 +855,9 @@
         <textarea id="description" placeholder="សរសេរសង្ខេបអំពីប្រវត្តិការងារពីមុនរបស់អ្នក..." rows="4"></textarea>
       </div>
 
-      <button type="submit">ផ្ញើការដាក់ពាក្យទៅកាន់ភ្នាក់ងារ</button>
+      <button type="submit" id="submitBtn">ផ្ញើការដាក់ពាក្យទៅកាន់ភ្នាក់ងារ</button>
     </form>
-    <div id="successMessage" class="success-message" style="display:none; background:#F0FDF4; border:1px solid #BBF7D0; color:#166534; padding:16px; border-radius:8px; margin-top:20px; text-align:center; font-weight:600;">
+    <div id="successMessage" style="display:none; background:#F0FDF4; border:1px solid #BBF7D0; color:#166534; padding:16px; border-radius:8px; margin-top:20px; text-align:center; font-weight:600;">
       ✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!
     </div>
   </section>
@@ -767,16 +867,17 @@
   </footer>
 
   <script>
-    // ============ CUSTOM ALERT SYSTEM ============
+    let selectedJob = '';
+    let isSubmitting = false;
+
+    // ============ CUSTOM ALERT ============
     function showAlert(message, type = 'info') {
       const alertEl = document.getElementById('customAlert');
       const iconEl = document.getElementById('alertIcon');
       const msgEl = document.getElementById('alertMessage');
       
-      // Remove all type classes
       alertEl.className = 'custom-alert';
       
-      // Set icon and styling based on type
       const icons = {
         success: '✅',
         error: '❌',
@@ -788,7 +889,6 @@
       alertEl.classList.add(type);
       msgEl.textContent = message;
       
-      // Auto close after 5 seconds
       clearTimeout(window.alertTimeout);
       window.alertTimeout = setTimeout(() => {
         closeAlert();
@@ -807,11 +907,9 @@
         e.preventDefault();
         const sectionId = this.dataset.section;
         
-        // Update active nav
         document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
         this.classList.add('active');
         
-        // Show corresponding section
         document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
         const target = document.getElementById(sectionId);
         if (target) {
@@ -821,17 +919,13 @@
       });
     });
 
-    // ============ APPLY TO JOB FUNCTION ============
+    // ============ APPLY TO JOB ============
     function applyToJob(jobTitle, salary) {
-      // Fill the job title in form description
-      const descField = document.getElementById('description');
-      if (descField) {
-        const currentText = descField.value;
-        const jobText = `ខ្ញុំចាប់អារម្មណ៍លើការងារ: ${jobTitle} (ប្រាក់ខែ ${salary})\n`;
-        if (!currentText.includes(jobTitle)) {
-          descField.value = jobText + currentText;
-        }
-      }
+      selectedJob = jobTitle;
+      
+      // Update selected job info
+      document.getElementById('selectedJobTitle').textContent = `${jobTitle} (ប្រាក់ខែ ${salary})`;
+      document.getElementById('selectedJobInfo').classList.add('show');
       
       // Navigate to apply section
       document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
@@ -850,57 +944,167 @@
     document.getElementById("jobForm").addEventListener("submit", function(e) {
       e.preventDefault();
       
-      // Collect all form data
-      const formData = {
-        fullName: document.getElementById('fullName').value,
-        age: document.getElementById('age').value,
-        address: document.getElementById('address').value,
-        workStatus: document.querySelector('input[name="workStatus"]:checked')?.value || '',
-        experience: document.querySelector('input[name="experience"]:checked')?.value || '',
-        previousJob: document.getElementById('previousJob').value,
-        otherJob: document.getElementById('otherJob').value,
-        telegram: document.getElementById('telegram').value,
-        phone: document.getElementById('phone').value,
-        description: document.getElementById('description').value
-      };
-      
-      // Validate required fields
-      if (!formData.fullName || !formData.age || !formData.address || !formData.telegram || !formData.phone) {
-        showAlert('សូមបំពេញព័ត៌មានឲ្យបានពេញលេញ!', 'error');
+      // Prevent double submission
+      if (isSubmitting) {
+        showAlert('កំពុងដំណើរការ... សូមរង់ចាំបន្តិច!', 'warning');
         return;
       }
       
-      // Build message for Telegram
+      // Collect form data
+      const fullName = document.getElementById('fullName').value;
+      const age = document.getElementById('age').value;
+      const address = document.getElementById('address').value;
+      const workStatus = document.querySelector('input[name="workStatus"]:checked')?.value || '';
+      const experience = document.querySelector('input[name="experience"]:checked')?.value || '';
+      const previousJob = document.getElementById('previousJob').value;
+      const otherJob = document.getElementById('otherJob').value;
+      const telegram = document.getElementById('telegram').value;
+      const phone = document.getElementById('phone').value;
+      const description = document.getElementById('description').value;
+      const fileInput = document.getElementById('cvFile');
+      const file = fileInput.files[0];
+      
+      // Validate required fields
+      if (!fullName || !age || !address || !workStatus || !experience || !telegram || !phone || !file) {
+        showAlert('សូមបំពេញព័ត៌មានឲ្យបានពេញលេញ និងភ្ជាប់ឯកសារ!', 'error');
+        return;
+      }
+      
+      if (!selectedJob) {
+        showAlert('សូមជ្រើសរើសការងារមុនពេលដាក់ពាក្យ!', 'error');
+        return;
+      }
+      
+      isSubmitting = true;
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('submitBtn').textContent = '⏳ កំពុងផ្ញើ...';
+      
+      // Get current date/time
+      const now = new Date();
+      const dateTime = now.toLocaleString('km-KH', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      
+      // Build message
       let message = `📋 *ការដាក់ពាក្យការងារថ្មី*\n\n`;
-      message += `👤 *ឈ្មោះ:* ${formData.fullName}\n`;
-      message += `📅 *អាយុ:* ${formData.age}\n`;
-      message += `📍 *អាសយដ្ឋាន:* ${formData.address}\n`;
-      message += `💼 *ស្ថានភាពការងារ:* ${formData.workStatus}\n`;
-      message += `📊 *បទពិសោធន៍:* ${formData.experience}\n`;
-      message += `💻 *ការងារពីមុន:* ${formData.previousJob === 'other' ? formData.otherJob : (formData.previousJob || 'មិនមាន')}\n`;
-      message += `📱 *តេឡេក្រាម:* ${formData.telegram}\n`;
-      message += `📞 *លេខទូរស័ព្ទ:* ${formData.phone}\n`;
-      message += `📝 *ប្រវត្តិការងារ:* ${formData.description || 'មិនមាន'}\n`;
+      message += `👤 *ឈ្មោះ:* ${fullName}\n`;
+      message += `📅 *អាយុ:* ${age}\n`;
+      message += `📍 *អាសយដ្ឋាន:* ${address}\n`;
+      message += `💼 *ស្ថានភាពការងារ:* ${workStatus}\n`;
+      message += `📊 *បទពិសោធន៍:* ${experience}\n`;
+      message += `💻 *ការងារពីមុន:* ${previousJob === 'other' ? otherJob : (previousJob || 'មិនមាន')}\n`;
+      message += `📱 *តេឡេក្រាម:* ${telegram}\n`;
+      message += `📞 *លេខទូរស័ព្ទ:* ${phone}\n`;
+      message += `📝 *ប្រវត្តិការងារ:* ${description || 'មិនមាន'}\n`;
+      message += `🎯 *ការងារដែលបានជ្រើសរើស:* ${selectedJob}\n`;
+      message += `🕐 *កាលបរិច្ឆេទដាក់ពាក្យ:* ${dateTime}\n`;
       message += `\n🔗 ផ្ញើពី: ${window.location.href}`;
       
-      // Send to Telegram
-      sendToTelegram(message);
+      // Read file as base64
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const fileBase64 = event.target.result;
+        
+        // Send to Telegram with file
+        sendToTelegramWithFile(message, fileBase64, file.name);
+      };
+      reader.onerror = function() {
+        // If file read fails, send without file
+        sendToTelegram(message);
+      };
+      reader.readAsDataURL(file);
     });
 
-    // ============ TELEGRAM BOT ============
+    // ============ SEND TO TELEGRAM WITH FILE ============
+    function sendToTelegramWithFile(message, fileBase64, fileName) {
+      const token = '8133960195:AAGss5J-d0GXsFkfsOa3yjQ7p3yp9W5uCFs';
+      const chatId = '-5304708525';
+      
+      // First send text message
+      const textUrl = `https://api.telegram.org/bot${token}/sendMessage`;
+      
+      fetch(textUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'Markdown'
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          // Then send the file
+          sendFileToTelegram(fileBase64, fileName, chatId, token);
+        } else {
+          showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។', 'error');
+          resetSubmitButton();
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។', 'error');
+        resetSubmitButton();
+      });
+    }
+
+    function sendFileToTelegram(fileBase64, fileName, chatId, token) {
+      // Convert base64 to blob
+      fetch(fileBase64)
+        .then(res => res.blob())
+        .then(blob => {
+          const formData = new FormData();
+          formData.append('chat_id', chatId);
+          formData.append('document', blob, fileName);
+          
+          const fileUrl = `https://api.telegram.org/bot${token}/sendDocument`;
+          
+          return fetch(fileUrl, {
+            method: 'POST',
+            body: formData
+          });
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.ok) {
+            document.getElementById('successMessage').style.display = 'block';
+            showAlert('✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!', 'success');
+            
+            // Reset form after 3 seconds
+            setTimeout(() => {
+              document.getElementById('jobForm').reset();
+              document.getElementById('successMessage').style.display = 'none';
+              document.getElementById('selectedJobInfo').classList.remove('show');
+              selectedJob = '';
+              resetSubmitButton();
+            }, 3000);
+          } else {
+            showAlert('❌ មានបញ្ហាក្នុងការផ្ញើឯកសារ។', 'error');
+            resetSubmitButton();
+          }
+        })
+        .catch(error => {
+          console.error('Error uploading file:', error);
+          showAlert('❌ មានបញ្ហាក្នុងការផ្ញើឯកសារ។', 'error');
+          resetSubmitButton();
+        });
+    }
+
+    // Fallback: send without file
     function sendToTelegram(message) {
       const token = '8133960195:AAGss5J-d0GXsFkfsOa3yjQ7p3yp9W5uCFs';
       const chatId = '-5304708525';
       const url = `https://api.telegram.org/bot${token}/sendMessage`;
       
-      // Show sending status
-      showAlert('⏳ កំពុងផ្ញើព័ត៌មានទៅកាន់ភ្នាក់ងារ...', 'info');
-      
       fetch(url, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: chatId,
           text: message,
@@ -913,20 +1117,41 @@
           document.getElementById('successMessage').style.display = 'block';
           showAlert('✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!', 'success');
           
-          // Reset form after 3 seconds
           setTimeout(() => {
             document.getElementById('jobForm').reset();
             document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('selectedJobInfo').classList.remove('show');
+            selectedJob = '';
+            resetSubmitButton();
           }, 3000);
         } else {
-          showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។ សូមព្យាយាមម្តងទៀត។', 'error');
+          showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។', 'error');
+          resetSubmitButton();
         }
       })
       .catch(error => {
         console.error('Error:', error);
-        showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។ សូមពិនិត្យការតភ្ជាប់អ៊ីនធឺណិត។', 'error');
+        showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។', 'error');
+        resetSubmitButton();
       });
     }
+
+    function resetSubmitButton() {
+      isSubmitting = false;
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('submitBtn').textContent = 'ផ្ញើការដាក់ពាក្យទៅកាន់ភ្នាក់ងារ';
+    }
+
+    // ============ OTHER JOB INPUT HANDLING ============
+    document.getElementById("previousJob").addEventListener("change", function() {
+      const otherInput = document.getElementById("otherJob");
+      if (this.value === "other") {
+        otherInput.placeholder = "សូមបញ្ជាក់ការងាររបស់អ្នក...";
+      } else {
+        otherInput.placeholder = "បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ";
+        otherInput.value = "";
+      }
+    });
 
     // ============ COPY WEBSITE LINK ============
     function copyWebsiteLink() {
@@ -958,20 +1183,7 @@
       document.body.removeChild(textArea);
     }
 
-    // ============ OTHER JOB INPUT HANDLING ============
-    document.getElementById("previousJob").addEventListener("change", function() {
-      const otherInput = document.getElementById("otherJob");
-      if (this.value === "other") {
-        otherInput.placeholder = "សូមបញ្ជាក់ការងាររបស់អ្នក...";
-        otherInput.required = false;
-      } else {
-        otherInput.placeholder = "បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ";
-        otherInput.value = "";
-      }
-    });
-
     // ============ INIT ============
-    // Set default active section
     document.querySelector('nav a[data-section="home"]')?.classList.add('active');
     document.getElementById('home')?.classList.add('active');
     
