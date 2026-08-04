@@ -3,889 +3,1199 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ទូទាត់ថ្លៃសេវាកម្មជ្រើសរើសបុគ្គលិក</title>
+  <title>ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</title>
   <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
+    /* ============================================================
+       CSS VARIABLES & RESET
+    ============================================================ */
+    :root {
+      --primary: #0F172A;
+      --primary-light: #1E293B;
+      --accent: #2563EB;
+      --accent-hover: #1D4ED8;
+      --accent-light: #DBEAFE;
+      --bg-light: #F1F5F9;
+      --card-bg: #FFFFFF;
+      --text: #0F172A;
+      --text-muted: #64748B;
+      --border: #E2E8F0;
+      --success: #22C55E;
+      --success-bg: #F0FDF4;
+      --error: #EF4444;
+      --error-bg: #FEF2F2;
+      --warning: #F59E0B;
+      --warning-bg: #FFFBEB;
+      --info-bg: #EFF6FF;
+      --telegram: #0088cc;
+      --facebook: #1877f2;
+      --tiktok: #000000;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
       font-family: 'Kantumruy Pro', sans-serif;
     }
 
-    body {
-      background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 50%, #1E40AF 100%);
+    body { 
+      background: var(--bg-light); 
+      color: var(--text); 
+      line-height: 1.7;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
     }
 
-    .payment-container {
-      max-width: 540px;
-      width: 100%;
-      background: #FFFFFF;
-      border-radius: 20px;
-      padding: 32px 28px;
-      box-shadow: 0 25px 80px rgba(0,0,0,0.3);
-      animation: fadeIn 0.6s ease;
-    }
+    /* ============================================================
+       SCROLLBAR
+    ============================================================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-light); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--accent-hover); }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .payment-header {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .payment-header .icon {
-      background: linear-gradient(135deg, #2563EB, #1D4ED8);
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 14px;
-      font-size: 32px;
-      color: white;
-      box-shadow: 0 8px 30px rgba(37, 99, 235, 0.35);
-    }
-
-    .payment-header h1 {
-      font-size: 24px;
-      color: #0F172A;
-      font-weight: 700;
-    }
-
-    .payment-header p {
-      color: #64748B;
-      font-size: 14px;
-      margin-top: 4px;
-    }
-
-    .fee-selection {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .fee-option {
-      border: 2px solid #E2E8F0;
-      border-radius: 12px;
-      padding: 16px 14px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      background: #FAFAFA;
-      position: relative;
-    }
-
-    .fee-option:hover {
-      border-color: #94A3B8;
-    }
-
-    .fee-option.selected {
-      border-color: #2563EB;
-      background: #EFF6FF;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-    }
-
-    .fee-option .fee-amount {
-      font-size: 28px;
-      font-weight: 700;
-      color: #0F172A;
-    }
-
-    .fee-option .fee-amount small {
-      font-size: 14px;
-      font-weight: 400;
-      color: #64748B;
-    }
-
-    .fee-option .fee-label {
-      font-size: 13px;
-      color: #64748B;
-      margin-top: 2px;
-    }
-
-    .fee-option .fee-badge {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      background: #2563EB;
-      color: white;
-      font-size: 10px;
-      font-weight: 600;
-      padding: 2px 10px;
-      border-radius: 20px;
-    }
-
-    .fee-option.selected .fee-badge {
-      background: #1D4ED8;
-    }
-
-    .fee-option input[type="radio"] {
+    /* ============================================================
+       CUSTOM ALERT
+    ============================================================ */
+    .custom-alert {
       display: none;
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      z-index: 9999;
+      padding: 16px 24px;
+      border-radius: var(--radius);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      font-weight: 500;
+      max-width: 90%;
+      width: 520px;
+      text-align: center;
+      animation: alertSlideDown 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
     }
 
-    .fee-summary {
-      background: #F1F5F9;
-      border-radius: 12px;
-      padding: 14px 18px;
-      margin-bottom: 24px;
-      border-left: 4px solid #2563EB;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
+    @keyframes alertSlideDown {
+      from { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0); }
     }
 
-    .fee-summary .label {
-      color: #475569;
-      font-size: 14px;
-    }
+    .custom-alert.success { display: block; background: rgba(240, 253, 244, 0.95); border-left: 5px solid var(--success); color: #166534; }
+    .custom-alert.error { display: block; background: rgba(254, 242, 242, 0.95); border-left: 5px solid var(--error); color: #991B1B; }
+    .custom-alert.info { display: block; background: rgba(239, 246, 255, 0.95); border-left: 5px solid var(--accent); color: #1E40AF; }
+    .custom-alert.warning { display: block; background: rgba(255, 251, 235, 0.95); border-left: 5px solid var(--warning); color: #92400E; }
 
-    .fee-summary .amount {
-      font-size: 26px;
-      font-weight: 700;
-      color: #2563EB;
-    }
+    .custom-alert .alert-icon { margin-right: 12px; font-size: 20px; }
+    .custom-alert .alert-close { float: right; background: none; border: none; font-size: 22px; cursor: pointer; color: inherit; opacity: 0.6; padding: 0 0 0 12px; transition: opacity var(--transition); }
+    .custom-alert .alert-close:hover { opacity: 1; }
 
-    .fee-summary .amount small {
-      font-size: 14px;
-      font-weight: 400;
-      color: #64748B;
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: 600;
-      font-size: 14px;
-      color: #0F172A;
-      margin-bottom: 6px;
-    }
-
-    .form-group label .required {
-      color: #EF4444;
-      margin-left: 2px;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid #E2E8F0;
-      border-radius: 10px;
-      font-size: 15px;
-      outline: none;
-      transition: all 0.3s ease;
-      background: #FAFAFA;
-    }
-
-    .form-group input:focus {
-      border-color: #2563EB;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
-      background: white;
-    }
-
-    .form-group input::placeholder {
-      color: #94A3B8;
-    }
-
-    /* ===== ABA KHQR BUTTON ===== */
-    .aba-khqr-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      width: 100%;
-      padding: 18px 20px;
-      background: linear-gradient(135deg, #003A73 0%, #0055A4 40%, #0077BE 100%);
-      color: white;
-      border: none;
-      border-radius: 14px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      font-family: 'Kantumruy Pro', sans-serif;
+    /* ============================================================
+       HEADER
+    ============================================================ */
+    header { 
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 50%, #1E40AF 100%); 
+      color: white; 
+      padding: 50px 20px 40px; 
+      text-align: center;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0, 85, 164, 0.3);
     }
 
-    .aba-khqr-btn::before {
+    header::before {
       content: '';
       position: absolute;
       top: -50%;
-      right: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: rgba(37, 99, 235, 0.1);
+      border-radius: 50%;
       pointer-events: none;
     }
 
-    .aba-khqr-btn::after {
+    header::after {
       content: '';
       position: absolute;
+      bottom: -40%;
+      left: -10%;
+      width: 300px;
+      height: 300px;
+      background: rgba(96, 165, 250, 0.08);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      position: relative;
+      letter-spacing: -0.5px;
+    }
+
+    header h1 i { color: #60A5FA; margin-right: 10px; }
+    header p { color: #93C5FD; font-size: 16px; position: relative; max-width: 600px; margin: 0 auto; }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    nav { 
+      background: var(--primary-light); 
+      padding: 14px 24px; 
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    nav a { 
+      color: #94A3B8; 
+      text-decoration: none; 
+      font-weight: 500;
+      font-size: 14px;
+      transition: all var(--transition);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    nav a:hover { color: #E2E8F0; background: rgba(255,255,255,0.06); }
+    nav a.active { color: #60A5FA; background: rgba(96, 165, 250, 0.12); }
+
+    .nav-btn, .nav-btn-history {
+      border: none;
+      padding: 8px 18px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all var(--transition);
+      font-family: 'Kantumruy Pro', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-btn { background: var(--accent); color: white; }
+    .nav-btn:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+
+    .nav-btn-history { background: var(--success); color: white; }
+    .nav-btn-history:hover { background: #16A34A; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3); }
+
+    /* ============================================================
+       SECTIONS
+    ============================================================ */
+    section { 
+      max-width: 920px;
+      margin: 30px auto;
+      padding: 32px 36px; 
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--border);
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section.active { display: block; }
+
+    section h2 {
+      color: var(--primary);
+      font-size: 22px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--accent-light);
+      padding-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    section h2 i { color: var(--accent); }
+
+    /* ============================================================
+       SOCIAL BUTTONS
+    ============================================================ */
+    .social-section {
+      margin-top: 40px;
+      padding-top: 30px;
+      border-top: 2px solid var(--border);
+      text-align: center;
+    }
+
+    .social-section h3 { font-size: 18px; color: var(--primary); margin-bottom: 16px; }
+
+    .social-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 28px;
+      border-radius: var(--radius-sm);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .social-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+    .social-btn.facebook { background: var(--facebook); }
+    .social-btn.tiktok { background: var(--tiktok); }
+    .social-btn.telegram { background: var(--telegram); }
+
+    /* ============================================================
+       FORM
+    ============================================================ */
+    form { max-width: 620px; margin: auto; }
+
+    .form-group { margin-bottom: 22px; }
+
+    label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--primary);
+    }
+
+    label .optional { font-weight: 400; color: var(--text-muted); font-size: 12px; }
+    label .required-star { color: var(--error); margin-left: 2px; }
+
+    input, textarea, select { 
+      width: 100%; 
+      padding: 12px 16px; 
+      border: 2px solid var(--border); 
+      border-radius: var(--radius-sm); 
+      font-size: 14px;
+      outline: none;
+      transition: all var(--transition);
+      background: white;
+      color: var(--text);
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+    }
+
+    input::placeholder, textarea::placeholder { color: #94A3B8; }
+    textarea { resize: vertical; min-height: 90px; }
+
+    .radio-group {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      padding-top: 4px;
+    }
+
+    .radio-group label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 400;
+      font-size: 14px;
+      cursor: pointer;
+      padding: 8px 16px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition);
+      margin-bottom: 0;
+    }
+
+    .radio-group label:hover { border-color: var(--accent); background: var(--accent-light); }
+    .radio-group input[type="radio"] { width: 18px; height: 18px; padding: 0; margin: 0; cursor: pointer; accent-color: var(--accent); flex-shrink: 0; }
+    .radio-group label:has(input:checked) { border-color: var(--accent); background: var(--accent-light); }
+
+    /* ============================================================
+       ADDRESS GRID
+    ============================================================ */
+    .address-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .address-grid .full-width { grid-column: 1 / -1; }
+    .address-grid .hidden-input { display: none; }
+    .address-grid .visible-input { display: block; }
+
+    /* ============================================================
+       SELECTED JOB INFO
+    ============================================================ */
+    .selected-job-info {
+      background: var(--info-bg);
+      border: 2px solid var(--accent);
+      border-radius: var(--radius-sm);
+      padding: 14px 20px;
+      margin-bottom: 24px;
+      display: none;
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--primary);
+      animation: fadeIn 0.4s ease;
+    }
+
+    .selected-job-info.show { display: block; }
+    .selected-job-info i { color: var(--accent); margin-right: 10px; }
+
+    /* ============================================================
+       FORM BUTTONS
+    ============================================================ */
+    .form-buttons {
+      display: flex;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .form-buttons button {
+      flex: 1;
+      padding: 14px 20px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: 'Kantumruy Pro', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .form-buttons button:active { transform: scale(0.97); }
+
+    .btn-submit { background: var(--accent); color: white; }
+    .btn-submit:hover { background: var(--accent-hover); }
+    .btn-submit:disabled { background: #94A3B8; cursor: not-allowed; transform: none !important; }
+
+    .btn-back {
+      background: #F1F5F9;
+      color: var(--text);
+      border: 2px solid var(--border) !important;
+    }
+    .btn-back:hover { background: #E2E8F0; }
+
+    /* ============================================================
+       SUCCESS MESSAGE
+    ============================================================ */
+    #successMessage {
+      display: none;
+      background: var(--success-bg);
+      border: 2px solid #BBF7D0;
+      color: #166534;
+      padding: 20px;
+      border-radius: var(--radius-sm);
+      margin-top: 24px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 16px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    #successMessage i { font-size: 28px; display: block; margin-bottom: 8px; }
+
+    /* ============================================================
+       RULES
+    ============================================================ */
+    .rules-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .rules-list li {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: background var(--transition);
+      border-radius: var(--radius-sm);
+    }
+
+    .rules-list li:hover { background: var(--bg-light); }
+    .rules-list li:last-child { border-bottom: none; }
+
+    .rules-list .rule-number {
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .rules-list .fee-info {
+      background: var(--info-bg);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      margin-top: 10px;
+      font-size: 14px;
+      border-left: 4px solid var(--accent);
+    }
+
+    /* ============================================================
+       HISTORY MODAL
+    ============================================================ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
-      pointer-events: none;
-      border-radius: 14px;
-    }
-
-    .aba-khqr-btn:hover {
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 8px 30px rgba(0, 85, 164, 0.5);
-    }
-
-    .aba-khqr-btn:active {
-      transform: scale(0.97);
-    }
-
-    .aba-khqr-btn .khqr-icon {
-      display: flex;
-      align-items: center;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
       justify-content: center;
-      gap: 6px;
-      background: rgba(255,255,255,0.15);
-      padding: 8px 14px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(255,255,255,0.1);
-      position: relative;
-      z-index: 1;
-    }
-
-    .aba-khqr-btn .khqr-icon i {
-      font-size: 22px;
-    }
-
-    .aba-khqr-btn .khqr-icon .qr-symbol {
-      display: inline-block;
-      background: rgba(255,255,255,0.2);
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      letter-spacing: 1px;
-    }
-
-    .aba-khqr-btn .khqr-text {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      line-height: 1.2;
-      position: relative;
-      z-index: 1;
-    }
-
-    .aba-khqr-btn .khqr-text .main {
-      font-size: 20px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-
-    .aba-khqr-btn .khqr-text .sub {
-      font-size: 12px;
-      font-weight: 400;
-      opacity: 0.85;
-    }
-
-    .aba-khqr-btn .khqr-badge {
-      position: relative;
-      z-index: 1;
-      background: #FFD700;
-      color: #003A73;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
-      margin-left: auto;
-    }
-
-    .aba-khqr-btn .khqr-arrow {
-      position: relative;
-      z-index: 1;
-      font-size: 16px;
-      opacity: 0.7;
-      transition: transform 0.3s ease;
-      margin-left: 4px;
-    }
-
-    .aba-khqr-btn:hover .khqr-arrow {
-      transform: translateX(4px);
-      opacity: 1;
-    }
-
-    /* KHQR Floating Elements */
-    .aba-khqr-btn .khqr-float {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.03);
-      pointer-events: none;
-    }
-
-    .aba-khqr-btn .khqr-float.f1 {
-      width: 80px;
-      height: 80px;
-      top: -30px;
-      right: 20px;
-      background: rgba(255,215,0,0.05);
-    }
-
-    .aba-khqr-btn .khqr-float.f2 {
-      width: 50px;
-      height: 50px;
-      bottom: -15px;
-      left: 30px;
-      background: rgba(255,255,255,0.05);
-    }
-
-    /* ===== END ABA KHQR BUTTON ===== */
-
-    .file-upload {
-      position: relative;
-      border: 2px dashed #CBD5E1;
-      border-radius: 12px;
-      padding: 28px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      background: #FAFAFA;
-    }
-
-    .file-upload:hover {
-      border-color: #2563EB;
-      background: #F1F5F9;
-    }
-
-    .file-upload.has-file {
-      border-color: #22C55E;
-      background: #F0FDF4;
-    }
-
-    .file-upload i {
-      font-size: 36px;
-      color: #94A3B8;
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .file-upload.has-file i {
-      color: #22C55E;
-    }
-
-    .file-upload p {
-      color: #64748B;
-      font-size: 14px;
-    }
-
-    .file-upload .file-name {
-      font-weight: 600;
-      color: #0F172A;
-      margin-top: 4px;
-      font-size: 14px;
-      word-break: break-all;
-    }
-
-    .file-upload input[type="file"] {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0;
-      cursor: pointer;
-    }
-
-    .file-preview {
-      margin-top: 10px;
-      max-width: 100%;
-      border-radius: 8px;
-      border: 1px solid #E2E8F0;
-      display: none;
-      max-height: 180px;
-      overflow: hidden;
-    }
-
-    .file-preview img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, #2563EB, #1D4ED8);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 18px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Kantumruy Pro', sans-serif;
-      display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 6px;
+      padding: 20px;
     }
 
-    .submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.35);
-    }
+    .modal-overlay.active { display: flex; }
 
-    .submit-btn:active {
-      transform: scale(0.97);
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none !important;
-    }
-
-    .submit-btn .spinner {
-      display: none;
-      animation: spin 0.8s linear infinite;
-    }
-
-    .submit-btn.loading .spinner {
-      display: inline-block;
-    }
-
-    .submit-btn.loading .btn-text {
-      display: none;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .success-message {
-      display: none;
-      background: #F0FDF4;
-      border: 2px solid #BBF7D0;
-      color: #166534;
-      padding: 18px;
-      border-radius: 12px;
-      margin-top: 20px;
-      text-align: center;
-      font-weight: 600;
-      font-size: 15px;
-      animation: fadeIn 0.5s ease;
-    }
-
-    .success-message i {
-      font-size: 32px;
-      display: block;
-      margin-bottom: 6px;
-      color: #22C55E;
-    }
-
-    .alert {
-      display: none;
-      padding: 14px 18px;
-      border-radius: 10px;
-      margin-bottom: 16px;
-      font-weight: 500;
-      font-size: 14px;
+    .modal-content {
+      background: white;
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      max-width: 780px;
+      width: 100%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.2);
       animation: fadeIn 0.4s ease;
     }
 
-    .alert.error {
-      display: block;
-      background: #FEF2F2;
-      border-left: 4px solid #EF4444;
-      color: #991B1B;
-    }
-
-    .alert.success {
-      display: block;
-      background: #F0FDF4;
-      border-left: 4px solid #22C55E;
-      color: #166534;
-    }
-
-    .alert .alert-icon {
-      margin-right: 10px;
-    }
-
-    .back-link {
-      display: block;
-      text-align: center;
-      margin-top: 16px;
-      color: #94A3B8;
-      text-decoration: none;
-      font-size: 13px;
-      transition: color 0.3s ease;
-    }
-
-    .back-link:hover {
-      color: #2563EB;
-    }
-
-    .back-link i {
-      margin-right: 6px;
-    }
-
-    .payment-note {
-      background: #FFFBEB;
-      border-radius: 10px;
-      padding: 12px 16px;
-      margin-top: 16px;
-      border-left: 4px solid #F59E0B;
-      font-size: 13px;
-      color: #92400E;
+    .modal-content h2 {
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--accent-light);
+      padding-bottom: 14px;
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 10px;
+      font-size: 22px;
     }
 
-    .payment-note i {
-      color: #F59E0B;
-      font-size: 18px;
-      margin-top: 1px;
+    .modal-content h2 i { color: var(--accent); }
+
+    .modal-close {
+      position: sticky;
+      top: 0;
+      float: right;
+      background: none;
+      border: none;
+      font-size: 30px;
+      cursor: pointer;
+      color: var(--text-muted);
+      z-index: 10;
+      transition: color var(--transition);
+      padding: 0 4px;
     }
 
-    .fee-description {
-      font-size: 12px;
-      color: #64748B;
-      margin-top: 4px;
-      padding-left: 4px;
+    .modal-close:hover { color: var(--text); }
+
+    .history-item {
+      background: var(--bg-light);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      transition: all var(--transition);
     }
 
-    /* KHQR Payment Methods Badge */
-    .khqr-methods {
+    .history-item:hover { border-color: var(--accent-light); box-shadow: var(--shadow-sm); }
+
+    .history-item .history-header {
       display: flex;
-      gap: 6px;
+      justify-content: space-between;
       flex-wrap: wrap;
-      margin-top: 6px;
+      gap: 8px;
+      margin-bottom: 6px;
     }
 
-    .khqr-methods span {
-      background: rgba(255,255,255,0.12);
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 10px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.8);
-      border: 1px solid rgba(255,255,255,0.06);
+    .history-item .history-name { font-weight: 700; color: var(--primary); font-size: 16px; }
+    .history-item .history-date { color: var(--text-muted); font-size: 13px; }
+    .history-item .history-job { color: var(--accent); font-weight: 600; }
+
+    .history-empty {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 50px 20px;
+    }
+
+    .history-empty i { font-size: 56px; color: #CBD5E1; display: block; margin-bottom: 16px; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer { 
+      background: var(--primary); 
+      color: #94A3B8; 
+      text-align: center; 
+      padding: 30px; 
+      margin-top: 60px;
+      font-size: 14px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 768px) {
+      header h1 { font-size: 24px; }
+      header { padding: 35px 16px 28px; }
+      
+      section { padding: 24px 20px; margin: 20px 12px; }
+
+      nav { padding: 10px 12px; gap: 4px; }
+      nav a { font-size: 12px; padding: 6px 10px; }
+      .nav-btn, .nav-btn-history { font-size: 12px; padding: 6px 12px; }
+
+      .social-btn { padding: 10px 18px; font-size: 13px; }
+
+      .custom-alert { width: 95%; padding: 14px 18px; top: 16px; }
+
+      .form-buttons { flex-direction: column; gap: 10px; }
+      .address-grid { grid-template-columns: 1fr; }
+      .address-grid .full-width { grid-column: 1; }
+
+      .modal-content { padding: 24px 18px; max-height: 85vh; }
+      .radio-group { gap: 10px; }
+      .radio-group label { padding: 6px 14px; font-size: 13px; }
     }
 
     @media (max-width: 480px) {
-      .payment-container {
-        padding: 24px 16px;
-      }
-      .payment-header h1 {
-        font-size: 20px;
-      }
-      .fee-selection {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-      }
-      .fee-option .fee-amount {
-        font-size: 22px;
-      }
-      .fee-summary .amount {
-        font-size: 22px;
-      }
-      .aba-khqr-btn {
-        flex-wrap: wrap;
-        padding: 16px;
-        gap: 10px;
-        border-radius: 12px;
-      }
-      .aba-khqr-btn .khqr-text .main {
-        font-size: 17px;
-      }
-      .aba-khqr-btn .khqr-badge {
-        margin-left: 0;
-      }
-      .aba-khqr-btn .khqr-icon {
-        padding: 6px 12px;
-        font-size: 12px;
-      }
-      .submit-btn {
-        font-size: 16px;
-        padding: 14px;
-      }
-      .khqr-methods span {
-        font-size: 9px;
-        padding: 1px 8px;
-      }
+      header h1 { font-size: 20px; }
+      header p { font-size: 14px; }
+      
+      section { padding: 18px 14px; margin: 14px 8px; }
+
+      nav a { font-size: 11px; padding: 4px 8px; }
+      .nav-btn, .nav-btn-history { font-size: 10px; padding: 4px 10px; }
+
+      .social-btn { padding: 8px 14px; font-size: 12px; gap: 6px; }
+
+      .modal-content { padding: 18px 14px; border-radius: var(--radius-sm); }
+      .modal-content h2 { font-size: 18px; }
+      .history-item { padding: 14px; }
+      .history-item .history-name { font-size: 14px; }
+
+      .form-group { margin-bottom: 16px; }
+      input, textarea, select { padding: 10px 14px; font-size: 13px; }
     }
 
-    @media (max-width: 380px) {
-      .fee-selection {
-        grid-template-columns: 1fr;
-      }
-      .aba-khqr-btn .khqr-text .main {
-        font-size: 15px;
-      }
+    /* ============================================================
+       NUMBER INPUT - Force English numbers
+    ============================================================ */
+    input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
   </style>
 </head>
 <body>
 
-  <div class="payment-container">
-    
-    <!-- Header -->
-    <div class="payment-header">
-      <div class="icon">
-        <i class="fas fa-hand-holding-usd"></i>
-      </div>
-      <h1>ទូទាត់ថ្លៃសេវាកម្ម</h1>
-      <p>ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</p>
-    </div>
-
-    <!-- Fee Selection -->
-    <div class="fee-selection" id="feeSelection">
-      <label class="fee-option selected" id="feeOption1">
-        <input type="radio" name="feeType" value="1" checked>
-        <div class="fee-amount">1$ <small>USD</small></div>
-        <div class="fee-label">📄 ថ្លៃសេវាផ្ញើព័ត៌មាន</div>
-        <div class="fee-badge">ផ្ញើព័ត៌មាន</div>
-      </label>
-      <label class="fee-option" id="feeOption4">
-        <input type="radio" name="feeType" value="4">
-        <div class="fee-amount">4$ <small>USD</small></div>
-        <div class="fee-label">✅ ថ្លៃសេវាជោគជ័យ</div>
-        <div class="fee-badge">ជាប់ការងារ</div>
-      </label>
-    </div>
-
-    <!-- Fee Summary -->
-    <div class="fee-summary">
-      <span class="label">💳 ថ្លៃសេវាដែលបានជ្រើសរើស</span>
-      <span class="amount" id="selectedAmount">1$ <small>USD</small></span>
-    </div>
-
-    <!-- Alert -->
-    <div id="alert" class="alert"></div>
-
-    <!-- Form -->
-    <form id="paymentForm" enctype="multipart/form-data">
-      
-      <!-- Phone Number -->
-      <div class="form-group">
-        <label>លេខទូរស័ព្ទ <span class="required">*</span></label>
-        <input type="tel" id="phone" placeholder="បំពេញលេខទូរស័ព្ទរបស់អ្នក" required>
-      </div>
-
-      <!-- Telegram -->
-      <div class="form-group">
-        <label>លេខតេឡេក្រាម (Link / Username)<span class="required">*</span></label>
-        <input type="text" id="telegram" placeholder="លេខដែលបង្កើតតេឡេក្រាម, https://t.me/username ឬ @username" required>
-        <div class="fee-description">📌 ភ្នាក់ងារនឹងប្រើតេឡេក្រាមដើម្បីជូនដំណឹងលទ្ធផលដាក់ពាក្យរបស់អ្នក</div>
-      </div>
-
-      <!-- Bank Account Name -->
-      <div class="form-group">
-        <label>ឈ្មោះគណនីធនាគារ <span class="required">*</span></label>
-        <input type="text" id="accountName" placeholder="បំពេញឈ្មោះគណនីធនាគារ" required>
-      </div>
-
-      <!-- Bank Account Number -->
-      <div class="form-group">
-        <label>លេខគណនីធនាគារ <span class="required">*</span></label>
-        <input type="text" id="accountNumber" placeholder="បំពេញលេខគណនីធនាគារ" required>
-      </div>
-
-      <!-- ABA Bank KHQR Button -->
-      <div class="form-group">
-        <label>ជំហានទី ១: បង់ប្រាក់តាម KHQR (ABA Bank)</label>
-        <a href="https://i.postimg.cc/ydvWQBNt/hfguhdjjs78473228.jpg" target="_blank" class="aba-khqr-btn" id="abaPayBtn">
-          <!-- Floating decorative elements -->
-          <span class="khqr-float f1"></span>
-          <span class="khqr-float f2"></span>
-          
-          <!-- KHQR Icon -->
-          <span class="khqr-icon">
-            <i class="fas fa-qrcode"></i>
-            <span class="qr-symbol">KHQR</span>
-          </span>
-          
-          <!-- Text -->
-          <span class="khqr-text">
-            <span class="main">🏦 ABA Bank</span>
-            <span class="sub">បង់ប្រាក់តាម KHQR ស្តង់ដារ</span>
-            <div class="khqr-methods">
-            </div>
-          </span>
-          
-          <!-- Badge -->
-          
-          
-          <!-- Arrow -->
-          <span class="khqr-arrow">
-            <i class="fas fa-chevron-right"></i>
-          </span>
-        </a>
-        <div class="fee-description" style="margin-top:6px;">
-          🔒 ចុចដើម្បីបង់ប្រាក់តាមប្រព័ន្ធ KHQR ស្តង់ដារកម្ពុជា (សុវត្ថិភាព 100%)
-        </div>
-      </div>
-
-      <!-- Screenshot Upload -->
-      <div class="form-group">
-        <label>ជំហានទី ២: ភ្ជាប់រូបភាពថតអេក្រង់បន្ទាប់ពីបង់ប្រាក់ <span class="required">*</span></label>
-        <div class="file-upload" id="fileUpload">
-          <i class="fas fa-camera"></i>
-          <p>ចុចដើម្បីភ្ជាប់រូបភាព (Screenshot)</p>
-          <div class="file-name" id="fileName"></div>
-          <input type="file" id="screenshot" accept="image/*" required>
-        </div>
-        <div class="file-preview" id="filePreview">
-          <img id="previewImage" src="" alt="Screenshot Preview">
-        </div>
-      </div>
-
-      <!-- Submit Button -->
-      <button type="submit" class="submit-btn" id="submitBtn">
-        <span class="btn-text"><i class="fas fa-paper-plane"></i> ផ្ញើព័ត៌មានទូទាត់</span>
-        <span class="spinner"><i class="fas fa-spinner"></i></span>
-      </button>
-
-    </form>
-
-    <!-- Success Message -->
-    <div class="success-message" id="successMessage">
-      <i class="fas fa-check-circle"></i>
-      ✅ ព័ត៌មានទូទាត់របស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!
-      <br><small style="font-weight:400; display:block; margin-top:6px;">ភ្នាក់ងារនឹងទាក់ទងអ្នកតាមរយៈតេឡេក្រាមក្នុងពេលឆាប់ៗ</small>
-    </div>
-
-    <!-- Payment Note -->
-    <div class="payment-note">
-      <i class="fas fa-info-circle"></i>
-      <span>
-        <strong>សូមបញ្ជាក់៖</strong><br>
-        • <strong>1$</strong> សម្រាប់ការបញ្ជូនព័ត៌មានដាក់ពាក្យរបស់អ្នកទៅកាន់ក្រុមហ៊ុន<br>
-        • <strong>4$</strong> សម្រាប់កម្រៃជោគជ័យ (នៅពេលជាប់ការងារ)<br>
-        បន្ទាប់ពីបង់ប្រាក់រួច សូមភ្ជាប់រូបភាពថតអេក្រង់ដើម្បីផ្ទៀងផ្ទាត់។
-      </span>
-    </div>
-
-    <a href="#" class="back-link" onclick="history.back(); return false;">
-      <i class="fas fa-arrow-left"></i> ត្រឡប់ក្រោយ
-    </a>
+  <!-- ============================================================
+       CUSTOM ALERT
+  ============================================================ -->
+  <div id="customAlert" class="custom-alert">
+    <button class="alert-close" onclick="closeAlert()">&times;</button>
+    <span class="alert-icon" id="alertIcon">✅</span>
+    <span id="alertMessage">សារជូនដំណឹង</span>
   </div>
 
-  <script>
-    // ============================================================
-    // FEE SELECTION
-    // ============================================================
-    const feeOptions = document.querySelectorAll('.fee-option');
-    const selectedAmountDisplay = document.getElementById('selectedAmount');
-    let selectedFee = '1';
+  <!-- ============================================================
+       HISTORY MODAL
+  ============================================================ -->
+  <div id="historyModal" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeHistory()">&times;</button>
+      <h2><i class="fas fa-history"></i> ប្រវត្តិដាក់ពាក្យ</h2>
+      <div id="historyList">
+        <div class="history-empty">
+          <i class="fas fa-inbox"></i>
+          មិនទាន់មានប្រវត្តិដាក់ពាក្យនៅឡើយទេ
+        </div>
+      </div>
+    </div>
+  </div>
 
-    feeOptions.forEach(option => {
-      option.addEventListener('click', function() {
-        feeOptions.forEach(opt => opt.classList.remove('selected'));
-        this.classList.add('selected');
+  <!-- ============================================================
+       HEADER
+  ============================================================ -->
+  <header>
+    <h1><i class="fas fa-briefcase"></i> ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</h1>
+    <p>សូមស្វាគមន៍មកកាន់ទំព័រប្រកាសការងារ និងដាក់ពាក្យធ្វើការ</p>
+  </header>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav>
+    <a href="#" class="active" data-section="home"><i class="fas fa-home"></i> ដើម</a>
+    <a href="#" data-section="rules"><i class="fas fa-list-ul"></i> ច្បាប់</a>
+    <button class="nav-btn-history" onclick="openHistory()"><i class="fas fa-history"></i> ប្រវត្តិដាក់ពាក្យ</button>
+    <button class="nav-btn" onclick="copyWebsiteLink()"><i class="fas fa-share-alt"></i> ចែករំលែក</button>
+  </nav>
+
+  <!-- ============================================================
+       HOME SECTION - APPLICATION FORM (No Jobs)
+  ============================================================ -->
+  <section id="home" class="active">
+    <h2><i class="fas fa-pen-fancy"></i> បំពេញទម្រង់ដាក់ពាក្យ</h2>
+    
+    <div id="selectedJobInfo" class="selected-job-info">
+      <i class="fas fa-briefcase"></i> ការងារដែលបានជ្រើសរើស: <span id="selectedJobTitle">-</span>
+    </div>
+    
+    <form id="jobForm" enctype="multipart/form-data">
+      <div class="form-group">
+        <label>ឈ្មោះពេញ <span class="required-star">*</span></label>
+        <input type="text" id="fullName" placeholder="ឈ្មោះ និងនាមត្រកូល" required>
+      </div>
+      
+      <div class="form-group">
+        <label>អាយុ <span class="required-star">*</span></label>
+        <input type="number" id="age" placeholder="បំពេញអាយុរបស់អ្នក" min="15" max="80" required oninput="enforceEnglishNumbers(this)">
+      </div>
+
+      <div class="form-group">
+        <label>កម្ពស់ (សង់ទីម៉ែត្រ) <span class="required-star">*</span></label>
+        <input type="number" id="height" placeholder="បំពេញកម្ពស់របស់អ្នក (ឧ: 170)" min="100" max="250" required oninput="enforceEnglishNumbers(this)">
+      </div>
+
+      <div class="form-group">
+        <label>កម្រិតសិក្សា <span class="required-star">*</span></label>
+        <select id="education" required>
+          <option value="">-- សូមជ្រើសរើស --</option>
+          <option value="បឋមសិក្សា">បឋមសិក្សា</option>
+          <option value="អនុវិទ្យាល័យ">អនុវិទ្យាល័យ</option>
+          <option value="វិទ្យាល័យ">វិទ្យាល័យ</option>
+          <option value="បរិញ្ញាបត្រ">បរិញ្ញាបត្រ</option>
+          <option value="អនុបណ្ឌិត">អនុបណ្ឌិត</option>
+          <option value="បណ្ឌិត">បណ្ឌិត</option>
+          <option value="other">ផ្សេងៗ</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>បញ្ជាក់កម្រិតសិក្សា <span class="optional">(មិនចាំបាច់បំពេញក៏បាន)</span></label>
+        <input type="text" id="otherEducation" placeholder="បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ">
+      </div>
+
+      <!-- Address Section -->
+      <div class="form-group">
+        <label>អាសយដ្ឋានបច្ចុប្បន្ន <span class="required-star">*</span></label>
+        <div class="address-grid">
+          <div class="full-width">
+            <select id="province" required>
+              <option value="">-- រាជធានី/ខេត្ត --</option>
+              <option value="ភ្នំពេញ">ភ្នំពេញ</option>
+              <option value="បាត់ដំបង">បាត់ដំបង</option>
+              <option value="សៀមរាប">សៀមរាប</option>
+              <option value="កំពង់ចាម">កំពង់ចាម</option>
+              <option value="កំពង់ឆ្នាំង">កំពង់ឆ្នាំង</option>
+              <option value="កំពង់ស្ពឺ">កំពង់ស្ពឺ</option>
+              <option value="កំពង់ធំ">កំពង់ធំ</option>
+              <option value="កណ្តាល">កណ្តាល</option>
+              <option value="តាកែវ">តាកែវ</option>
+              <option value="កែប">កែប</option>
+              <option value="កំពត">កំពត</option>
+              <option value="ព្រះសីហនុ">ព្រះសីហនុ</option>
+              <option value="កោះកុង">កោះកុង</option>
+              <option value="ព្រៃវែង">ព្រៃវែង</option>
+              <option value="ស្វាយរៀង">ស្វាយរៀង</option>
+              <option value="ព្រះវិហារ">ព្រះវិហារ</option>
+              <option value="ឧត្តរមានជ័យ">ឧត្តរមានជ័យ</option>
+              <option value="បន្ទាយមានជ័យ">បន្ទាយមានជ័យ</option>
+              <option value="ប៉ៃលិន">ប៉ៃលិន</option>
+              <option value="រតនគិរី">រតនគិរី</option>
+              <option value="ស្ទឹងត្រែង">ស្ទឹងត្រែង</option>
+              <option value="មណ្ឌលគិរី">មណ្ឌលគិរី</option>
+              <option value="ក្រចេះ">ក្រចេះ</option>
+              <option value="ត្បូងឃ្មុំ">ត្បូងឃ្មុំ</option>
+            </select>
+          </div>
+          <div>
+            <select id="district" required>
+              <option value="">-- ស្រុក/ខណ្ឌ --</option>
+              <option value="ចំការមន">ចំការមន</option>
+              <option value="ដូនពេញ">ដូនពេញ</option>
+              <option value="៧មករា">៧មករា</option>
+              <option value="បឹងកេងកង">បឹងកេងកង</option>
+              <option value="ទួលគោក">ទួលគោក</option>
+              <option value="ឫស្សីកែវ">ឫស្សីកែវ</option>
+              <option value="សែនសុខ">សែនសុខ</option>
+              <option value="ពោធិ៍សែនជ័យ">ពោធិ៍សែនជ័យ</option>
+              <option value="ជ្រោយចង្វា">ជ្រោយចង្វា</option>
+              <option value="មានជ័យ">មានជ័យ</option>
+              <option value="ដង្កោ">ដង្កោ</option>
+              <option value="គីរីវង្ស">គីរីវង្ស</option>
+              <option value="ច្បារអំពៅ">ច្បារអំពៅ</option>
+              <option value="ព្រែកព្នៅ">ព្រែកព្នៅ</option>
+              <option value="other">ផ្សេងៗ</option>
+            </select>
+          </div>
+          <div>
+            <select id="commune" required>
+              <option value="">-- ឃុំ/សង្កាត់ --</option>
+              <option value="វត្តភ្នំ">វត្តភ្នំ</option>
+              <option value="បឹងរាំង">បឹងរាំង</option>
+              <option value="ផ្សារថ្មី">ផ្សារថ្មី</option>
+              <option value="ផ្សារកណ្តាល">ផ្សារកណ្តាល</option>
+              <option value="ជ័យជំនះ">ជ័យជំនះ</option>
+              <option value="បឹងត្របែក">បឹងត្របែក</option>
+              <option value="ទួលស្វាយព្រៃ">ទួលស្វាយព្រៃ</option>
+              <option value="ទួលទំពូង">ទួលទំពូង</option>
+              <option value="បឹងកក់">បឹងកក់</option>
+              <option value="ផ្សារដេប៉ូ">ផ្សារដេប៉ូ</option>
+              <option value="ផ្សារចាស់">ផ្សារចាស់</option>
+              <option value="ស្រះចក">ស្រះចក</option>
+              <option value="វាលវង់">វាលវង់</option>
+              <option value="other">ផ្សេងៗ</option>
+            </select>
+          </div>
+          <div class="full-width" id="districtOtherContainer" style="display:none;">
+            <input type="text" id="districtOther" placeholder="សូមបញ្ជាក់ស្រុក/ខណ្ឌរបស់អ្នក">
+          </div>
+          <div class="full-width" id="communeOtherContainer" style="display:none;">
+            <input type="text" id="communeOther" placeholder="សូមបញ្ជាក់ឃុំ/សង្កាត់របស់អ្នក">
+          </div>
+          <div class="full-width">
+            <input type="text" id="village" placeholder="ភូមិ (បញ្ជាក់ភូមិរបស់អ្នក)" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>ស្ថានភាពការងារបច្ចុប្បន្ន <span class="required-star">*</span></label>
+        <div class="radio-group">
+          <label><input type="radio" name="workStatus" value="កំពុងធ្វើការ" required> កំពុងធ្វើការ</label>
+          <label><input type="radio" name="workStatus" value="មិនទាន់មានការងារ"> មិនទាន់មានការងារ</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>បទពិសោធន៍ការងារ <span class="required-star">*</span></label>
+        <div class="radio-group">
+          <label><input type="radio" name="experience" value="ធ្លាប់មាន" required> ធ្លាប់មាន</label>
+          <label><input type="radio" name="experience" value="មិនធ្លាប់មាន"> មិនធ្លាប់មាន</label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>ការងារពីមុន <span class="optional">(មិនចាំបាច់បំពេញក៏បាន)</span></label>
+        <select id="previousJob">
+          <option value="">-- សូមជ្រើសរើស --</option>
+          <option value="គ្រូបង្រៀន">គ្រូបង្រៀន</option>
+          <option value="អ្នកជំនួញ">អ្នកជំនួញ</option>
+          <option value="កម្មករ">កម្មករ</option>
+          <option value="វេជ្ជបណ្ឌិត">វេជ្ជបណ្ឌិត</option>
+          <option value="វិស្វករ">វិស្វករ</option>
+          <option value="គណនេយ្យករ">គណនេយ្យករ</option>
+          <option value="អ្នកសរសេរកម្មវិធី">អ្នកសរសេរកម្មវិធី</option>
+          <option value="អ្នកគ្រប់គ្រង">អ្នកគ្រប់គ្រង</option>
+          <option value="other">ផ្សេងៗ (សូមបញ្ជាក់)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>បញ្ជាក់ការងារពីមុន <span class="optional">(មិនចាំបាច់បំពេញក៏បាន)</span></label>
+        <input type="text" id="otherJob" placeholder="បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ">
+      </div>
+
+      <div class="form-group">
+        <label>តេឡេក្រាម (Link / Username) <span class="required-star">*</span></label>
+        <input type="text" id="telegram" placeholder="តំណភ្ជាប់ ឬ ឈ្មោះអ្នកប្រើប្រាស់តេឡេក្រាម" required>
+      </div>
+
+      <div class="form-group">
+        <label>លេខទូរស័ព្ទ <span class="required-star">*</span></label>
+        <input type="tel" id="phone" placeholder="លេខទូរស័ព្ទ" required oninput="enforceEnglishNumbers(this)">
+      </div>
+
+      <div class="form-group">
+        <label>ឯកសារ CV / រូបថត <span class="required-star">*</span></label>
+        <input type="file" id="cvFile" accept=".pdf,.doc,.docx,image/*" required style="padding:10px 12px;">
+      </div>
+
+      <div class="form-group">
+        <label>ការពិពណ៌នាសង្ខេបអំពីប្រវត្តិការងារពីមុនរបស់អ្នក <span class="optional">(មិនចាំបាច់បំពេញក៏បាន)</span></label>
+        <textarea id="description" placeholder="សរសេរសង្ខេបអំពីប្រវត្តិការងារពីមុនរបស់អ្នក..." rows="4"></textarea>
+      </div>
+
+      <div class="form-buttons">
+        <button type="button" class="btn-back" onclick="goBack()">
+          <i class="fas fa-arrow-left"></i> ថយក្រោយ
+        </button>
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <i class="fas fa-paper-plane"></i> ផ្ញើការដាក់ពាក្យ
+        </button>
+      </div>
+    </form>
+    <div id="successMessage">
+      <i class="fas fa-check-circle"></i>
+      ✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!
+    </div>
+
+    <!-- Social Media -->
+    <div class="social-section">
+      <h3><i class="fas fa-share-alt"></i> តាមដានយើងតាមរយៈ</h3>
+      <div class="social-buttons">
+        <a href="https://www.facebook.com/share/18hfTDgJZS/?mibextid=wwXIfr" target="_blank" class="social-btn facebook">
+          <i class="fab fa-facebook-f"></i> Facebook
+        </a>
+        <a href="https://www.tiktok.com/@generalrecruitmen" target="_blank" class="social-btn tiktok">
+          <i class="fab fa-tiktok"></i> TikTok
+        </a>
+        <a href="https://t.me/Job_in_cambodia_98" target="_blank" class="social-btn telegram">
+          <i class="fab fa-telegram"></i> Telegram
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       RULES SECTION
+  ============================================================ -->
+  <section id="rules">
+    <h2><i class="fas fa-list-ul"></i> ច្បាប់និងរបៀបប្រើប្រាស</h2>
+    <ul class="rules-list">
+      <li>
+        <span class="rule-number">1</span>
+        <div><strong>ការចុះឈ្មោះ</strong><br>សូមបំពេញព័ត៌មានឲ្យបានត្រឹមត្រូវ និងពេញលេញ ដើម្បីឱ្យភ្នាក់ងារអាចទាក់ទងអ្នកបាន។</div>
+      </li>
+      <li>
+        <span class="rule-number">2</span>
+        <div><strong>ការប្រកាសការងារ</strong><br>ការងារទាំងអស់ត្រូវបានផ្ទៀងផ្ទាត់ដោយភ្នាក់ងារ។</div>
+      </li>
+      <li>
+        <span class="rule-number">3</span>
+        <div><strong>ការដាក់ពាក្យ</strong><br>អ្នកអាចដាក់ពាក្យបានច្រើនកន្លែង ប៉ុន្តែត្រូវប្រាប់ភ្នាក់ងារប្រសិនបើអ្នកបានទទួលការងាររួចហើយ។</div>
+      </li>
+      <li>
+        <span class="rule-number">4</span>
+        <div><strong>ការទំនាក់ទំនង</strong><br>ប្រើតែប៉ុស្តិ៍ផ្លូវការរបស់ភ្នាក់ងារ (Telegram, Facebook, TikTok) សម្រាប់ទំនាក់ទំនង។</div>
+      </li>
+      <li>
+        <span class="rule-number">5</span>
+        <div><strong>របៀបប្រើប្រាស</strong><br>1. ចូលទៅកាន់ 🏠 ទំព័រដើម<br>2. បំពេញទម្រង់ដាក់ពាក្យ<br>3. ចុចប៊ូតុង "ផ្ញើការដាក់ពាក្យ"<br>4. រង់ចាំការឆ្លើយតបពីភ្នាក់ងារតាមរយៈ Telegram</div>
+      </li>
+      <li>
+        <span class="rule-number">6</span>
+        <div><strong>ការការពារព័ត៌មាន</strong><br>ព័ត៌មានផ្ទាល់ខ្លួនរបស់អ្នកនឹងត្រូវរក្សាទុកជាសម្ងាត់ និងប្រើប្រាស់សម្រាប់ការដាក់ពាក្យការងារតែប៉ុណ្ណោះ។</div>
+      </li>
+      <li>
+        <span class="rule-number">7</span>
+        <div>
+          <strong>ថ្លៃសេវាកម្ម</strong>
+          <div class="fee-info">
+            <i class="fas fa-money-bill-wave" style="color:var(--accent);"></i> <strong>ថ្លៃសេវា 1$</strong> នៅពេលភ្នាក់ងារបញ្ជូនព័ត៌មានដាក់ពាក្យរបស់អ្នកទៅកាន់ក្រុមហ៊ុនជ្រើសរើសបុគ្គលិក។<br>
+            <i class="fas fa-trophy" style="color:var(--warning);"></i> <strong>ថ្លៃសេវា 4$</strong> នៅពេលជាប់ការដាក់ពាក្យ(បន្ទាប់ពីក្រុមហ៊ុនឬអ្នកជ្រើសរើសបុគ្គលិកហៅអ្នកធ្វើការ)។<br>
+            <i class="fas fa-shield-alt" style="color:var(--error);"></i> <strong>ការទូទាត់</strong> សូមប្រុងប្រយ័ត្នជាមួយនឹងការទូទាត់! អ្នកអាចបង់ប្រាក់ឱ្យភ្នាក់ងាររបស់យើងសម្រាប់សេវាកម្មនៅលើគេហទំព័រដែលបានផ្តល់ជូនតែប៉ុណ្ណោះ។
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer>
+    <p>&copy; 2026 ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</p>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================ -->
+  <script>
+    let selectedJob = '';
+    let isSubmitting = false;
+    let applicationHistory = JSON.parse(localStorage.getItem('applicationHistory')) || [];
+
+    // ============================================================
+    // ENFORCE ENGLISH NUMBERS
+    // ============================================================
+    function enforceEnglishNumbers(input) {
+      const khmerNumbers = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
+      const englishNumbers = ['0','1','2','3','4','5','6','7','8','9'];
+      
+      let value = input.value;
+      let converted = '';
+      for (let char of value) {
+        const index = khmerNumbers.indexOf(char);
+        if (index !== -1) {
+          converted += englishNumbers[index];
+        } else {
+          converted += char;
+        }
+      }
+      input.value = converted;
+      
+      if (input.type === 'number') {
+        input.value = input.value.replace(/[^0-9.]/g, '');
+      }
+    }
+
+    // ============================================================
+    // ADDRESS "OTHER" HANDLING
+    // ============================================================
+    document.getElementById("district").addEventListener("change", function() {
+      const container = document.getElementById("districtOtherContainer");
+      const otherInput = document.getElementById("districtOther");
+      if (this.value === "other") {
+        container.style.display = "block";
+        otherInput.required = true;
+        otherInput.placeholder = "សូមបញ្ជាក់ស្រុក/ខណ្ឌរបស់អ្នក...";
+      } else {
+        container.style.display = "none";
+        otherInput.value = "";
+        otherInput.required = false;
+      }
+    });
+
+    document.getElementById("commune").addEventListener("change", function() {
+      const container = document.getElementById("communeOtherContainer");
+      const otherInput = document.getElementById("communeOther");
+      if (this.value === "other") {
+        container.style.display = "block";
+        otherInput.required = true;
+        otherInput.placeholder = "សូមបញ្ជាក់ឃុំ/សង្កាត់របស់អ្នក...";
+      } else {
+        container.style.display = "none";
+        otherInput.value = "";
+        otherInput.required = false;
+      }
+    });
+
+    // ============================================================
+    // EDUCATION / OTHER JOB INPUTS
+    // ============================================================
+    document.getElementById("education").addEventListener("change", function() {
+      const otherInput = document.getElementById("otherEducation");
+      if (this.value === "other") {
+        otherInput.placeholder = "សូមបញ្ជាក់កម្រិតសិក្សារបស់អ្នក...";
+        otherInput.required = true;
+      } else {
+        otherInput.placeholder = "បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ";
+        otherInput.value = "";
+        otherInput.required = false;
+      }
+    });
+
+    document.getElementById("previousJob").addEventListener("change", function() {
+      const otherInput = document.getElementById("otherJob");
+      if (this.value === "other") {
+        otherInput.placeholder = "សូមបញ្ជាក់ការងាររបស់អ្នក...";
+        otherInput.required = true;
+      } else {
+        otherInput.placeholder = "បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ";
+        otherInput.value = "";
+        otherInput.required = false;
+      }
+    });
+
+    // ============================================================
+    // CUSTOM ALERT
+    // ============================================================
+    function showAlert(message, type = 'info') {
+      const alertEl = document.getElementById('customAlert');
+      const iconEl = document.getElementById('alertIcon');
+      const msgEl = document.getElementById('alertMessage');
+      
+      alertEl.className = 'custom-alert';
+      
+      const icons = {
+        success: '✅',
+        error: '❌',
+        warning: '⚠️',
+        info: 'ℹ️'
+      };
+      
+      iconEl.textContent = icons[type] || 'ℹ️';
+      alertEl.classList.add(type);
+      msgEl.textContent = message;
+      
+      clearTimeout(window.alertTimeout);
+      window.alertTimeout = setTimeout(() => {
+        closeAlert();
+      }, 5000);
+    }
+    
+    function closeAlert() {
+      const alertEl = document.getElementById('customAlert');
+      alertEl.className = 'custom-alert';
+      clearTimeout(window.alertTimeout);
+    }
+
+    // ============================================================
+    // NAVIGATION
+    // ============================================================
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const sectionId = this.dataset.section;
+        if (!sectionId) return;
         
-        const radio = this.querySelector('input[type="radio"]');
-        radio.checked = true;
-        selectedFee = radio.value;
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        this.classList.add('active');
         
-        selectedAmountDisplay.innerHTML = `${selectedFee}$ <small>USD</small>`;
+        document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById(sectionId);
+        if (target) {
+          target.classList.add('active');
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       });
     });
 
     // ============================================================
-    // FILE UPLOAD PREVIEW
+    // GO BACK
     // ============================================================
-    const fileInput = document.getElementById('screenshot');
-    const fileUpload = document.getElementById('fileUpload');
-    const fileName = document.getElementById('fileName');
-    const filePreview = document.getElementById('filePreview');
-    const previewImage = document.getElementById('previewImage');
+    function goBack() {
+      // Just scroll to top since we're already on the form
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
 
-    fileInput.addEventListener('change', function() {
-      const file = this.files[0];
-      if (file) {
-        fileUpload.classList.add('has-file');
-        fileName.textContent = '📎 ' + file.name;
-        
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          previewImage.src = e.target.result;
-          filePreview.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
+    // ============================================================
+    // HISTORY FUNCTIONS
+    // ============================================================
+    function openHistory() {
+      const modal = document.getElementById('historyModal');
+      const list = document.getElementById('historyList');
+      
+      if (applicationHistory.length === 0) {
+        list.innerHTML = `
+          <div class="history-empty">
+            <i class="fas fa-inbox"></i>
+            មិនទាន់មានប្រវត្តិដាក់ពាក្យនៅឡើយទេ
+          </div>
+        `;
       } else {
-        fileUpload.classList.remove('has-file');
-        fileName.textContent = '';
-        filePreview.style.display = 'none';
-        previewImage.src = '';
+        let html = '';
+        const reversed = [...applicationHistory].reverse();
+        for (const item of reversed) {
+          html += `
+            <div class="history-item">
+              <div class="history-header">
+                <span class="history-name"><i class="fas fa-user" style="color:var(--accent);"></i> ${item.name}</span>
+                <span class="history-date"><i class="far fa-clock"></i> ${item.date}</span>
+              </div>
+              <div>
+                <span class="history-job"><i class="fas fa-briefcase"></i> ${item.job}</span>
+              </div>
+              <div style="color:var(--text-muted); font-size:13px; margin-top:6px; display:flex; flex-wrap:wrap; gap:16px;">
+                <span><i class="fas fa-phone"></i> ${item.phone}</span>
+                <span><i class="fab fa-telegram"></i> ${item.telegram}</span>
+              </div>
+            </div>
+          `;
+        }
+        list.innerHTML = html;
+      }
+      
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeHistory() {
+      document.getElementById('historyModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('historyModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeHistory();
       }
     });
 
     // ============================================================
-    // ALERT FUNCTIONS
-    // ============================================================
-    function showAlert(message, type = 'error') {
-      const alertEl = document.getElementById('alert');
-      alertEl.className = 'alert';
-      alertEl.innerHTML = `<span class="alert-icon">${type === 'error' ? '❌' : '✅'}</span> ${message}`;
-      alertEl.classList.add(type);
-      clearTimeout(window.alertTimeout);
-      window.alertTimeout = setTimeout(() => {
-        alertEl.className = 'alert';
-      }, 6000);
-    }
-
-    // ============================================================
     // FORM SUBMISSION
     // ============================================================
-    const form = document.getElementById('paymentForm');
-    const submitBtn = document.getElementById('submitBtn');
-    let isSubmitting = false;
-
-    form.addEventListener('submit', function(e) {
+    document.getElementById("jobForm").addEventListener("submit", function(e) {
       e.preventDefault();
-
-      if (isSubmitting) return;
-
-      const phone = document.getElementById('phone').value.trim();
-      const telegram = document.getElementById('telegram').value.trim();
-      const accountName = document.getElementById('accountName').value.trim();
-      const accountNumber = document.getElementById('accountNumber').value.trim();
-      const file = document.getElementById('screenshot').files[0];
-
-      if (!phone || !telegram || !accountName || !accountNumber || !file) {
-        showAlert('សូមបំពេញព័ត៌មានឲ្យបានពេញលេញ និងភ្ជាប់រូបភាពថតអេក្រង់!', 'error');
+      
+      if (isSubmitting) {
+        showAlert('កំពុងដំណើរការ... សូមរង់ចាំបន្តិច!', 'warning');
         return;
       }
-
+      
+      const fullName = document.getElementById('fullName').value;
+      const age = document.getElementById('age').value;
+      const height = document.getElementById('height').value;
+      const education = document.getElementById('education').value;
+      const otherEducation = document.getElementById('otherEducation').value;
+      const province = document.getElementById('province').value;
+      const district = document.getElementById('district').value;
+      const districtOther = document.getElementById('districtOther').value;
+      const commune = document.getElementById('commune').value;
+      const communeOther = document.getElementById('communeOther').value;
+      const village = document.getElementById('village').value;
+      const workStatus = document.querySelector('input[name="workStatus"]:checked')?.value || '';
+      const experience = document.querySelector('input[name="experience"]:checked')?.value || '';
+      const previousJob = document.getElementById('previousJob').value;
+      const otherJob = document.getElementById('otherJob').value;
+      const telegram = document.getElementById('telegram').value;
+      const phone = document.getElementById('phone').value;
+      const description = document.getElementById('description').value;
+      const fileInput = document.getElementById('cvFile');
+      const file = fileInput.files[0];
+      
+      const finalDistrict = district === 'other' ? districtOther : district;
+      const finalCommune = commune === 'other' ? communeOther : commune;
+      const fullAddress = `${village}, ${finalCommune}, ${finalDistrict}, ${province}`;
+      
+      if (!fullName || !age || !height || !education || !province || !district || !commune || !village || !workStatus || !experience || !telegram || !phone || !file) {
+        showAlert('សូមបំពេញព័ត៌មានឲ្យបានពេញលេញ និងភ្ជាប់ឯកសារ!', 'error');
+        return;
+      }
+      
       isSubmitting = true;
-      submitBtn.classList.add('loading');
-      submitBtn.disabled = true;
-
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('submitBtn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> កំពុងផ្ញើ...';
+      
       const now = new Date();
       const dateTime = now.toLocaleString('km-KH', {
         year: 'numeric',
@@ -895,22 +1205,39 @@
         minute: '2-digit',
         second: '2-digit'
       });
-
-      const feeLabel = selectedFee === '1' ? '📄 ផ្ញើព័ត៌មាន' : '✅ ជាប់ការងារ (កម្រៃជោគជ័យ)';
-
-      const caption = `💳 *ការទូទាត់ថ្លៃសេវាកម្មជ្រើសរើសបុគ្គលិក*\n\n` +
-        `📱 *លេខទូរស័ព្ទ:* ${phone}\n` +
-        `📌 *តេឡេក្រាម:* ${telegram}\n` +
-        `🏦 *ឈ្មោះគណនីធនាគារ:* ${accountName}\n` +
-        `🔢 *លេខគណនីធនាគារ:* ${accountNumber}\n` +
-        `💰 *ថ្លៃសេវា:* ${selectedFee}$ USD (${feeLabel})\n` +
-        `🕐 *កាលបរិច្ឆេទ:* ${dateTime}\n\n` +
-        `✅ សូមផ្ទៀងផ្ទាត់ការទូទាត់នេះ និងទាក់ទងអតិថិជនតាមរយៈតេឡេក្រាមផង។`;
-
+      
+      const finalEducation = education === 'other' ? otherEducation : education;
+      const finalJob = previousJob === 'other' ? otherJob : (previousJob || 'មិនមាន');
+      
+      const caption = `📋 *ការដាក់ពាក្យការងារថ្មី*\n\n` +
+        `👤 *ឈ្មោះ:* ${fullName}\n` +
+        `📅 *អាយុ:* ${age}\n` +
+        `📏 *កម្ពស់:* ${height} សង់ទីម៉ែត្រ\n` +
+        `🎓 *កម្រិតសិក្សា:* ${finalEducation}\n` +
+        `📍 *អាសយដ្ឋាន:* ${fullAddress}\n` +
+        `💼 *ស្ថានភាពការងារ:* ${workStatus}\n` +
+        `📊 *បទពិសោធន៍:* ${experience}\n` +
+        `💻 *ការងារពីមុន:* ${finalJob}\n` +
+        `📱 *តេឡេក្រាម:* ${telegram}\n` +
+        `📞 *លេខទូរស័ព្ទ:* ${phone}\n` +
+        `📝 *ប្រវត្តិការងារ:* ${description || 'មិនមាន'}\n` +
+        `🕐 *កាលបរិច្ឆេទដាក់ពាក្យ:* ${dateTime}\n\n` +
+        `🔗 ផ្ញើពី: ${window.location.href}`;
+      
+      const historyItem = {
+        name: fullName,
+        job: 'ការងារទូទៅ',
+        phone: phone,
+        telegram: telegram,
+        date: dateTime
+      };
+      applicationHistory.push(historyItem);
+      localStorage.setItem('applicationHistory', JSON.stringify(applicationHistory));
+      
       const reader = new FileReader();
       reader.onload = function(event) {
         const fileBase64 = event.target.result;
-        sendScreenshotWithCaption(fileBase64, file.name, caption);
+        sendPhotoWithCaption(fileBase64, file.name, caption);
       };
       reader.onerror = function() {
         showAlert('❌ មិនអាចអានឯកសារបាន។', 'error');
@@ -920,23 +1247,32 @@
     });
 
     // ============================================================
-    // SEND TO TELEGRAM
+    // SEND PHOTO WITH CAPTION
     // ============================================================
-    function sendScreenshotWithCaption(fileBase64, fileName, caption) {
-      const token = '8364652665:AAESgPsrL-Q2D3ZYtLTN6IzdkQ1pLYnc5vw';
-      const chatId = '-5410896989';
-
+    function sendPhotoWithCaption(fileBase64, fileName, caption) {
+      const token = '8133960195:AAGss5J-d0GXsFkfsOa3yjQ7p3yp9W5uCFs';
+      const chatId = '-5304708525';
+      
       fetch(fileBase64)
         .then(res => res.blob())
         .then(blob => {
           const formData = new FormData();
           formData.append('chat_id', chatId);
-          formData.append('photo', blob, fileName);
+          
+          const isImage = blob.type.startsWith('image/');
+          
+          if (isImage) {
+            formData.append('photo', blob, fileName);
+          } else {
+            formData.append('document', blob, fileName);
+          }
+          
           formData.append('caption', caption);
           formData.append('parse_mode', 'Markdown');
-
-          const url = `https://api.telegram.org/bot${token}/sendPhoto`;
-
+          
+          const method = isImage ? 'sendPhoto' : 'sendDocument';
+          const url = `https://api.telegram.org/bot${token}/${method}`;
+          
           return fetch(url, {
             method: 'POST',
             body: formData
@@ -946,41 +1282,79 @@
         .then(data => {
           if (data.ok) {
             document.getElementById('successMessage').style.display = 'block';
-            showAlert('✅ ព័ត៌មានទូទាត់ត្រូវបានផ្ញើជោគជ័យ!', 'success');
-
+            showAlert('✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!', 'success');
+            
             setTimeout(() => {
-              form.reset();
+              document.getElementById('jobForm').reset();
               document.getElementById('successMessage').style.display = 'none';
-              document.getElementById('fileUpload').classList.remove('has-file');
-              document.getElementById('fileName').textContent = '';
-              document.getElementById('filePreview').style.display = 'none';
-              document.getElementById('previewImage').src = '';
+              document.getElementById('selectedJobInfo').classList.remove('show');
+              document.getElementById('otherEducation').value = '';
+              document.getElementById('otherJob').value = '';
+              document.getElementById('districtOtherContainer').style.display = 'none';
+              document.getElementById('communeOtherContainer').style.display = 'none';
+              document.getElementById('districtOther').value = '';
+              document.getElementById('communeOther').value = '';
               resetSubmitButton();
-            }, 4000);
+            }, 3000);
           } else {
-            showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។ សូមព្យាយាមម្តងទៀត។', 'error');
+            showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។', 'error');
             resetSubmitButton();
           }
         })
         .catch(error => {
           console.error('Error:', error);
-          showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។ សូមពិនិត្យការតភ្ជាប់អ៊ីនធឺណិត។', 'error');
+          showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។', 'error');
           resetSubmitButton();
         });
     }
 
     function resetSubmitButton() {
       isSubmitting = false;
-      submitBtn.classList.remove('loading');
-      submitBtn.disabled = false;
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('submitBtn').innerHTML = '<i class="fas fa-paper-plane"></i> ផ្ញើការដាក់ពាក្យ';
     }
 
     // ============================================================
-    // ABA KHQR BUTTON - Track click
+    // COPY WEBSITE LINK
     // ============================================================
-    document.getElementById('abaPayBtn').addEventListener('click', function() {
-      console.log('ABA KHQR Pay button clicked - redirecting to payment page');
-    });
+    function copyWebsiteLink() {
+      const url = window.location.href;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          showAlert('🔗 តំណភ្ជាប់ត្រូវបានចម្លងជោគជ័យ!', 'success');
+        }).catch(() => {
+          fallbackCopy(url);
+        });
+      } else {
+        fallbackCopy(url);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      textArea.style.top = "-9999px";
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showAlert('🔗 តំណភ្ជាប់ត្រូវបានចម្លងជោគជ័យ!', 'success');
+      } catch (err) {
+        showAlert('សូមចម្លងតំណភ្ជាប់នេះដោយដៃ: ' + text, 'warning');
+      }
+      document.body.removeChild(textArea);
+    }
+
+    // ============================================================
+    // INIT
+    // ============================================================
+    document.querySelector('nav a[data-section="home"]')?.classList.add('active');
+    document.getElementById('home')?.classList.add('active');
+    
+    console.log('✅ គេហទំព័របានដំណើរការយ៉ាងពេញលេញ!');
+    console.log(`📊 មានប្រវត្តិដាក់ពាក្យចំនួន ${applicationHistory.length} ប្រវត្តិ`);
   </script>
 
 </body>
