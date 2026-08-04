@@ -420,23 +420,36 @@
     .btn-back:hover { background: #E2E8F0; }
 
     /* ============================================================
-       SUCCESS MESSAGE
+       SUCCESS MESSAGE - FIXED: ប្រើពាក្យដែលអ្នកចង់បាន
     ============================================================ */
     #successMessage {
       display: none;
       background: var(--success-bg);
       border: 2px solid #BBF7D0;
       color: #166534;
-      padding: 20px;
+      padding: 24px 20px;
       border-radius: var(--radius-sm);
       margin-top: 24px;
       text-align: center;
-      font-weight: 600;
+      font-weight: 500;
       font-size: 16px;
       animation: fadeIn 0.5s ease;
+      line-height: 1.8;
     }
 
-    #successMessage i { font-size: 28px; display: block; margin-bottom: 8px; }
+    #successMessage i { 
+      font-size: 32px; 
+      display: block; 
+      margin-bottom: 10px;
+      color: var(--success);
+    }
+
+    #successMessage .success-sub {
+      font-size: 14px;
+      color: #166534;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
 
     /* ============================================================
        RULES
@@ -961,9 +974,15 @@
         </button>
       </div>
     </form>
+    
+    <!-- ==========================================================
+       SUCCESS MESSAGE - FIXED: ប្រើពាក្យដែលអ្នកចង់បាន
+    ========================================================== -->
     <div id="successMessage">
       <i class="fas fa-check-circle"></i>
-      ✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ! សូមរង់ចាំភ្នាក់ងាររបស់យើងទាក់ទងអ្នកតាមរយៈ Telegram ជាមួយនឹងការជូនដំណឹងដល់អ្នក។
+      <div>✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!</div>
+      <div style="margin-top: 6px;">សូមរង់ចាំភ្នាក់ងាររបស់យើងទាក់ទងអ្នកតាមរយៈ Telegram ជាមួយនឹងការជូនដំណឹងដល់អ្នក។</div>
+      <div class="success-sub"><i class="fas fa-clock"></i> សូមអរគុណសម្រាប់ការដាក់ពាក្យ!</div>
     </div>
 
     <!-- ==========================================================
@@ -1040,8 +1059,7 @@
        JAVASCRIPT
   ============================================================ -->
   <script>
-    let selectedJob = '';
-let isSubmitting = false;
+    let isSubmitting = false;
 let applicationHistory = JSON.parse(localStorage.getItem('applicationHistory')) || [];
 
 // ============================================================
@@ -1299,7 +1317,6 @@ function openHistory() {
     let html = '';
     const reversed = [...applicationHistory].reverse();
     for (const item of reversed) {
-      // Build the formatted text for copying (same as Telegram format)
       const copyText = `📋 *ការដាក់ពាក្យការងារថ្មី*\n\n` +
         `🏢 *ក្រុមហ៊ុន:* ${item.company || 'មិនមាន'}\n` +
         `💰 *ប្រាក់ខែរំពឹងទុក:* ${item.expectedSalary || 'មិនមាន'}\n` +
@@ -1329,7 +1346,6 @@ function openHistory() {
             <span style="color:var(--text-muted); font-size:13px;"><i class="fas fa-phone"></i> ${item.phone}</span>
             <span style="color:var(--text-muted); font-size:13px;"><i class="fab fa-telegram"></i> ${item.telegram}</span>
           </div>
-          <!-- Detailed info (hidden by default, shown on click) -->
           <div class="history-details" style="display: none; margin-top: 10px; padding: 12px 14px; background: #F8FAFC; border-radius: 8px; font-size: 13px; border: 1px solid var(--border);">
             <div><strong>🏢 ក្រុមហ៊ុន:</strong> ${item.company || 'មិនមាន'}</div>
             <div><strong>💰 ប្រាក់ខែរំពឹងទុក:</strong> ${item.expectedSalary || 'មិនមាន'}</div>
@@ -1377,7 +1393,6 @@ document.getElementById('historyModal').addEventListener('click', function(e) {
 // ============================================================
 function copyHistoryItem(button) {
   const textToCopy = button.getAttribute('data-copy');
-  // Decode HTML entities
   const textArea = document.createElement('textarea');
   textArea.value = textToCopy;
   textArea.style.position = 'fixed';
@@ -1570,7 +1585,18 @@ function sendPhotoWithCaption(fileBase64, fileName, caption) {
     .then(response => response.json())
     .then(data => {
       if (data.ok) {
-        document.getElementById('successMessage').style.display = 'block';
+        // ==========================================================
+        // FIXED: បង្ហាញ Success Message ជាមួយពាក្យដែលអ្នកចង់បាន
+        // ==========================================================
+        const successMsg = document.getElementById('successMessage');
+        successMsg.innerHTML = `
+          <i class="fas fa-check-circle"></i>
+          <div>✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!</div>
+          <div style="margin-top: 6px;">សូមរង់ចាំភ្នាក់ងាររបស់យើងទាក់ទងអ្នកតាមរយៈ Telegram ជាមួយនឹងការជូនដំណឹងដល់អ្នក។</div>
+          <div class="success-sub"><i class="fas fa-clock"></i> សូមអរគុណសម្រាប់ការដាក់ពាក្យ!</div>
+        `;
+        successMsg.style.display = 'block';
+        
         showAlert('✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!', 'success');
         
         setTimeout(() => {
@@ -1586,7 +1612,7 @@ function sendPhotoWithCaption(fileBase64, fileName, caption) {
           resetSubmitButton();
           updateAddressFields();
           updateExperienceOptions();
-        }, 3000);
+        }, 4000);
       } else {
         showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។', 'error');
         resetSubmitButton();
