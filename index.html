@@ -275,7 +275,7 @@
     /* ============================================================
        FORM
     ============================================================ */
-    form { max-width: 620px; margin: auto; }
+    form { max-width: 650px; margin: auto; }
 
     .form-group { margin-bottom: 22px; }
 
@@ -307,6 +307,12 @@
       box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
     }
 
+    input:disabled, select:disabled {
+      background: #F1F5F9;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
     input::placeholder, textarea::placeholder { color: #94A3B8; }
     textarea { resize: vertical; min-height: 90px; }
 
@@ -334,6 +340,14 @@
     .radio-group label:hover { border-color: var(--accent); background: var(--accent-light); }
     .radio-group input[type="radio"] { width: 18px; height: 18px; padding: 0; margin: 0; cursor: pointer; accent-color: var(--accent); flex-shrink: 0; }
     .radio-group label:has(input:checked) { border-color: var(--accent); background: var(--accent-light); }
+    .radio-group label.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .radio-group label.disabled:hover {
+      border-color: var(--border);
+      background: transparent;
+    }
 
     /* ============================================================
        ADDRESS GRID
@@ -632,6 +646,17 @@
       -webkit-appearance: none;
       margin: 0;
     }
+
+    .form-hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      padding-left: 4px;
+    }
+
+    .form-hint i {
+      margin-right: 4px;
+    }
   </style>
 </head>
 <body>
@@ -666,7 +691,7 @@
   ============================================================ -->
   <header>
     <h1><i class="fas fa-briefcase"></i> ភ្នាក់ងារជ្រើសរើសបុគ្គលិកទូទៅ</h1>
-    <p>ស្វែងរកការងារសមរម្យ និងដាក់ពាក្យធ្វើការបានយ៉ាងងាយស្រួល</p>
+    <p>សូមស្វាគមន៍មកកាន់ទំព័រប្រកាសការងារ និងដាក់ពាក្យធ្វើការ</p>
   </header>
 
   <!-- ============================================================
@@ -680,7 +705,7 @@
   </nav>
 
   <!-- ============================================================
-       HOME SECTION - APPLICATION FORM (No Jobs)
+       HOME SECTION - APPLICATION FORM
   ============================================================ -->
   <section id="home" class="active">
     <h2><i class="fas fa-pen-fancy"></i> បំពេញទម្រង់ដាក់ពាក្យ</h2>
@@ -690,21 +715,61 @@
     </div>
     
     <form id="jobForm" enctype="multipart/form-data">
+      
+      <!-- ==========================================================
+           NEW: ឈ្មោះក្រុមហ៊ុនជ្រើសរើសបុគ្គលិក
+      ========================================================== -->
+      <div class="form-group">
+        <label>ឈ្មោះក្រុមហ៊ុនជ្រើសរើសបុគ្គលិក <span class="required-star">*</span></label>
+        <input type="text" id="companyName" placeholder="បំពេញឈ្មោះក្រុមហ៊ុនដែលអ្នកឃើញក្នុងការបង្ហោះ" required>
+        <div class="form-hint"><i class="fas fa-info-circle"></i> សូមបញ្ចូលឈ្មោះក្រុមហ៊ុនដូចដែលបានបង្ហោះលើ Facebook, TikTok ឬ Telegram</div>
+      </div>
+
+      <!-- ==========================================================
+           NEW: ប្រាក់ខែដែលរំពឹងទុក
+      ========================================================== -->
+      <div class="form-group">
+        <label>ប្រាក់ខែដែលរំពឹងទុក <span class="required-star">*</span></label>
+        <input type="text" id="expectedSalary" placeholder="ឧ: 400$ - 500$ ឬ 500$" required>
+        <div class="form-hint"><i class="fas fa-info-circle"></i> សូមបញ្ចូលចំនួនប្រាក់ខែដែលអ្នករំពឹងចង់បាន</div>
+      </div>
+
+      <!-- ==========================================================
+           NEW: កាលបរិច្ឆេទអាចមកធ្វើការបាន
+      ========================================================== -->
+      <div class="form-group">
+        <label>កាលបរិច្ឆេទដែលអ្នកអាចមកធ្វើការបាន <span class="required-star">*</span></label>
+        <input type="date" id="startDate" required>
+        <div class="form-hint"><i class="fas fa-info-circle"></i> សូមជ្រើសរើសកាលបរិច្ឆេទដែលអ្នកអាចចាប់ផ្ដើមធ្វើការបាន</div>
+      </div>
+
+      <!-- ==========================================================
+           EXISTING: ឈ្មោះពេញ
+      ========================================================== -->
       <div class="form-group">
         <label>ឈ្មោះពេញ <span class="required-star">*</span></label>
         <input type="text" id="fullName" placeholder="ឈ្មោះ និងនាមត្រកូល" required>
       </div>
       
+      <!-- ==========================================================
+           EXISTING: អាយុ
+      ========================================================== -->
       <div class="form-group">
         <label>អាយុ <span class="required-star">*</span></label>
         <input type="number" id="age" placeholder="បំពេញអាយុរបស់អ្នក" min="15" max="80" required oninput="enforceEnglishNumbers(this)">
       </div>
 
+      <!-- ==========================================================
+           EXISTING: កម្ពស់
+      ========================================================== -->
       <div class="form-group">
         <label>កម្ពស់ (សង់ទីម៉ែត្រ) <span class="required-star">*</span></label>
         <input type="number" id="height" placeholder="បំពេញកម្ពស់របស់អ្នក (ឧ: 170)" min="100" max="250" required oninput="enforceEnglishNumbers(this)">
       </div>
 
+      <!-- ==========================================================
+           EXISTING: កម្រិតសិក្សា
+      ========================================================== -->
       <div class="form-group">
         <label>កម្រិតសិក្សា <span class="required-star">*</span></label>
         <select id="education" required>
@@ -724,7 +789,9 @@
         <input type="text" id="otherEducation" placeholder="បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ">
       </div>
 
-      <!-- Address Section -->
+      <!-- ==========================================================
+           ADDRESS SECTION - Modified: Conditional District/Commune
+      ========================================================== -->
       <div class="form-group">
         <label>អាសយដ្ឋានបច្ចុប្បន្ន <span class="required-star">*</span></label>
         <div class="address-grid">
@@ -806,11 +873,15 @@
             <input type="text" id="village" placeholder="ភូមិ (បញ្ជាក់ភូមិរបស់អ្នក)" required>
           </div>
         </div>
+        <div class="form-hint"><i class="fas fa-info-circle"></i> ប្រសិនបើអ្នកនៅក្រៅភ្នំពេញ សូមជ្រើសរើស "ផ្សេងៗ" ក្នុងប្រអប់ស្រុក/ខណ្ឌ និងឃុំ/សង្កាត់</div>
       </div>
 
+      <!-- ==========================================================
+           WORK STATUS & EXPERIENCE - Conditional Logic
+      ========================================================== -->
       <div class="form-group">
         <label>ស្ថានភាពការងារបច្ចុប្បន្ន <span class="required-star">*</span></label>
-        <div class="radio-group">
+        <div class="radio-group" id="workStatusGroup">
           <label><input type="radio" name="workStatus" value="កំពុងធ្វើការ" required> កំពុងធ្វើការ</label>
           <label><input type="radio" name="workStatus" value="មិនទាន់មានការងារ"> មិនទាន់មានការងារ</label>
         </div>
@@ -818,12 +889,16 @@
 
       <div class="form-group">
         <label>បទពិសោធន៍ការងារ <span class="required-star">*</span></label>
-        <div class="radio-group">
+        <div class="radio-group" id="experienceGroup">
           <label><input type="radio" name="experience" value="ធ្លាប់មាន" required> ធ្លាប់មាន</label>
           <label><input type="radio" name="experience" value="មិនធ្លាប់មាន"> មិនធ្លាប់មាន</label>
         </div>
+        <div class="form-hint"><i class="fas fa-info-circle"></i> ប្រសិនបើអ្នកកំពុងធ្វើការ អ្នកមិនអាចជ្រើសរើស "មិនធ្លាប់មាន" បានទេ</div>
       </div>
 
+      <!-- ==========================================================
+           EXISTING: ការងារពីមុន
+      ========================================================== -->
       <div class="form-group">
         <label>ការងារពីមុន <span class="optional">(មិនចាំបាច់បំពេញក៏បាន)</span></label>
         <select id="previousJob">
@@ -845,6 +920,9 @@
         <input type="text" id="otherJob" placeholder="បើជ្រើសរើស 'ផ្សេងៗ' សូមបញ្ជាក់នៅទីនេះ">
       </div>
 
+      <!-- ==========================================================
+           EXISTING: Telegram & Phone
+      ========================================================== -->
       <div class="form-group">
         <label>តេឡេក្រាម (Link / Username) <span class="required-star">*</span></label>
         <input type="text" id="telegram" placeholder="តំណភ្ជាប់ ឬ ឈ្មោះអ្នកប្រើប្រាស់តេឡេក្រាម" required>
@@ -855,16 +933,25 @@
         <input type="tel" id="phone" placeholder="លេខទូរស័ព្ទ" required oninput="enforceEnglishNumbers(this)">
       </div>
 
+      <!-- ==========================================================
+           EXISTING: CV Upload
+      ========================================================== -->
       <div class="form-group">
         <label>ឯកសារ CV / រូបថត <span class="required-star">*</span></label>
         <input type="file" id="cvFile" accept=".pdf,.doc,.docx,image/*" required style="padding:10px 12px;">
       </div>
 
+      <!-- ==========================================================
+           EXISTING: Description
+      ========================================================== -->
       <div class="form-group">
         <label>ការពិពណ៌នាសង្ខេបអំពីប្រវត្តិការងារពីមុនរបស់អ្នក <span class="optional">(មិនចាំបាច់បំពេញក៏បាន)</span></label>
         <textarea id="description" placeholder="សរសេរសង្ខេបអំពីប្រវត្តិការងារពីមុនរបស់អ្នក..." rows="4"></textarea>
       </div>
 
+      <!-- ==========================================================
+           FORM BUTTONS
+      ========================================================== -->
       <div class="form-buttons">
         <button type="button" class="btn-back" onclick="goBack()">
           <i class="fas fa-arrow-left"></i> ថយក្រោយ
@@ -879,7 +966,9 @@
       ✅ ការដាក់ពាក្យរបស់អ្នកត្រូវបានផ្ញើដោយជោគជ័យ!
     </div>
 
-    <!-- Social Media -->
+    <!-- ==========================================================
+       SOCIAL MEDIA
+    ========================================================== -->
     <div class="social-section">
       <h3><i class="fas fa-share-alt"></i> តាមដានយើងតាមរយៈ</h3>
       <div class="social-buttons">
@@ -980,33 +1069,88 @@
     }
 
     // ============================================================
-    // ADDRESS "OTHER" HANDLING
+    // ADDRESS "OTHER" HANDLING with Conditional Logic
     // ============================================================
-    document.getElementById("district").addEventListener("change", function() {
-      const container = document.getElementById("districtOtherContainer");
-      const otherInput = document.getElementById("districtOther");
-      if (this.value === "other") {
-        container.style.display = "block";
-        otherInput.required = true;
-        otherInput.placeholder = "សូមបញ្ជាក់ស្រុក/ខណ្ឌរបស់អ្នក...";
+    const provinceSelect = document.getElementById('province');
+    const districtSelect = document.getElementById('district');
+    const communeSelect = document.getElementById('commune');
+    const districtOtherContainer = document.getElementById('districtOtherContainer');
+    const communeOtherContainer = document.getElementById('communeOtherContainer');
+    const districtOther = document.getElementById('districtOther');
+    const communeOther = document.getElementById('communeOther');
+
+    // Store original options for district and commune
+    const districtOptions = districtSelect.innerHTML;
+    const communeOptions = communeSelect.innerHTML;
+
+    function updateAddressFields() {
+      const selectedProvince = provinceSelect.value;
+      const isPhnomPenh = selectedProvince === 'ភ្នំពេញ';
+
+      if (isPhnomPenh) {
+        // Show all district and commune options
+        districtSelect.innerHTML = districtOptions;
+        communeSelect.innerHTML = communeOptions;
+        districtSelect.disabled = false;
+        communeSelect.disabled = false;
+        districtSelect.required = true;
+        communeSelect.required = true;
+        // Hide other containers
+        districtOtherContainer.style.display = 'none';
+        communeOtherContainer.style.display = 'none';
+        districtOther.value = '';
+        communeOther.value = '';
+        districtOther.required = false;
+        communeOther.required = false;
       } else {
-        container.style.display = "none";
-        otherInput.value = "";
-        otherInput.required = false;
+        // Only show "other" option for district and commune
+        districtSelect.innerHTML = `
+          <option value="">-- ស្រុក/ខណ្ឌ --</option>
+          <option value="other">ផ្សេងៗ</option>
+        `;
+        communeSelect.innerHTML = `
+          <option value="">-- ឃុំ/សង្កាត់ --</option>
+          <option value="other">ផ្សេងៗ</option>
+        `;
+        districtSelect.disabled = false;
+        communeSelect.disabled = false;
+        districtSelect.required = true;
+        communeSelect.required = true;
+        // Reset other containers
+        districtOtherContainer.style.display = 'none';
+        communeOtherContainer.style.display = 'none';
+        districtOther.value = '';
+        communeOther.value = '';
+        districtOther.required = false;
+        communeOther.required = false;
+      }
+    }
+
+    provinceSelect.addEventListener('change', updateAddressFields);
+
+    // District "other" handling
+    districtSelect.addEventListener('change', function() {
+      if (this.value === 'other') {
+        districtOtherContainer.style.display = 'block';
+        districtOther.required = true;
+        districtOther.placeholder = "សូមបញ្ជាក់ស្រុក/ខណ្ឌរបស់អ្នក...";
+      } else {
+        districtOtherContainer.style.display = 'none';
+        districtOther.value = '';
+        districtOther.required = false;
       }
     });
 
-    document.getElementById("commune").addEventListener("change", function() {
-      const container = document.getElementById("communeOtherContainer");
-      const otherInput = document.getElementById("communeOther");
-      if (this.value === "other") {
-        container.style.display = "block";
-        otherInput.required = true;
-        otherInput.placeholder = "សូមបញ្ជាក់ឃុំ/សង្កាត់របស់អ្នក...";
+    // Commune "other" handling
+    communeSelect.addEventListener('change', function() {
+      if (this.value === 'other') {
+        communeOtherContainer.style.display = 'block';
+        communeOther.required = true;
+        communeOther.placeholder = "សូមបញ្ជាក់ឃុំ/សង្កាត់របស់អ្នក...";
       } else {
-        container.style.display = "none";
-        otherInput.value = "";
-        otherInput.required = false;
+        communeOtherContainer.style.display = 'none';
+        communeOther.value = '';
+        communeOther.required = false;
       }
     });
 
@@ -1035,6 +1179,55 @@
         otherInput.value = "";
         otherInput.required = false;
       }
+    });
+
+    // ============================================================
+    // WORK STATUS & EXPERIENCE - Conditional Logic
+    // ============================================================
+    const workStatusRadios = document.querySelectorAll('input[name="workStatus"]');
+    const experienceRadios = document.querySelectorAll('input[name="experience"]');
+    const experienceGroup = document.getElementById('experienceGroup');
+    const experienceLabels = experienceGroup.querySelectorAll('label');
+
+    function updateExperienceOptions() {
+      let selectedWorkStatus = '';
+      workStatusRadios.forEach(radio => {
+        if (radio.checked) selectedWorkStatus = radio.value;
+      });
+
+      if (selectedWorkStatus === 'កំពុងធ្វើការ') {
+        // Disable "មិនធ្លាប់មាន" option
+        experienceLabels.forEach((label, index) => {
+          const radio = experienceRadios[index];
+          if (radio.value === 'មិនធ្លាប់មាន') {
+            label.classList.add('disabled');
+            radio.disabled = true;
+            if (radio.checked) {
+              radio.checked = false;
+              // Auto-select "ធ្លាប់មាន"
+              experienceRadios.forEach(r => {
+                if (r.value === 'ធ្លាប់មាន') {
+                  r.checked = true;
+                }
+              });
+            }
+          } else {
+            label.classList.remove('disabled');
+            radio.disabled = false;
+          }
+        });
+      } else {
+        // Enable all options
+        experienceLabels.forEach((label, index) => {
+          label.classList.remove('disabled');
+          experienceRadios[index].disabled = false;
+        });
+      }
+    }
+
+    // Add event listeners to work status radios
+    workStatusRadios.forEach(radio => {
+      radio.addEventListener('change', updateExperienceOptions);
     });
 
     // ============================================================
@@ -1095,7 +1288,6 @@
     // GO BACK
     // ============================================================
     function goBack() {
-      // Just scroll to top since we're already on the form
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1152,8 +1344,7 @@
     });
 
     // ============================================================
-    // FORM SUBMISSION
-    // ============================================================
+    // FORM SUBMISSION    // ============================================================
     document.getElementById("jobForm").addEventListener("submit", function(e) {
       e.preventDefault();
       
@@ -1162,6 +1353,10 @@
         return;
       }
       
+      // Get all form values
+      const companyName = document.getElementById('companyName').value;
+      const expectedSalary = document.getElementById('expectedSalary').value;
+      const startDate = document.getElementById('startDate').value;
       const fullName = document.getElementById('fullName').value;
       const age = document.getElementById('age').value;
       const height = document.getElementById('height').value;
@@ -1187,7 +1382,8 @@
       const finalCommune = commune === 'other' ? communeOther : commune;
       const fullAddress = `${village}, ${finalCommune}, ${finalDistrict}, ${province}`;
       
-      if (!fullName || !age || !height || !education || !province || !district || !commune || !village || !workStatus || !experience || !telegram || !phone || !file) {
+      // Validate all required fields
+      if (!companyName || !expectedSalary || !startDate || !fullName || !age || !height || !education || !province || !district || !commune || !village || !workStatus || !experience || !telegram || !phone || !file) {
         showAlert('សូមបំពេញព័ត៌មានឲ្យបានពេញលេញ និងភ្ជាប់ឯកសារ!', 'error');
         return;
       }
@@ -1209,7 +1405,18 @@
       const finalEducation = education === 'other' ? otherEducation : education;
       const finalJob = previousJob === 'other' ? otherJob : (previousJob || 'មិនមាន');
       
+      // Format start date
+      const startDateObj = new Date(startDate);
+      const formattedStartDate = startDateObj.toLocaleDateString('km-KH', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      
       const caption = `📋 *ការដាក់ពាក្យការងារថ្មី*\n\n` +
+        `🏢 *ក្រុមហ៊ុន:* ${companyName}\n` +
+        `💰 *ប្រាក់ខែរំពឹងទុក:* ${expectedSalary}\n` +
+        `📅 *អាចចាប់ផ្ដើមធ្វើការ:* ${formattedStartDate}\n` +
         `👤 *ឈ្មោះ:* ${fullName}\n` +
         `📅 *អាយុ:* ${age}\n` +
         `📏 *កម្ពស់:* ${height} សង់ទីម៉ែត្រ\n` +
@@ -1226,7 +1433,7 @@
       
       const historyItem = {
         name: fullName,
-        job: 'ការងារទូទៅ',
+        job: companyName || 'ការងារទូទៅ',
         phone: phone,
         telegram: telegram,
         date: dateTime
@@ -1295,6 +1502,8 @@
               document.getElementById('districtOther').value = '';
               document.getElementById('communeOther').value = '';
               resetSubmitButton();
+              updateAddressFields();
+              updateExperienceOptions();
             }, 3000);
           } else {
             showAlert('❌ មានបញ្ហាក្នុងការផ្ញើព័ត៌មាន។', 'error');
@@ -1352,6 +1561,16 @@
     // ============================================================
     document.querySelector('nav a[data-section="home"]')?.classList.add('active');
     document.getElementById('home')?.classList.add('active');
+    
+    // Set default date to tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('startDate').value = tomorrow.toISOString().split('T')[0];
+    
+    // Initialize address fields
+    updateAddressFields();
+    // Initialize experience options
+    updateExperienceOptions();
     
     console.log('✅ គេហទំព័របានដំណើរការយ៉ាងពេញលេញ!');
     console.log(`📊 មានប្រវត្តិដាក់ពាក្យចំនួន ${applicationHistory.length} ប្រវត្តិ`);
