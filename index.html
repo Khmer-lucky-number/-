@@ -1749,7 +1749,7 @@
 
     </div>
 
-    <!-- ========================================================
+        <!-- ========================================================
          TAB PANEL: ឆ្នោត ១០ នាទី (FAST)
          ======================================================== -->
     <div class="tab-panel" id="tabPanelFast">
@@ -1981,19 +1981,220 @@
     </div>
     <!-- END TAB PANEL: FAST -->
 
-    <!-- ========================================================
-         HISTORY SECTION — Tabs (នឹងបន្តនៅផ្នែកទី៤)
+        <!-- ========================================================
+         HISTORY SECTION — ជាមួយ TABS
          ======================================================== -->
     <div id="historySection" style="display:none;">
-      <!-- នឹងបំពេញក្នុងផ្នែកទី៤ -->
+
+      <!-- ─── History Tab Selector ─── -->
+      <div class="history-tabs">
+        <button class="history-tab-btn active" id="hTabResults" onclick="N98.switchHistoryTab('results')">
+          📊 លទ្ធផល
+        </button>
+        <button class="history-tab-btn" id="hTabBets" onclick="N98.switchHistoryTab('bets')">
+          🎯 ចាក់
+        </button>
+        <button class="history-tab-btn" id="hTabDeposits" onclick="N98.switchHistoryTab('deposits')">
+          💰 ដាក់ប្រាក់
+        </button>
+        <button class="history-tab-btn" id="hTabWithdrawals" onclick="N98.switchHistoryTab('withdrawals')">
+          🏦 ដកប្រាក់
+        </button>
+      </div>
+
+      <!-- ─── History Panel: Results ─── -->
+      <div class="history-panel active" id="hPanelResults">
+        <div class="lottery-box">
+          <div class="time-box">📊 ប្រវត្តិលទ្ធផល (12:00 & 16:00)</div>
+          <div style="overflow-x:auto; margin-top:6px;">
+            <table class="history-table">
+              <thead>
+                <tr style="background:linear-gradient(135deg,#0078D7,#005fa3);">
+                  <th>កាលបរិច្ឆេទ</th>
+                  <th>ម៉ោង</th>
+                  <th>២ខ្ទង់</th>
+                  <th>៣ខ្ទង់</th>
+                  <th>ចេញលទ្ធផលនៅ</th>
+                </tr>
+              </thead>
+              <tbody id="historyBody">
+                <tr><td colspan="5" style="color:#6c757d; padding:10px;">កំពុងផ្ទុក...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ─── Fast History ─── -->
+        <div class="lottery-box" style="margin-top:10px;">
+          <div class="time-box" style="color:#ff5722;">⚡ ប្រវត្តិលទ្ធផល ១០ នាទីម្តង</div>
+          <div style="overflow-x:auto; margin-top:6px;">
+            <table class="history-table">
+              <thead>
+                <tr style="background:linear-gradient(135deg,#ff5722,#d84315);">
+                  <th>កាលបរិច្ឆេទ</th>
+                  <th>Slot</th>
+                  <th>២ខ្ទង់</th>
+                  <th>៣ខ្ទង់</th>
+                  <th>ចេញលទ្ធផលនៅ</th>
+                </tr>
+              </thead>
+              <tbody id="fastHistoryBody">
+                <tr><td colspan="5" style="color:#6c757d; padding:10px;">កំពុងផ្ទុក...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── History Panel: Bets ─── -->
+      <div class="history-panel" id="hPanelBets">
+        <div class="lottery-box">
+          <div class="time-box" style="color:#6f42c1;">🎯 ប្រវត្តិចាក់ឆ្នោត (12:00 & 16:00)</div>
+          <div style="overflow-x:auto; margin-top:6px;">
+            <table class="history-table">
+              <thead>
+                <tr style="background:linear-gradient(135deg,#6f42c1,#5a32a3);">
+                  <th>កាលបរិច្ឆេទ</th>
+                  <th>លេខចាក់</th>
+                  <th>ប្រភេទ</th>
+                  <th>ចំនួន</th>
+                  <th>ស្ថានភាព</th>
+                  <th>រង្វាន់</th>
+                  <th>សកម្មភាព</th>
+                </tr>
+              </thead>
+              <tbody id="userHistoryBody">
+                <tr><td colspan="7" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ─── Fast Bets History ─── -->
+        <div class="lottery-box" style="margin-top:10px;">
+          <div class="time-box" style="color:#ff5722;">⚡ ប្រវត្តិចាក់ ១០ នាទីម្តង</div>
+          <div style="overflow-x:auto; margin-top:6px;">
+            <table class="history-table">
+              <thead>
+                <tr style="background:linear-gradient(135deg,#ff5722,#d84315);">
+                  <th>កាលបរិច្ឆេទ</th>
+                  <th>លេខចាក់</th>
+                  <th>ប្រភេទ</th>
+                  <th>ចំនួន</th>
+                  <th>ស្ថានភាព</th>
+                  <th>រង្វាន់</th>
+                  <th>សកម្មភាព</th>
+                </tr>
+              </thead>
+              <tbody id="fastUserHistoryBodyFull">
+                <tr><td colspan="7" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── History Panel: Deposits ─── -->
+      <div class="history-panel" id="hPanelDeposits">
+        <div class="lottery-box">
+          <div class="time-box" style="color:#28a745;">💰 ប្រវត្តិដាក់ប្រាក់</div>
+          <p style="font-size:11.5px; color:#6c757d; margin:4px 0 8px;">ប្រវត្តិបញ្ចូលសមតុល្យដោយ Admin ឬការបង់ប្រាក់របស់អ្នកប្រើ (ABA)</p>
+          <div style="overflow-x:auto;">
+            <table class="history-table">
+              <thead>
+                <tr style="background:linear-gradient(135deg,#28a745,#1e7e34);">
+                  <th>កាលបរិច្ឆេទ</th>
+                  <th>ID</th>
+                  <th>ចំនួន</th>
+                  <th>វិធីសាស្ត្រ</th>
+                  <th>ស្ថានភាព</th>
+                  <th>កំណត់សម្គាល់</th>
+                </tr>
+              </thead>
+              <tbody id="depositHistoryBody">
+                <tr><td colspan="6" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── History Panel: Withdrawals ─── -->
+      <div class="history-panel" id="hPanelWithdrawals">
+        <div class="lottery-box">
+          <div class="time-box" style="color:#6f42c1;">🏦 ប្រវត្តិដកប្រាក់</div>
+          <p style="font-size:11.5px; color:#6c757d; margin:4px 0 8px;">ប្រវត្តិស្នើសុំដកប្រាក់រង្វាន់</p>
+          <div style="overflow-x:auto;">
+            <table class="history-table">
+              <thead>
+                <tr style="background:linear-gradient(135deg,#6f42c1,#5a32a3);">
+                  <th>កាលបរិច្ឆេទ</th>
+                  <th>ID</th>
+                  <th>លេខឈ្នះ</th>
+                  <th>រង្វាន់</th>
+                  <th>ស្ថានភាព</th>
+                </tr>
+              </thead>
+              <tbody id="withdrawHistoryBody">
+                <tr><td colspan="5" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
+    <!-- END HISTORY SECTION -->
 
     <!-- ========================================================
-         RULES SECTION (នឹងបន្តនៅផ្នែកទី៤)
+         RULES SECTION
          ======================================================== -->
     <div id="rulesSection" style="display:none;">
-      <!-- នឹងបំពេញក្នុងផ្នែកទី៤ -->
+      <div class="bet-box">
+        <h2>📋 ច្បាប់ និងរបៀបប្រើប្រាស់</h2>
+        <div style="padding:8px; font-size:clamp(12px,1.3vw,13px); line-height:1.9;">
+
+          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px;">១. របៀបចាក់ឆ្នោត</h4>
+          <p>១. ជ្រើសរើសពេលវេលា (12:00 ឬ 16:00) ឬ ១០ នាទីម្តង</p>
+          <p>២. ជ្រើសរើសប្រភេទ (២ ឬ ៣ ខ្ទង់)</p>
+          <p>៣. ចុចជ្រើសរើស ប៉ុស្តិ៍ A, B, C, D, ឬ E</p>
+          <p>៤. បញ្ចូលលេខ (ឧ. 01, 02, 03) — លេខនឹងបន្ថែមស្វ័យប្រវត្តិ</p>
+          <p>៥. ជ្រើសរើសចំនួនទឹកប្រាក់ក្នុងមួយលេខ</p>
+          <p>៦. ចុច "ដាក់ភ្នាល់"</p>
+
+          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px; margin-top:14px;">២. អត្រារង្វាន់</h4>
+          <p>• <strong>២ខ្ទង់ (ប៉ុស្តិ៍ A-E)</strong> — 1$ → <span style="color:#d63000; font-weight:bold;">70$</span></p>
+          <p>• <strong>៣ខ្ទង់ (ប៉ុស្តិ៍ A-E)</strong> — 1$ → <span style="color:#d63000; font-weight:bold;">500$</span></p>
+          <p>• ចាក់ពី 500៛/0.25$ ដល់ 40,000៛/10$</p>
+
+          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px; margin-top:14px;">៣. មធ្យោបាយចាក់</h4>
+          <p><strong>💵 ចាក់ផ្ទាល់៖</strong></p>
+          <p>• ត្រូវមានសមតុល្យ (Admin បញ្ចូលជូន)</p>
+          <p>• ទឹកប្រាក់កាត់ដោយស្វ័យប្រវត្តិ</p>
+          <p><strong>🌐 ចាក់អនឡាញ៖</strong></p>
+          <p>• ត្រូវចុច 🏦 ABA Bank ជាមុន</p>
+          <p>• ថតរូបបញ្ជាក់ (Screenshot)</p>
+          <p>• បញ្ជូនជូន Admin ដើម្បីអនុម័ត</p>
+
+          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px; margin-top:14px;">៤. ឆ្នោត ១០ នាទីម្តង</h4>
+          <p>• ចេញលទ្ធផលនៅនាទី 0, 10, 20, 30, 40, 50</p>
+          <p>• បិទចាក់នៅនាទីទី 8 នៃរាល់ ១០ នាទី</p>
+          <p>• បើកចាក់វិញនៅនាទីទី 0 បន្ទាប់ពីចេញលទ្ធផល</p>
+
+          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px; margin-top:14px;">៥. របៀបដកប្រាក់</h4>
+          <p>• ដកបានបន្ទាប់ពី 12:00 និង 16:00 (ឬរាល់ ១០ នាទី)</p>
+          <p>• សុពលភាព 24 ម៉ោង</p>
+          <p>• បញ្ជូនរូបភាព QR Code ទៅ Admin</p>
+
+          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px; margin-top:14px;">៦. PIN និងសុវត្ថិភាព</h4>
+          <p>• PIN 4 ខ្ទង់ ត្រូវចងចាំឲ្យបាន</p>
+          <p>• ភ្លេច PIN → ទាក់ទង Admin</p>
+          <p>• កុំប្រាប់ PIN អ្នកដទៃ</p>
+
+        </div>
+      </div>
     </div>
+    <!-- END RULES SECTION -->
 
   </div>
 
@@ -2002,7 +2203,8 @@
   </div>
 
 </div>
-<!-- END MAIN APP -->
+
+    <!-- END MAIN APP -->
 
 <!-- ============================================================
      MODAL: DEPOSIT (អនឡាញ)
@@ -2237,238 +2439,7 @@
   </div>
 </div>
 
-    <!-- ========================================================
-         HISTORY SECTION — ជាមួយ TABS
-         ======================================================== -->
-    <div id="historySection" style="display:none;">
-
-      <!-- ─── History Tab Selector ─── -->
-      <div class="history-tabs">
-        <button class="history-tab-btn active" id="hTabResults" onclick="N98.switchHistoryTab('results')">
-          📊 លទ្ធផល
-        </button>
-        <button class="history-tab-btn" id="hTabBets" onclick="N98.switchHistoryTab('bets')">
-          🎯 ចាក់
-        </button>
-        <button class="history-tab-btn" id="hTabDeposits" onclick="N98.switchHistoryTab('deposits')">
-          💰 ដាក់ប្រាក់
-        </button>
-        <button class="history-tab-btn" id="hTabWithdrawals" onclick="N98.switchHistoryTab('withdrawals')">
-          🏦 ដកប្រាក់
-        </button>
-      </div>
-
-      <!-- ─── History Panel: Results ─── -->
-      <div class="history-panel active" id="hPanelResults">
-        <div class="lottery-box">
-          <div class="time-box">📊 ប្រវត្តិលទ្ធផល (12:00 & 16:00)</div>
-          <div style="overflow-x:auto; margin-top:6px;">
-            <table class="history-table">
-              <thead>
-                <tr style="background:linear-gradient(135deg,#0078D7,#005fa3);">
-                  <th>កាលបរិច្ឆេទ</th>
-                  <th>ម៉ោង</th>
-                  <th>២ខ្ទង់</th>
-                  <th>៣ខ្ទង់</th>
-                  <th>ចេញលទ្ធផលនៅ</th>
-                </tr>
-              </thead>
-              <tbody id="historyBody">
-                <tr><td colspan="5" style="color:#6c757d; padding:10px;">កំពុងផ្ទុក...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- ─── Fast History ─── -->
-        <div class="lottery-box" style="margin-top:10px;">
-          <div class="time-box" style="color:#ff5722;">⚡ ប្រវត្តិលទ្ធផល ១០ នាទីម្តង</div>
-          <div style="overflow-x:auto; margin-top:6px;">
-            <table class="history-table">
-              <thead>
-                <tr style="background:linear-gradient(135deg,#ff5722,#d84315);">
-                  <th>កាលបរិច្ឆេទ</th>
-                  <th>Slot</th>
-                  <th>២ខ្ទង់</th>
-                  <th>៣ខ្ទង់</th>
-                  <th>ចេញលទ្ធផលនៅ</th>
-                </tr>
-              </thead>
-              <tbody id="fastHistoryBody">
-                <tr><td colspan="5" style="color:#6c757d; padding:10px;">កំពុងផ្ទុក...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ─── History Panel: Bets ─── -->
-      <div class="history-panel" id="hPanelBets">
-        <div class="lottery-box">
-          <div class="time-box" style="color:#6f42c1;">🎯 ប្រវត្តិចាក់ឆ្នោត (12:00 & 16:00)</div>
-          <div style="overflow-x:auto; margin-top:6px;">
-            <table class="history-table">
-              <thead>
-                <tr style="background:linear-gradient(135deg,#6f42c1,#5a32a3);">
-                  <th>កាលបរិច្ឆេទ</th>
-                  <th>លេខចាក់</th>
-                  <th>ប្រភេទ</th>
-                  <th>ចំនួន</th>
-                  <th>ស្ថានភាព</th>
-                  <th>រង្វាន់</th>
-                  <th>សកម្មភាព</th>
-                </tr>
-              </thead>
-              <tbody id="userHistoryBody">
-                <tr><td colspan="7" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- ─── Fast Bets History ─── -->
-        <div class="lottery-box" style="margin-top:10px;">
-          <div class="time-box" style="color:#ff5722;">⚡ ប្រវត្តិចាក់ ១០ នាទីម្តង</div>
-          <div style="overflow-x:auto; margin-top:6px;">
-            <table class="history-table">
-              <thead>
-                <tr style="background:linear-gradient(135deg,#ff5722,#d84315);">
-                  <th>កាលបរិច្ឆេទ</th>
-                  <th>លេខចាក់</th>
-                  <th>ប្រភេទ</th>
-                  <th>ចំនួន</th>
-                  <th>ស្ថានភាព</th>
-                  <th>រង្វាន់</th>
-                  <th>សកម្មភាព</th>
-                </tr>
-              </thead>
-              <tbody id="fastUserHistoryBodyFull">
-                <tr><td colspan="7" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ─── History Panel: Deposits ─── -->
-      <div class="history-panel" id="hPanelDeposits">
-        <div class="lottery-box">
-          <div class="time-box" style="color:#28a745;">💰 ប្រវត្តិដាក់ប្រាក់</div>
-          <p style="font-size:11.5px; color:#6c757d; margin:4px 0 8px;">ប្រវត្តិបញ្ចូលសមតុល្យដោយ Admin ឬការបង់ប្រាក់របស់អ្នកប្រើ (ABA)</p>
-          <div style="overflow-x:auto;">
-            <table class="history-table">
-              <thead>
-                <tr style="background:linear-gradient(135deg,#28a745,#1e7e34);">
-                  <th>កាលបរិច្ឆេទ</th>
-                  <th>ID</th>
-                  <th>ចំនួន</th>
-                  <th>វិធីសាស្ត្រ</th>
-                  <th>ស្ថានភាព</th>
-                  <th>កំណត់សម្គាល់</th>
-                </tr>
-              </thead>
-              <tbody id="depositHistoryBody">
-                <tr><td colspan="6" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- ─── History Panel: Withdrawals ─── -->
-      <div class="history-panel" id="hPanelWithdrawals">
-        <div class="lottery-box">
-          <div class="time-box" style="color:#6f42c1;">🏦 ប្រវត្តិដកប្រាក់</div>
-          <p style="font-size:11.5px; color:#6c757d; margin:4px 0 8px;">ប្រវត្តិស្នើសុំដកប្រាក់រង្វាន់</p>
-          <div style="overflow-x:auto;">
-            <table class="history-table">
-              <thead>
-                <tr style="background:linear-gradient(135deg,#6f42c1,#5a32a3);">
-                  <th>កាលបរិច្ឆេទ</th>
-                  <th>ID</th>
-                  <th>លេខឈ្នះ</th>
-                  <th>រង្វាន់</th>
-                  <th>ស្ថានភាព</th>
-                </tr>
-              </thead>
-              <tbody id="withdrawHistoryBody">
-                <tr><td colspan="5" style="color:#6c757d; padding:10px;">មិនទាន់មានប្រវត្តិ</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <!-- END HISTORY SECTION -->
-
-    <!-- ========================================================
-         RULES SECTION
-         ======================================================== -->
-    <div id="rulesSection" style="display:none;">
-      <div class="bet-box">
-        <h2>📋 ច្បាប់ និងរបៀបប្រើប្រាស់</h2>
-        <div style="padding:8px; font-size:clamp(12px,1.3vw,13px); line-height:1.9;">
-
-          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px;">១. របៀបចាក់ឆ្នោត</h4>
-          <p>១. ជ្រើសរើសពេលវេលា (12:00 ឬ 16:00) ឬ ១០ នាទីម្តង</p>
-          <p>២. ជ្រើសរើសប្រភេទ (២ ឬ ៣ ខ្ទង់)</p>
-          <p>៣. ចុចជ្រើសរើស ប៉ុស្តិ៍ A, B, C, D, ឬ E</p>
-          <p>៤. បញ្ចូលលេខ (ឧ. 01, 02, 03) — លេខនឹងបន្ថែមស្វ័យប្រវត្តិ</p>
-          <p>៥. ជ្រើសរើសចំនួនទឹកប្រាក់ក្នុងមួយលេខ</p>
-          <p>៦. ចុច "ដាក់ភ្នាល់"</p>
-
-          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px; margin-top:14px;">២. អត្រារង្វាន់</h4>
-          <p>• <strong>២ខ្ទង់ (ប៉ុស្តិ៍ A-E)</strong> — 1$ → <span style="color:#d63000; font-weight:bold;">70$</span></p>
-          <p>• <strong>៣ខ្ទង់ (ប៉ុស្តិ៍ A-E)</strong> — 1$ → <span style="color:#d63000; font-weight:bold;">500$</span></p>
-          <p>• ចាក់ពី 500៛/0.25$ ដល់ 40,000៛/10$</p>
-
-          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px; margin-top:14px;">៣. មធ្យោបាយចាក់</h4>
-          <p><strong>💵 ចាក់ផ្ទាល់៖</strong></p>
-          <p>• ត្រូវមានសមតុល្យ (Admin បញ្ចូលជូន)</p>
-          <p>• ទឹកប្រាក់កាត់ដោយស្វ័យប្រវត្តិ</p>
-          <p><strong>🌐 ចាក់អនឡាញ៖</strong></p>
-          <p>• ត្រូវចុច 🏦 ABA Bank ជាមុន</p>
-          <p>• ថតរូបបញ្ជាក់ (Screenshot)</p>
-          <p>• បញ្ជូនជូន Admin ដើម្បីអនុម័ត</p>
-
-          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px; margin-top:14px;">៤. ឆ្នោត ១០ នាទីម្តង</h4>
-          <p>• ចេញលទ្ធផលនៅនាទី 0, 10, 20, 30, 40, 50</p>
-          <p>• បិទចាក់នៅនាទីទី 8 នៃរាល់ ១០ នាទី</p>
-          <p>• បើកចាក់វិញនៅនាទីទី 0 បន្ទាប់ពីចេញលទ្ធផល</p>
-
-          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px; margin-top:14px;">៥. របៀបដកប្រាក់</h4>
-          <p>• ដកបានបន្ទាប់ពី 12:00 និង 16:00 (ឬរាល់ ១០ នាទី)</p>
-          <p>• សុពលភាព 24 ម៉ោង</p>
-          <p>• បញ្ជូនរូបភាព QR Code ទៅ Admin</p>
-
-          <h4 style="color:#005fa3; background:linear-gradient(135deg,#e8f4fd,#d4edda); padding:8px 12px; border-radius:8px; margin-top:14px;">៦. PIN និងសុវត្ថិភាព</h4>
-          <p>• PIN 4 ខ្ទង់ ត្រូវចងចាំឲ្យបាន</p>
-          <p>• ភ្លេច PIN → ទាក់ទង Admin</p>
-          <p>• កុំប្រាប់ PIN អ្នកដទៃ</p>
-
-        </div>
-      </div>
-    </div>
-    <!-- END RULES SECTION -->
-
-  </div>
-
-  <div class="footer">
-    © 2026 Khmer Lottery N98 | ប្រព័ន្ធចាក់ឆ្នោត
-  </div>
-
-</div>
-<!-- END MAIN APP -->
-
-<!-- ============================================================
-     MODALS (ដូចផ្នែកទី៣ — មិនចាំបាច់សរសេរម្តងទៀត)
-     ============================================================ -->
-
-<!-- ============================================================
-     SCRIPT — JavaScript Part 1
-     ============================================================ -->
-<script>
+  <script>
 (function() {
   'use strict';
 
@@ -3083,6 +3054,9 @@
   }
 
 })();
+</script>
+</body>
+</html>
 
   /* ============================================================
      REGISTRATION — FULL
@@ -5168,3 +5142,4 @@
 </script>
 </body>
 </html>
+
